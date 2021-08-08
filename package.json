@@ -1,0 +1,19 @@
+{
+  "name": "booklist",
+  "version": "1.0.0",
+  "description": "<h4>BookList - Это сайт, на котором ты можешь, указать какие книги прочитали и как их оцениваешь.</h4>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ResponseGood/BookList.git"
+  },
+  "author": "ResponseGood",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ResponseGood/BookList/issues"
+  },
+  "homepage": "https://github.com/ResponseGood/BookList#readme"
+}

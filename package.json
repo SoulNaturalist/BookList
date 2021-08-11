@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ResponseGood/BookList/issues"
   },
-  "homepage": "https://github.com/ResponseGood/BookList#readme"
+  "homepage": "https://github.com/ResponseGood/BookList#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0"
+  }
 }

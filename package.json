@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/ResponseGood/BookList#readme",
   "dependencies": {
-    "body-parser": "^1.19.0"
+    "body-parser": "^1.19.0",
+    "http-server": "^13.0.1",
+    "password-hash": "^1.2.2"
   }
 }

@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
-Schema = mongoose.Schema,
-bcrypt = require('bcrypt'),
-SALT_WORK_FACTOR = 10;
+const DB = require('./database');
+const bcrypt = require('bcrypt');
+const Schema = DB.Schema;
 
 
 const UserSchema = new Schema({
@@ -9,10 +8,10 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     book_read_count: {type: Number},
     books: { type: Object},
-    role: {type: Boolean, required: true,default: false},
+    role: {type: Boolean,default: false},
 });
 
-const BookShema = new Shema ({
+const BookShema = new Schema ({
     book_name: { type: String, required: true},
     book_author: {type: String, required: true},
     year_of_release: {type: Number, required: true},
@@ -27,3 +26,5 @@ const AuthorSchema = new Schema({
     year_of_birth: {type: Number, required: true},
     description: {type: String, required: false, default:"This is a temporary description, the author's descriptions will appear soon."},
 })
+
+module.exports = {UserSchema,BookShema,AuthorSchema};

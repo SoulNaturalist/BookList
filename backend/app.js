@@ -1,13 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const { CONNECTION_URL, PORT } = require('./config.js');
+const { DB_URL, PORT } = require('./config.js');
 const app = express()
 
 
 const urlencodedParser = express.urlencoded({extended: false});
 
-mongoose.connect(CONNECTION_URL)
+mongoose.connect(DB_URL)
 .then(() => {
     console.log('Database connected');
 })

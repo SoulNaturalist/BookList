@@ -1,5 +1,5 @@
-
-const CONNECTION_URL = "mongodb+srv://SPD:xdB6mfq7CvxwRRn@cluster0.tw3pt.mongodb.net/BookList?retryWrites=true&w=majority";
+const dotenv = require('dotenv').config();
+const DB_URL = process.env.DATABASE_URL
 const PORT = 3000
 
-module.exports = { CONNECTION_URL, PORT };
+module.exports = { DB_URL,PORT };

@@ -1,12 +1,12 @@
+const saltRounds = 10;
 const DB = require('./database');
 const jwt = require('jsonwebtoken');
-const jwksClient = require('jwks-rsa');
-const {JWT_PRIVATE_TOKEN} = require('./config');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
-const router = require('express').Router();
 const {UserSchema} = require('./schemes');
-let token = "";
+const {JWT_PRIVATE_TOKEN} = require('./config');
+const router = require('express').Router();
+const cookieParser = require("cookie-parser");
+router.use(cookieParser());
 
 
 
@@ -38,13 +38,15 @@ router.post('/api/register', function (req, res) {
             res.status(400).json({"response":"Weak password!"});
         } else {
             const Users = DB.model('users', UserSchema);
-            bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
-                Users.create({username:Username, password:hash}).then(() => {
-                    token = jwt.sign({data: data["_id"]},JWT_PRIVATE_TOKEN, { expiresIn: 60 * 60 });
-                    res.status(201).json({token});
-                }).catch(() => {
-                    res.status(400).json({"response":"Error!"});
-                })
+            bcrypt.genSalt(saltRounds, function(err, salt) {
+                bcrypt.hash(Password, salt, function(err, hash) {
+                    Users.create({username:Username, password:hash}).then(() => {
+                        res.status(201);
+                    }).catch((e) => {
+                        console.log(e);
+                        res.status(400).json({"response":`Error!`});
+                    })
+                });
             });
         }
     } else {
@@ -63,7 +65,14 @@ router.post('/api/login', function (req, res) {
     Users.findOne({name: String(Username)},Query).then((data) => {
         bcrypt.compare(Password, data['password'], function(err, result) {
             if (result) {
-                res.status(200).json({"response":"Success auth!"});
+                const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
+                return res
+                .cookie("JWT", token, {
+                httpOnly: true,
+                })
+                .status(200)
+                .json({ message: "Success auth!" });
+                
             } else {
                 res.status(400).json({"response":"Login or password Invalide!"});
 
@@ -73,9 +82,25 @@ router.post('/api/login', function (req, res) {
 })
 
 
-router.get('/api/check_auth', function (req, res) {
-    const decoded = jwt.verify(token, JWT_PRIVATE_TOKEN);
-    console.log(decoded);
+router.post('/api/check_auth', function (req, res) {
+    const token = req.cookies.JWT;
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Users = DB.model('users', UserSchema);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: data['data']},Query).then((auth_data) => {
+            return res.json({auth_data});
+        })
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(403);
+    }
     
 })
 

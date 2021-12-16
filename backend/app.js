@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const { CONNECTION_URL, PORT } = require('./config.js');

@@ -1,4 +1,3 @@
-const saltRounds = 10;
 const DB = require('./database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -27,30 +26,24 @@ router.post('/api/register', function (req, res) {
     const Username = req.body["username"];
     const Password = req.body["password"];
     if (Username && Password) {
-        function isValid(str){
+        function UsernameValidate(str){
             return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
-        }    
-        if (Username.length > 3 && Username.length < 15) {
-            res.status(400).json({"response":"Length username incorrect!"});
-        } else if (!isValid(Username)) {
+        } 
+        if (!UsernameValidate(Username)) {
             res.status(400).json({"response":"Special characters in username are prohibited!"});
-        } else if (Password.length >= 8 || isValid(Password)) {
-            res.status(400).json({"response":"Weak password!"});
         } else {
             const Users = DB.model('users', UserSchema);
-            bcrypt.genSalt(saltRounds, function(err, salt) {
-                bcrypt.hash(Password, salt, function(err, hash) {
-                    Users.create({username:Username, password:hash}).then(() => {
-                        res.status(201);
-                    }).catch((e) => {
-                        console.log(e);
-                        res.status(400).json({"response":`Error!`});
-                    })
-                });
+            bcrypt.hash(Password, 10, function(err, hash) {
+                Users.create({username:Username, password:hash}).then(() => {
+                    res.status(201);
+                }).catch((e) => {
+                    console.log(e);
+                    res.status(400).json({"response":`Error!`});
+                })
             });
         }
     } else {
-        res.status(400).json({"response":"Login or password empty!"});
+        res.status(422).json({"response":"Login or password empty!"});
     }
 });
 
@@ -74,7 +67,7 @@ router.post('/api/login', function (req, res) {
                 .json({ message: "Success auth!" });
                 
             } else {
-                res.status(400).json({"response":"Login or password Invalide!"});
+                res.status(400).json({"response":"Data invalide!"});
 
             }
         });
@@ -102,6 +95,28 @@ router.post('/api/check_auth', function (req, res) {
         return res.sendStatus(403);
     }
     
+})
+
+router.post('/api/delete_acc', function (req, res) {
+    const Password = req.body["password"];
+    if (Password) {
+        const Users = DB.model('users', UserSchema);
+        const Query = { 
+            __v: false,
+        };
+        Users.findOne({name: String(Username)},Query).then((data) => {
+            bcrypt.compare(Password, data['password'], function(err, result) {
+                if (result) {
+                    console.log(result);
+                }
+            })
+        })
+
+
+    } else {
+        return res.sendStatus(422);
+    }
+
 })
 
 module.exports = router;

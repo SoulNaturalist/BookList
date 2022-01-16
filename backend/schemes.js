@@ -1,13 +1,13 @@
 const DB = require('./database');
-const bcrypt = require('bcrypt');
 const Schema = DB.Schema;
 
 
 const UserSchema = new Schema({
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
-    book_read_count: {type: Number},
-    books: { type: Object},
+    registration_date:{ type:String, default: new Date().toLocaleDateString('pt-PT')},
+    book_read_count: {type: Number, default:0},
+    books: { type: Object, default:{}},
     role: {type: Boolean,default: false},
 });
 

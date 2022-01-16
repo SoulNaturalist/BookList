@@ -75,7 +75,7 @@ router.post('/api/login', function (req, res) {
 })
 
 
-router.post('/api/check_auth', function (req, res) {
+router.post('/api/auth', function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
       return res.sendStatus(403);
@@ -95,28 +95,6 @@ router.post('/api/check_auth', function (req, res) {
         return res.sendStatus(403);
     }
     
-})
-
-router.post('/api/delete_acc', function (req, res) {
-    const Password = req.body["password"];
-    if (Password) {
-        const Users = DB.model('users', UserSchema);
-        const Query = { 
-            __v: false,
-        };
-        Users.findOne({name: String(Username)},Query).then((data) => {
-            bcrypt.compare(Password, data['password'], function(err, result) {
-                if (result) {
-                    console.log(result);
-                }
-            })
-        })
-
-
-    } else {
-        return res.sendStatus(422);
-    }
-
 })
 
 module.exports = router;

@@ -7,16 +7,15 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     registration_date:{ type:String, default: new Date().toLocaleDateString('pt-PT')},
     book_read_count: {type: Number, default:0},
-    books: { type: Object, default:{}},
+    books: { type: Object, default:{} },
     role: {type: Boolean,default: false},
-});
+}, { minimize: false });
 
 const BookShema = new Schema ({
     book_name: { type: String, required: true},
     book_author: {type: String, required: true},
     year_of_release: {type: Number, required: true},
-    description: {type: String, required: true},
-
+    description: {type: String, required: true, default:"description default"},
 })
 
 const AuthorSchema = new Schema({

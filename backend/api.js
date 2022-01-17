@@ -45,6 +45,8 @@ router.post('/api/register', function (req, res) {
     } else {
         res.status(422).json({"response":"Login or password empty!"});
     }
+    res.status(200).json({"response":"Success!"});
+
 });
 
 
@@ -95,6 +97,82 @@ router.post('/api/auth', function (req, res) {
         return res.sendStatus(403);
     }
     
+})
+
+
+router.post('/api/add_book', function (req, res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["rating"]) {
+                const Books = Object.assign(auth_data["books"],{
+                    [req.body["book_name"]]: {
+                        book_author: req.body["book_author"],
+                        year_of_release: req.body["year_of_release"],
+                        description: req.body["description"],
+                        rating: req.body["rating"],
+                    }
+                });
+                let CountReadBooks = auth_data["book_read_count"] += 1;
+                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},
+                    function(err, result) {
+                        if (err) console.log(err)
+                    }
+                );
+                Users.updateOne({_id: UserData['data']}, { $set: {book_read_count:CountReadBooks}},
+                    function(err, result) {
+                        if (err) console.log(err)
+                    }
+                );
+            } else {
+                return res.sendStatus(422);
+            }
+        })
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(403);
+    }
+})
+
+
+router.post('/api/delete_book', function (req, res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (req.body["book_name"]) {
+                let Books = auth_data["books"];
+                let BookName = req.body["book_name"];
+                let CountReadBooks = auth_data["book_read_count"] -= 1;
+                Reflect.deleteProperty(Books, BookName)
+                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}, function(err, result) {
+                    if (err) console.log(err)
+                })
+                Users.updateOne({_id: UserData['data']}, { $set: {book_read_count:CountReadBooks}},function(err, result) {
+                    if (err) console.log(err)
+                });
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 module.exports = router;

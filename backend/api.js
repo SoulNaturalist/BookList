@@ -66,7 +66,7 @@ router.post('/api/login', function (req, res) {
                 httpOnly: true,
                 })
                 .status(200)
-                .json({ message: "Success auth!" });
+                .json({ message: "Success" });
                 
             } else {
                 res.status(400).json({"response":"Data invalide!"});
@@ -174,5 +174,35 @@ router.post('/api/delete_book', function (req, res) {
         console.log(err);
     }
 })
+
+router.post('/api/change_book_rating', function (req, res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (req.body["book_name"] && req.body["rating"]) {
+                let Books = auth_data["books"];
+                let BookName = req.body["book_name"];
+                Books[BookName]["rating"] = req.body["rating"];
+                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}, function(err, result) {
+                    if (err) console.log(err)
+                })
+
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+
 
 module.exports = router;

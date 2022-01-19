@@ -236,5 +236,11 @@ router.post('/api/library_add_book', function (req, res) {
 
 })
 
+router.get('/api/get_library_books', function (req, res) {
+    const Books = DB.model('books', BookSchema);
+    Books.find({}).then(function (books) {
+        return res.json(books);
+    });
+})
 
 module.exports = router;

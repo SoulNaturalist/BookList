@@ -1,7 +1,7 @@
 const DB = require('./database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {UserSchema} = require('./schemes');
+const {UserSchema, BookSchema} = require('./schemes');
 const {JWT_PRIVATE_TOKEN} = require('./config');
 const router = require('express').Router();
 const cookieParser = require("cookie-parser");
@@ -203,6 +203,38 @@ router.post('/api/change_book_rating', function (req, res) {
     }
 })
 
+router.post('/api/library_add_book', function (req, res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (auth_data["role"]) {
+                const Books = DB.model('books', BookSchema);
+                const BookName = req.body["book_name"];
+                const BookAuthor = req.body["book_author"];
+                const YearOfRelease = req.body["year_of_release"];
+                if (BookName && BookAuthor && YearOfRelease) {
+                    Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease}).then((response) => {
+                        if (response) {
+                            return res.sendStatus(200);
+                        }
+                    });
+                }
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+
+})
 
 
 module.exports = router;

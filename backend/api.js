@@ -216,7 +216,7 @@ router.post('/api/library_add_book', function (req, res) {
             password: false
         };
         Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (auth_data["role"]) {
+            if (auth_data["role"] === 2) {
                 const Books = DB.model('books', BookSchema);
                 const BookName = req.body["book_name"];
                 const BookAuthor = req.body["book_author"];
@@ -241,6 +241,42 @@ router.get('/api/get_library_books', function (req, res) {
     Books.find({}).then(function (books) {
         return res.json(books);
     });
+})
+
+router.post('/api/user_add_book_library', function (req,res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    const Books = DB.model('books', BookSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        if (req.body["id"]) {
+            Books.findOne({_id: req.body["id"]},Query).then((book_data) => {
+                Users.findOne({_id: UserData['data']},Query).then((data) => {
+                    const NewBooks = Object.assign(data["books"],{
+                        [book_data["book_name"]]: {
+                            book_author: book_data["book_author"],
+                            year_of_release: book_data["year_of_release"],
+                            description: book_data["description"],
+                            rating:0,
+                        }
+                    });
+                    Users.updateOne({_id: UserData['data']}, { $set: {books:NewBooks}}, function(err, result) {
+                        if (err) console.log(err)
+                    })
+                })
+            })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+
 })
 
 module.exports = router;

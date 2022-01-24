@@ -32,3 +32,27 @@ ul {
     font-size:28px;
     height:50px;
 }
+
+.welcome_title {
+    font-size:25px;
+    text-align: center;
+    margin-top:45px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.site_description {
+    font-size:27px;
+    text-align: center;
+    margin-top:60px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.library_photo {
+    display:block;
+    margin:auto;
+    width:1053px;
+    height: 475px;
+    margin-top:60px;
+    border-radius:10px;
+    border: 1px solid;
+}

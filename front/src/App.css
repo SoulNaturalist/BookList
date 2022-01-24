@@ -21,8 +21,8 @@ ul {
 .header img {
     float: left;
     margin-left:15px;
-    width:50px;
-    top:10px;
+    margin-top:10px;
+    width:40px;
 }
   
 .header h1 {

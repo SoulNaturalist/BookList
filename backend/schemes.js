@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     book_read_count: {type: Number, default:0},
     books: { type: Object, default:{} },
     status:{ type: Object, default:{} },
-    role: {type: Boolean,default: false},
+    role: {type: Number,default:0}, // user:0 moder:1 admin:2
 }, { minimize: false });
 
 const BookSchema = new Schema ({
@@ -26,14 +26,6 @@ const AuthorSchema = new Schema({
     author_patronymic: {type: String, required: true},
     year_of_birth: {type: Number, required: true},
     description: {type: String, required: false, default:"This is a temporary description, the author's descriptions will appear soon."},
-})
-
-
-const Review = new Schema({
-    book_id: { type: Number, required: true},
-    author_review: { type: String, required: true},
-    text_review: {type: String, required: true},
-    rating_view: {type: Number, required: true}
 })
 
 module.exports = {UserSchema,BookSchema,AuthorSchema};

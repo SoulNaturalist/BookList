@@ -4,7 +4,8 @@ function Home() {
     const [User, setUser] = React.useState([]);
     const [Error, setError] = React.useState(false);
     React.useEffect(() => {
-        fetch('http://127.0.0.1:3030/api/auth')
+        const request = {method: 'POST',mode:'no-cors'};
+        fetch('http://127.0.0.1:3030/api/auth',request)
         .then(response => response.json())
         .then(response => setUser(response))
         .catch((error) => {

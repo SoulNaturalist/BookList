@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import Header from './components/Header.jsx';
 import Home from './components/Home.jsx';
 import LoginForm from './components/LoginForm.jsx';
+import BooksLibrary from './components/BooksLibrary.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -18,6 +19,7 @@ return (
         </Routes>
       </Fragment>
     </Router>
+    <BooksLibrary/>
   </div>
 
 )}

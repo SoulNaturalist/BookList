@@ -17,7 +17,7 @@ function BooksLibrary () {
       <Router>
       <Fragment>
         <Routes>
-          <Route exact path="/blog/:slug" element={<BookPage />}/>
+          <Route exact path="/books/:slug" element={<BookPage />}/>
         </Routes>
       </Fragment>
     </Router>

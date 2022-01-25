@@ -62,13 +62,10 @@ router.post('/api/login', function (req, res) {
             if (result) {
                 const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
                 return res
-                .cookie("JWT", token, {httpOnly: true,sameSite: true})
-                .status(200)
-                .json({ message: "Success" });
-                
+                .cookie("JWT", token, {httpOnly: true,domain:"127.0.0.1",sameSite:"none",secure:true})
+                .json({"message":"Success!"});
             } else {
                 res.status(400).json({"response":"Data invalide!"});
-
             }
         });
     })

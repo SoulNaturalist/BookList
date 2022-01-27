@@ -8,7 +8,8 @@ const UserSchema = new Schema({
     registration_date:{ type:String, default: new Date().toLocaleDateString('pt-PT')},
     book_read_count: {type: Number, default:0},
     books: { type: Object, default:{} },
-    status:{ type: Object, default:{} },
+    status:{ type: String, default:"" },
+    avatar: {type: String, default:""},
     role: {type: Number,default:0}, // user:0 moder:1 admin:2
 }, { minimize: false });
 

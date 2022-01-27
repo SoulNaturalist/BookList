@@ -1,21 +1,18 @@
 import React from 'react';
+import axios from 'axios';
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm () {
     const {register, formState: { errors }, handleSubmit } = useForm({
         mode: "onChange"
     });
+    const navigate = useNavigate();
     const onSubmit = async (data) => {
-        const object = { username: data.login,password:data.password };
-        const request = new Request('http://127.0.0.1:3030/api/login', {
-            method: 'POST',
-            body: JSON.stringify(object),
-            credentials: "include",
-            mode:'no-cors',
-            headers: {'Content-Type': 'text/json'}
-        });
-        const response = await fetch(request);
-        console.log(response);
+        axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {email: data.login, password: data.password}})
+        .then(response => {console.log(response.data)})
+        .catch(error => {console.log(error)})
+        navigate('/');
     }
     return (
         <div>

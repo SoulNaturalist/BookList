@@ -19,7 +19,6 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^2.0.5",
     "mongoose": "^6.1.2",
-    "morgan": "^1.10.0",
-    "universal-cookie-express": "^4.0.3"
+    "morgan": "^1.10.0"
   }
 }

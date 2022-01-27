@@ -4,9 +4,8 @@ const bcrypt = require('bcrypt');
 const {UserSchema, BookSchema} = require('./schemes');
 const {JWT_PRIVATE_TOKEN} = require('./config');
 const router = require('express').Router();
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 router.use(cookieParser());
-
 
 
 router.get('/api/user/:name', function (req, res) {
@@ -47,7 +46,7 @@ router.post('/api/register', function (req, res) {
     }
     res.status(200).json({"response":"Success!"});
 
-});
+})
 
 
 router.post('/api/login', function (req, res) {
@@ -62,7 +61,7 @@ router.post('/api/login', function (req, res) {
             if (result) {
                 const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
                 return res
-                .cookie("JWT", token, {httpOnly: true,domain:"127.0.0.1",sameSite:"none",secure:true})
+                .cookie("JWT", token, {httpOnly: true,sameSite:"Lax"})
                 .json({"message":"Success!"});
             } else {
                 res.status(400).json({"response":"Data invalide!"});
@@ -91,7 +90,6 @@ router.post('/api/auth', function (req, res) {
         console.log(e);
         return res.sendStatus(403);
     }
-    
 })
 
 

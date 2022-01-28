@@ -31,6 +31,9 @@ ul {
     top:10px;
     font-size:28px;
     height:50px;
+    width:50%;
+    display: inline-block
+
 }
 
 .welcome_title {
@@ -171,3 +174,98 @@ button[type="button"] {
     font-family: 'Roboto', sans-serif;
     font-size:35px;
 }
+
+.profile, span {
+    display: inline-block;
+    font-size:15px;
+    float:right;
+    margin-top:15px;
+    margin-right:5px;
+}
+
+.user_avatar {
+    width:299px;
+    height:275px;
+    margin-top:80px;
+    margin-left:70px;
+    border: 1px solid #000000;
+}
+.text-block {
+    width:700px;
+    height:150px;
+    background-color:rgb(0, 0, 0);
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:-280px;
+    border-radius:10px;
+}
+
+.description {
+    color:white;
+    text-align:center;
+    margin-top:10px;
+}
+
+.username {
+    text-align:center;
+    font-size:25px;
+    color:white;
+}
+
+.books_menu {
+    justify-content: center;
+    display: flex;
+}
+
+.books_menu li {
+    color:black;
+    margin-top:160px;
+    padding:25px;
+    font-family: 'Roboto', sans-serif;
+
+}
+
+.readed {
+    margin-left:130px;
+    height:40px;
+    width:40px;
+}
+
+.drop {
+    height:40px;
+    width:40px;
+    margin-left:90px;
+}
+
+.planned {
+    height:40px;
+    width:40px;
+    margin-left:90px;
+
+}
+
+.reviews {
+    height:40px;
+    width:40px;
+    margin-left:100px;
+}
+
+.count_readed {
+    margin-left:145px;
+    margin-top:5px;
+}
+
+.count_drop {
+    margin-left:275px;
+    margin-top:10;
+}
+
+.count_menu {
+    justify-content: center;
+    display: flex;
+}
+
+.count_menu li {
+    padding-left:90px;
+}
+

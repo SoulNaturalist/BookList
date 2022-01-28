@@ -3,6 +3,7 @@ import Header from './components/Header.jsx';
 import Home from './components/Home.jsx';
 import LoginForm from './components/LoginForm.jsx';
 import BooksLibrary from './components/BooksLibrary.jsx';
+import Profile from './components/Profile.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -16,6 +17,7 @@ return (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/profile" element={<Profile/>}/>
         </Routes>
       </Fragment>
     </Router>

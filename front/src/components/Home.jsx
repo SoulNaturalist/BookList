@@ -16,7 +16,6 @@ function Home() {
         }
 
     }
-
     return (
         <div>
             <p className="welcome_title">Добро пожаловать {CheckAuth()}</p>

@@ -8,7 +8,7 @@ function Home() {
         axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
         .then(res => {setUser(res.data)})
         .catch(err => {setError(err)})
-    })
+    }, [])
     const CheckAuth = () => {
         if (User.auth_data) {
             return User.auth_data.username;

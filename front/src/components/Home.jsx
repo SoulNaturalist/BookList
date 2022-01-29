@@ -3,10 +3,11 @@ import axios from 'axios';
 
 function Home() {
     const [User, setUser] = React.useState([]);
+    const [Error,setError] = React.useState(false);
     React.useEffect(() => {
         axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
         .then(res => {setUser(res.data)})
-        .catch(err => {console.log(err)})
+        .catch(err => {setError(err)})
     })
     const CheckAuth = () => {
         if (User.auth_data) {

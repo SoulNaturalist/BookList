@@ -1,15 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
 
 function Profile () {
-    const [Data,setData] = React.useState("")
+    const [Data,setData] = React.useState("");
+    const [Error,setError] = React.useState(false);
+    const navigate = useNavigate("/");
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {setData(response.data)})
-        .catch(error => {console.log(error)})
-    })
+        .catch(err => {setError(err)})
+    }, [])
     const CheckAuth = () => {
-        if (Data.auth_data) {
+        if (Data.auth_data && !Error) {
             return <div>
                 <img src={Data.auth_data.avatar} className="user_avatar"/>
                 <div className="text-block">
@@ -29,7 +32,7 @@ function Profile () {
                 </div>
             </div>
         } else {
-            return "";
+            navigate("/");
         }
     }
     return (

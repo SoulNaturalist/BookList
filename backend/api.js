@@ -61,7 +61,7 @@ router.post('/api/login', function (req, res) {
             if (result) {
                 const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
                 return res
-                .cookie("JWT", token, {httpOnly: true,sameSite:"Lax"})
+                .cookie("JWT", token, {httpOnly:true,sameSite:"Lax"})
                 .json({"message":"Success!"});
             } else {
                 res.status(400).json({"response":"Data invalide!"});
@@ -106,13 +106,14 @@ router.post('/api/add_book', function (req, res) {
             password: false
         };
         Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["rating"]) {
+            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["rating"] && req.body["book_status"]) {
                 const Books = Object.assign(auth_data["books"],{
                     [req.body["book_name"]]: {
                         book_author: req.body["book_author"],
                         year_of_release: req.body["year_of_release"],
                         description: req.body["description"],
                         rating: req.body["rating"],
+                        book_status:req.body["book_status"],
                     }
                 });
                 let CountReadBooks = auth_data["book_read_count"] += 1;
@@ -249,7 +250,7 @@ router.post('/api/user_add_book_library', function (req,res) {
             __v: false,
             password: false
         };
-        if (req.body["id"]) {
+        if (req.body["id"] && req.body["book_status"]) {
             Books.findOne({_id: req.body["id"]},Query).then((book_data) => {
                 Users.findOne({_id: UserData['data']},Query).then((data) => {
                     const NewBooks = Object.assign(data["books"],{
@@ -258,6 +259,7 @@ router.post('/api/user_add_book_library', function (req,res) {
                             year_of_release: book_data["year_of_release"],
                             description: book_data["description"],
                             rating:0,
+                            book_status:req.body["book_status"],
                         }
                     });
                     Users.updateOne({_id: UserData['data']}, { $set: {books:NewBooks}}, function(err, result) {

@@ -176,7 +176,6 @@ button[type="button"] {
 }
 
 .profile, span {
-    display: inline-block;
     font-size:15px;
     float:right;
     margin-top:15px;
@@ -267,5 +266,21 @@ button[type="button"] {
 
 .count_menu li {
     padding-left:90px;
+}
+
+.count_block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    margin-top:-40px;
+}
+
+.readed_count,
+.reviews_count,
+.drop_count,
+.planned_count {
+    margin:50px;
+    padding:5px 2% 10px 5px;
 }
 

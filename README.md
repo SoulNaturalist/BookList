@@ -5,5 +5,5 @@
   <li>Node.js</li>
   <li>Express</li>
   <li>JWT</li>
-  <;i>MongoDB</li>
+  <li>MongoDB</li>
 </ul>

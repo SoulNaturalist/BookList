@@ -1,4 +1,5 @@
-<h2>BookList - online library, adding books, writing reviews, etc.</h2>
+<h2>BookList</h2>
+<p>Online library, adding books, writing reviews, etc.</p>
 <p>Technologies</p>
 <ul>
   <li>React.js</li>

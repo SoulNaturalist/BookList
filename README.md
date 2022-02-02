@@ -1,3 +1,10 @@
-<h2>Book List</h2>
+<h2>BookList</h2>
+<p>Online library, adding books, writing reviews, etc.</p>
 <p>Technologies</p>
-<p>React.js / Node.js / Express / JWT / MongoDB</p>
+<ul>
+  <li>React.js</li>
+  <li>Node.js</li>
+  <li>Express</li>
+  <li>JWT</li>
+  <li>MongoDB</li>
+</ul>

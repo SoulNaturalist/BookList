@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
-import Stack from '@mui/material/Stack';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 
@@ -77,7 +76,7 @@ function Profile () {
                 </div>
             </div>
         } else {
-            navigate("/");
+            navigate("/login");
         }
     }
     return (

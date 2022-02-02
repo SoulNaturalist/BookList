@@ -1,11 +1,49 @@
 import React from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import Stack from '@mui/material/Stack';
+import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
+import { styled } from '@mui/system';
 
 function Profile () {
     const [Data,setData] = React.useState("");
     const [Error,setError] = React.useState(false);
     const navigate = useNavigate("/");
+    const blue = {
+        500: '#000000',
+        600: '#474646',
+        700: '#474646',
+    };
+    const CustomButtonRoot = styled('span')`
+    font-family: IBM Plex Sans, sans-serif;
+    font-weight: bold;
+    font-size: 0.875rem;
+    background-color: ${blue[500]};
+    padding: 12px 70px;
+    margin-right:970px;
+    margin-top:-160px;
+    border-radius:5px;
+    color: white;
+    transition: all 150ms ease;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: ${blue[600]};
+    }
+
+    &.${buttonUnstyledClasses.active} {
+        background-color: ${blue[700]};
+    }
+
+    &.${buttonUnstyledClasses.focusVisible} {
+        box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
+        outline: none;
+    }
+    `;
+    function CustomButton(props) {
+        return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
+    }
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {setData(response.data)})
@@ -35,6 +73,7 @@ function Profile () {
                         <p className="planned_count">10</p>
                         <p className="reviews_count">10</p>
                     </div>
+                    <a href="/change_profile"><CustomButton>Редактировать</CustomButton></a>
                 </div>
             </div>
         } else {

@@ -187,7 +187,8 @@ button[type="button"] {
     height:275px;
     margin-top:80px;
     margin-left:70px;
-    border: 1px solid #000000;
+    border: 2px solid #000000;
+    border-radius:5px;
 }
 .text-block {
     width:700px;

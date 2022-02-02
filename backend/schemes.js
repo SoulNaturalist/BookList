@@ -6,7 +6,6 @@ const UserSchema = new Schema({
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
     registration_date:{ type:String, default: new Date().toLocaleDateString('pt-PT')},
-    book_read_count: {type: Number, default:0},
     books: { type: Object, default:{} },
     status:{ type: String, default:"" },
     avatar: {type: String, default:""},

@@ -106,14 +106,14 @@ router.post('/api/add_book', function (req, res) {
             password: false
         };
         Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["rating"] && req.body["book_status"]) {
+            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["book_status"]) {
                 const Books = Object.assign(auth_data["books"],{
                     [req.body["book_name"]]: {
                         book_author: req.body["book_author"],
                         year_of_release: req.body["year_of_release"],
                         description: req.body["description"],
-                        rating: req.body["rating"],
-                        book_status:req.body["book_status"],
+                        rating:0,
+                        book_status:req.body["book_status"], // readed | abandoned | planned
                     }
                 });
                 let CountReadBooks = auth_data["book_read_count"] += 1;

@@ -20,7 +20,7 @@ function Profile () {
     background-color: ${blue[500]};
     padding: 12px 70px;
     margin-right:970px;
-    margin-top:-160px;
+    margin-top:-140px;
     border-radius:5px;
     color: white;
     transition: all 150ms ease;
@@ -48,8 +48,24 @@ function Profile () {
         .then(response => {setData(response.data)})
         .catch(err => {setError(err)})
     }, [])
+    // let planned_count = 0;
+    // let reviews_count = 0;
     const CheckAuth = () => {
         if (Data.auth_data && !Error) {
+            let readedCount = 0;
+            let abandonedCount = 0;
+            let plannedCount = 0;
+            Object.getOwnPropertyNames(Data.auth_data.books).forEach(function(val) {
+                let bookStatus = Data.auth_data.books[val].book_status;
+                if (bookStatus === "readed") {
+                    readedCount += 1;
+                } else if (bookStatus === "abandoned") {
+                    abandonedCount += 1;
+                } else {
+                    plannedCount += 1;
+                }
+                
+            });
             return <div>
                 <img src={Data.auth_data.avatar} className="user_avatar"/>
                 <div className="text-block">
@@ -67,10 +83,10 @@ function Profile () {
                     <img className="planned" src="https://s3-alpha-sig.figma.com/img/280a/2b4b/4438c67f9415f76d4c5cb2ab3e3df81b?Expires=1644192000&Signature=KR37nOrPzsjx8JjZi0fB1OcgfKQDkMjICNabub9sbAswRa1tw1TLiZBixN2gCehwzMjEVBDE7pwI0Hnmqct1RphL10YDCfIr0mgdUtd-vK6-Wg2Jg10bCbjARk1Wm98w2K4x8h3Qf~6ZQxI5qS2757udOT~laeICFGIa3rFtLBvIFG81Oe4O0gxrNAHLRABPEaEvxYF8Y2bzN-F~AJjnMliL5Yqa6TvuiL-B4GLsYRjdLX-7CR~flX9rK591GNntbFqOnYYmQdZ2eUtlBjkcfHZ1Snm5K~hGUrExw-RQnLais90gb2RBEODoqnR4mdV7G9F6FUskdF3lqabGe2MB4A__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
                     <img className="reviews" src="https://s3-alpha-sig.figma.com/img/8396/a5ab/684fe0f44a16a6a845d797c98d267f87?Expires=1644192000&Signature=QtVKLMnd5wtXKSc9Cxe4DUYU54KV8ryBm3gif7y2~k-jROwuPpnuUYi9hShLoSbT47XylGxoh2eJZjWBhFM2O4AVeFjbPEkIZfBy4P6gwZtySAsavshtNk1Ejj1cUV0MAhTKbFXkYQY1YUbb~1lq7xHUTmEgptDHHumq8Z5bvgjLzKBFwWo-NGW~hEsmal8On42mXNV6sbdHtojqPUEbtJL-vlZL8zhVmtRiyslYaDuok9W5A1y0ivIjV57-Y2Gu5aZSeJP3Wd0DTgv-MDXEpVdt41jTAhYqXJOokP5zD6Hy7EYKt0A7BvpGbCPiSk6EILMSiwbclaWdH~aHZFo6Ng__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"/>
                     <div className="count_block">
-                        <p className="readed_count">10</p>
-                        <p className="drop_count">10</p>
-                        <p className="planned_count">10</p>
-                        <p className="reviews_count">10</p>
+                        <p className="readed_count">{readedCount}</p>
+                        <p className="drop_count">{abandonedCount}</p>
+                        <p className="planned_count">{plannedCount}</p>
+                        <p className="reviews_count">0</p>
                     </div>
                     <a href="/change_profile"><CustomButton>Редактировать</CustomButton></a>
                 </div>

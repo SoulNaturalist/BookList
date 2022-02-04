@@ -66,6 +66,7 @@ function Profile () {
                 }
                 
             });
+            const countReviews = Object.keys(Data.auth_data.reviews).length;
             return <div>
                 <img src={Data.auth_data.avatar} className="user_avatar"/>
                 <div className="text-block">
@@ -86,7 +87,7 @@ function Profile () {
                         <p className="readed_count">{readedCount}</p>
                         <p className="drop_count">{abandonedCount}</p>
                         <p className="planned_count">{plannedCount}</p>
-                        <p className="reviews_count">0</p>
+                        <p className="reviews_count">{countReviews}</p>
                     </div>
                     <a href="/change_profile"><CustomButton>Редактировать</CustomButton></a>
                 </div>

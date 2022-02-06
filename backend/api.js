@@ -324,6 +324,31 @@ router.post('/api/change_avatar', function (req,res) {
     }
 })
 
+router.post('/api/change_status', function (req,res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        if (req.body["status"]) {
+            Users.updateOne({_id: UserData['data']}, { $set: {avatar:req.body["status"]}}, function(err, result) {
+                if (result) {
+                    return res.sendStatus(200);
+                }
+            })
+        }
+    }catch (err) {
+        console.log(err);
+    }
+})
+
+
 
 
 module.exports = router;

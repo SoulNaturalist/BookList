@@ -274,4 +274,29 @@ router.post('/api/user_add_book_library', function (req,res) {
 
 })
 
+router.post('/api/change_username', function (req,res) {
+    const token = req.cookies.JWT;
+    const Users = DB.model('users', UserSchema);
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        if (req.body["username"]) {
+            Users.updateOne({_id: UserData['data']}, { $set: {username:req.body["username"]}}, function(err, result) {
+                if (result) {
+                    return res.sendStatus(200);
+                }
+            })
+        }
+    }catch (err) {
+        console.log(err);
+    }
+})
+
+
 module.exports = router;

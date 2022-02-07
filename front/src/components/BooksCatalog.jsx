@@ -1,10 +1,15 @@
-import React from 'react';
-import axios from 'axios';
-import { styled } from '@mui/system';
-import {useNavigate} from "react-router-dom";
-import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
+import React, {Fragment} from 'react';
+import axios from "axios";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+  useNavigate
+} from "react-router-dom";
 
-function ChangeProfile () {
+
+function BooksCatalog () {
     const [Data,setData] = React.useState("");
     const [Error,setError] = React.useState(false);
     const navigate = useNavigate("/");
@@ -15,16 +20,15 @@ function ChangeProfile () {
     }, [])
     const CheckAuth = () => {
         if (Data.auth_data && !Error) {
-
-        } else {
-            navigate("/login")
+            return <div>
+                <h1 className="title__catalog">Каталог книг</h1>
+            </div>
         }
     }
-
     return (
-        <div>
-            {CheckAuth()}
-        </div>
-  
-)}
-export default ChangeProfile;
+        <div>{CheckAuth()}</div>
+    );
+    
+}
+
+export default BooksCatalog;

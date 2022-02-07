@@ -284,4 +284,8 @@ button[type="button"] {
     margin:55px;
     padding:5px 1% 5px 5px;
 }
-
+.title__catalog {
+    text-align: center;
+    margin-top:130px;
+    font-family: 'Roboto', sans-serif;
+}

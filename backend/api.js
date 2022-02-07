@@ -337,7 +337,7 @@ router.post('/api/change_status', function (req,res) {
             password: false
         };
         if (req.body["status"]) {
-            Users.updateOne({_id: UserData['data']}, { $set: {avatar:req.body["status"]}}, function(err, result) {
+            Users.updateOne({_id: UserData['data']}, { $set: {status:req.body["status"]}}, function(err, result) {
                 if (result) {
                     return res.sendStatus(200);
                 }

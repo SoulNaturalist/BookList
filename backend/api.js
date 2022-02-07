@@ -34,17 +34,15 @@ router.post('/api/register', function (req, res) {
             const Users = DB.model('users', UserSchema);
             bcrypt.hash(Password, 10, function(err, hash) {
                 Users.create({username:Username, password:hash}).then(() => {
-                    res.status(201);
+                    return res.status(201);
                 }).catch((e) => {
                     console.log(e);
-                    res.status(400).json({"response":`Error!`});
+                    return res.status(400).json({"response":`Error!`});
                 })
             });
         }
-    } else {
-        res.status(422).json({"response":"Login or password empty!"});
     }
-    res.status(200).json({"response":"Success!"});
+    return res.status(200).json({"response":"Success!"});
 
 })
 
@@ -304,7 +302,39 @@ router.post('/api/change_status', function (req,res) {
     }
 })
 
-
-
+router.post('/api/change_passwd', function (req, res) {
+    const token = req.cookies.JWT;
+    const Password = req.body["password"];
+    const Cpassword = req.body["cpassword"];
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        if (Password) {
+            const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+            const Users = DB.model('users', UserSchema);
+            const Query = { 
+                __v: false,
+            };
+            Users.findOne({_id: data['data']},Query).then((auth_data) => {
+                if (auth_data) {
+                    if (bcrypt.compareSync(Password, auth_data.password)) {
+                        bcrypt.hash(Cpassword, 10, function(err, hash) {
+                            Users.updateOne({_id: data['data']}, { $set: {password:hash}}, function(err, result) {
+                                if (result) {
+                                    return res.sendStatus(200);
+                                }
+                            })
+                        })
+                    } else {
+                        return res.status(400);
+                    }
+                }
+            })
+        }
+    } catch (e) {
+        return res.sendStatus(403);
+    }
+})
 
 module.exports = router;

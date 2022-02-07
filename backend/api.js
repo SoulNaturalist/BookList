@@ -48,7 +48,6 @@ router.post('/api/register', function (req, res) {
 
 })
 
-
 router.post('/api/login', function (req, res) {
     const Username = req.body["username"];
     const Password = req.body["password"];
@@ -93,49 +92,6 @@ router.post('/api/auth', function (req, res) {
 })
 
 
-router.post('/api/add_book', function (req, res) {
-    const token = req.cookies.JWT;
-    const Users = DB.model('users', UserSchema);
-    if (!token) {
-      return res.sendStatus(403);
-    }
-    try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const Query = { 
-            __v: false,
-            password: false
-        };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["book_status"]) {
-                const Books = Object.assign(auth_data["books"],{
-                    [req.body["book_name"]]: {
-                        book_author: req.body["book_author"],
-                        year_of_release: req.body["year_of_release"],
-                        description: req.body["description"],
-                        rating:0,
-                        book_status:req.body["book_status"], // readed | abandoned | planned
-                    }
-                });
-                let CountReadBooks = auth_data["book_read_count"] += 1;
-                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},
-                    function(err, result) {
-                        if (err) console.log(err)
-                    }
-                );
-                Users.updateOne({_id: UserData['data']}, { $set: {book_read_count:CountReadBooks}},
-                    function(err, result) {
-                        if (err) console.log(err)
-                    }
-                );
-            } else {
-                return res.sendStatus(422);
-            }
-        })
-    } catch (e) {
-        console.log(e);
-        return res.sendStatus(403);
-    }
-})
 
 
 router.post('/api/delete_book', function (req, res) {
@@ -237,7 +193,7 @@ router.get('/api/get_library_books', function (req, res) {
     });
 })
 
-router.post('/api/user_add_book_library', function (req,res) {
+router.post('/api/add_book', function (req,res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     const Books = DB.model('books', BookSchema);
@@ -259,7 +215,7 @@ router.post('/api/user_add_book_library', function (req,res) {
                             year_of_release: book_data["year_of_release"],
                             description: book_data["description"],
                             rating:0,
-                            book_status:req.body["book_status"],
+                            book_status:req.body["book_status"],  // readed | abandoned | planned
                         }
                     });
                     Users.updateOne({_id: UserData['data']}, { $set: {books:NewBooks}}, function(err, result) {

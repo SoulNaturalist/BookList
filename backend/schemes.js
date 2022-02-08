@@ -1,5 +1,11 @@
 const DB = require('./database');
 const Schema = DB.Schema;
+const mongoose = require('mongoose');
+const URLSlug = require("mongoose-slug-generator");
+const translit = require('cyrillic-to-translit-js');
+const cyrillicToTranslit = new translit();
+
+mongoose.plugin(URLSlug);
 
 
 const UserSchema = new Schema({
@@ -19,7 +25,13 @@ const BookSchema = new Schema ({
     year_of_release: {type: Number, required: true},
     description: {type: String, required: true, default:"description default"},
     reviews: {type: Object, default:{}},
+    slug: { type: String, slug: "title"}
 }, { minimize: false })
+
+BookSchema.pre("save", function(next) {
+    this.slug = cyrillicToTranslit.transform(this.book_name, '-').toLocaleLowerCase();
+    next();
+});
 
 const AuthorSchema = new Schema({
     author_name: {type: String, required: true},

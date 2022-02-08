@@ -194,7 +194,6 @@ router.get('/api/get_library_books', function (req, res) {
 router.post('/api/add_book', function (req,res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
-    const Books = DB.model('books', BookSchema);
     if (!token) {
       return res.sendStatus(403);
     }
@@ -204,28 +203,31 @@ router.post('/api/add_book', function (req,res) {
             __v: false,
             password: false
         };
-        if (req.body["id"] && req.body["book_status"]) {
-            Books.findOne({_id: req.body["id"]},Query).then((book_data) => {
-                Users.findOne({_id: UserData['data']},Query).then((data) => {
-                    const NewBooks = Object.assign(data["books"],{
-                        [book_data["book_name"]]: {
-                            book_author: book_data["book_author"],
-                            year_of_release: book_data["year_of_release"],
-                            description: book_data["description"],
-                            rating:0,
-                            book_status:req.body["book_status"],  // readed | abandoned | planned
-                        }
-                    });
-                    Users.updateOne({_id: UserData['data']}, { $set: {books:NewBooks}}, function(err, result) {
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["book_status"]) {
+                const Books = Object.assign(auth_data["books"],{
+                    [req.body["book_name"]]: {
+                        book_author: req.body["book_author"],
+                        year_of_release: req.body["year_of_release"],
+                        description: req.body["description"],
+                        rating:0,
+                        book_status:req.body["book_status"], // readed | abandoned | planned
+                    }
+                });
+                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},
+                    function(err, result) {
                         if (err) console.log(err)
-                    })
-                })
-            })
-        }
-    } catch (err) {
-        console.log(err);
+                    }
+                );
+            } else {
+                return res.sendStatus(422);
+            }
+        })
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(403);
     }
-
+        
 })
 
 router.post('/api/change_username', function (req,res) {

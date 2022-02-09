@@ -289,3 +289,27 @@ button[type="button"] {
     margin-top:130px;
     font-family: 'Roboto', sans-serif;
 }
+
+
+.flex-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book__card {
+    padding:10px;
+}
+  
+
+.book_name {
+    font-size:20px;
+}
+
+.book_author {
+    font-size:18px;
+}
+
+.container {
+    padding: 2px 20px;
+}

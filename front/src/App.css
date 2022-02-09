@@ -313,3 +313,35 @@ button[type="button"] {
 .container {
     padding: 2px 20px;
 }
+
+.btn-group {
+    margin-top:80px;
+    margin-left:55px;
+}
+
+.btn-group button {
+    background-color: black; 
+    border: 1px solid gray; 
+    color: white; 
+    padding: 10px 24px;
+    cursor: pointer;
+    width:20%;
+    display: block;
+    font-family: 'Roboto', sans-serif;
+}
+  
+.btn-group button:not(:last-child) {
+    border-bottom: none; 
+}
+  
+.btn-group button:hover {
+    background-color: gray;
+}
+
+.book_cover {
+    top:40px;
+    position: relative;
+    margin-left:50px;
+    width:20%;
+    height:20%;
+}

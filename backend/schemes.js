@@ -30,7 +30,7 @@ const BookSchema = new Schema ({
 }, { minimize: false })
 
 BookSchema.pre("save", function(next) {
-    this.slug = cyrillicToTranslit.transform(this.book_name, '-').toLocaleLowerCase();
+    this.slug = cyrillicToTranslit.transform(`${this.book_name}${this.book_author}${Math.round(Math.random() * (10000 - 1) + 1)}`, '-').toLocaleLowerCase();
     next();
 });
 

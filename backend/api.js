@@ -169,13 +169,12 @@ router.post('/api/library_add_book', function (req, res) {
                 const BookName = req.body["book_name"];
                 const BookAuthor = req.body["book_author"];
                 const YearOfRelease = req.body["year_of_release"];
-                if (BookName && BookAuthor && YearOfRelease) {
-                    Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease}).then((response) => {
-                        if (response) {
-                            return res.sendStatus(200);
-                        }
-                    });
-                }
+                const BookCover = req.body["cover"];
+                Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease,cover:BookCover}).then((response) => {
+                    if (response) {
+                        return res.sendStatus(200);
+                    }
+                });
             }
         })
     } catch (err) {
@@ -331,6 +330,45 @@ router.post('/api/change_passwd', function (req, res) {
                     } else {
                         return res.status(400);
                     }
+                }
+            })
+        }
+    } catch (e) {
+        return res.sendStatus(403);
+    }
+})
+
+
+
+router.post('/api/get_book_by_slug', function (req, res) {
+    const token = req.cookies.JWT;
+    const slug = req.body["slug"];
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        if (slug) {
+            const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+            const Users = DB.model('users', UserSchema);
+            const Books = DB.model('books', BookSchema);
+            const Query = { 
+                __v: false,
+            };
+            const bookQuery = { 
+                __v: false,
+                _id: false
+            };
+            Users.findOne({_id: data['data']},Query).then((auth_data) => {
+                if (auth_data) {
+                    Books.findOne({slug: slug},bookQuery).then((data_book) => {
+                        if (data_book) {
+                            return res.json(data_book);
+                        } else {
+                            return res.status(400);
+                        }
+                    })
+                } else {
+                    return res.status(400);
                 }
             })
         }

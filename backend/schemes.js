@@ -25,6 +25,7 @@ const BookSchema = new Schema ({
     year_of_release: {type: Number, required: true},
     description: {type: String, required: true, default:"description default"},
     reviews: {type: Object, default:{}},
+    cover:{type:String, default:""},
     slug: { type: String, slug: "title"}
 }, { minimize: false })
 

@@ -26,11 +26,13 @@ function BooksCatalog () {
             ):(
                 Books.map(book => (
                     <div key={book.id} className="book__card">
-                        <img src="https://s3-alpha-sig.figma.com/img/83d5/40fe/7106c91c643b369dcd348fe25c2c0864?Expires=1645401600&Signature=M-tvdi4i84WN2HDYgOyVSYDKvLxZM8ktz5B2D9kvZBzS0gIw9r4ikeRRs5uvJGWt5DA1jSEpQmtvwviRarhCDb9Bd-yGswcLus55i8uobIoqCWs-se9RNPYjsQelsAl4xX8CN8aWGqtQ6rkkSTIe8FXZTeP276n6IayJWnvmuNF1O~2Z-ICMmVvELpWFsEfuk6ggigUCWGu0nzdIn51Yjn7i94SNGoQmP7KvMLgYThUjAIBHH9DQD9NZIKkyJd~zPx8jZCX8apbnbvLuzAgZY08Qjl1xuAXnL9wx7wsYGxLIrhvdy6nbUtzTTyFB-CnDV3BuEvXIY55XQ3EAeWWamg__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" alt="cover"/>
-                        <div class="container">
-                            <p>{book.book_name}</p> 
-                            <p>{book.book_author}</p> 
-                        </div>
+                        <a href={`/books/${book.slug}`}>
+                            <img src={book.cover} alt="cover" style={{width:"200px", height:"100%"}}/>
+                            <div class="container">
+                                <p>{book.book_name}</p> 
+                                <p>{book.book_author}</p> 
+                            </div>
+                        </a>
                     </div>
                 ))
             )}

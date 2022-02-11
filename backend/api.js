@@ -335,32 +335,12 @@ router.post('/api/change_passwd', function (req, res) {
 
 
 router.post('/api/get_book_by_slug', function (req, res) {
-    const token = req.cookies.JWT;
     const slug = req.body["slug"];
-    if (!token) {
-      return res.sendStatus(403);
-    }
     try {
         if (slug) {
-            const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
-            const Users = DB.model('users', UserSchema);
-            const Books = DB.model('books', BookSchema);
-            const Query = { 
-                __v: false,
-            };
-            const bookQuery = { 
-                __v: false,
-                _id: false
-            };
-            Users.findOne({_id: data['data']},Query).then((auth_data) => {
-                if (auth_data) {
-                    Books.findOne({slug: slug},bookQuery).then((data_book) => {
-                        if (data_book) {
-                            return res.json(data_book);
-                        } else {
-                            return res.status(400);
-                        }
-                    })
+            Books.findOne({slug: slug},bookQuery).then((data_book) => {
+                if (data_book) {
+                    return res.json(data_book);
                 } else {
                     return res.status(400);
                 }

@@ -203,24 +203,18 @@ router.post('/api/add_book', function (req,res) {
             password: false
         };
         Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"] && req.body["book_author"] && req.body["year_of_release"] && req.body["description"] && req.body["book_status"]) {
-                const Books = Object.assign(auth_data["books"],{
-                    [req.body["book_name"]]: {
-                        book_author: req.body["book_author"],
-                        year_of_release: req.body["year_of_release"],
-                        description: req.body["description"],
-                        rating:0,
-                        book_status:req.body["book_status"], // readed | abandoned | planned
-                    }
-                });
-                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},
-                    function(err, result) {
-                        if (err) console.log(err)
-                    }
-                );
-            } else {
-                return res.sendStatus(422);
-            }
+
+            const Books = Object.assign(auth_data["books"],{
+                [req.body["book_name"]]: {
+
+                    book_author: req.body["book_author"],
+                    year_of_release: req.body["year_of_release"],
+                    rating:0,
+                    book_status:req.body["book_status"], // readed | abandoned | planned
+                }});
+            Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},function(err, result) {
+                if (result) return res.sendStatus(201)
+            });
         })
     } catch (e) {
         console.log(e);

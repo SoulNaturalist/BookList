@@ -360,3 +360,30 @@ button[type="button"] {
 .btn-readed, .btn-planned,.btn-drop {
     color:white;
 }
+
+.alert_success {
+    animation: fadein 5s linear 1 normal forwards;
+}
+
+@keyframes fadein{
+    from{
+       opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+
+.alert_error {
+    animation: fadein 5s linear 1 normal forwards;
+}
+
+@keyframes fadein{
+    from{
+       opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}

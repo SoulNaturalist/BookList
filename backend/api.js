@@ -336,6 +336,8 @@ router.post('/api/change_passwd', function (req, res) {
 
 router.post('/api/get_book_by_slug', function (req, res) {
     const slug = req.body["slug"];
+    const Books = DB.model('books', BookSchema);
+    const bookQuery = {__v: false,_id: false};
     try {
         if (slug) {
             Books.findOne({slug: slug},bookQuery).then((data_book) => {
@@ -347,7 +349,7 @@ router.post('/api/get_book_by_slug', function (req, res) {
             })
         }
     } catch (e) {
-        return res.sendStatus(403);
+        console.log(e)
     }
 })
 

@@ -13,9 +13,12 @@ function Home() {
             setUser(res.data)
             setLoading(true)
         })
-        .catch(err => {setError(err)})
+        .catch(err => {
+            setError(err)
+            setLoading(true)
+        })
     }, [])
-    const CheckAuth = () => {
+    const Username = () => {
         if (User.auth_data) {
             return User.auth_data.username;
         } else {
@@ -24,7 +27,7 @@ function Home() {
 
     }
     const LibraryEelement = <div>
-        <p className="welcome_title">Добро пожаловать {CheckAuth()}</p>
+        <p className="welcome_title">Добро пожаловать {Username()}</p>
         <p className="site_description">BookList - это онлайн библиотека добавляй книги,пиши рецензии и оцени прочитанные книги по достоинству.</p>
         <img className="library_photo" src={books_library} alt="library_photo"/>
     </div>

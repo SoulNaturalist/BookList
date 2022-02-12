@@ -17,10 +17,8 @@ function LoginForm () {
             return navigate("/profile")
         } else {
             return <div>
-                <h2 className="auth_title">Авторизация</h2>
                 <div className="form_wrapper">
                     <form onSubmit={handleSubmit(onSubmit)}>
-
                         <input className="login"
                         placeholder="Логин"
                         required
@@ -43,9 +41,9 @@ function LoginForm () {
         mode: "onChange"
     });
     const onSubmit = (data) => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {email: data.login, password: data.password}})
+        axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
         .then(response => {navigate('/profile')})
-        .catch(error => {console.log(error)})
+        .catch(error => {setError(error)})
     }
     return (
         <div>

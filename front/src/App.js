@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm.jsx';
 import BookPage from './components/BookPage.jsx';
 import BooksCatalog from './components/BooksCatalog.jsx';
 import Profile from './components/Profile.jsx';
+import ChangeProfile from './components/ChangeProfile.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -19,6 +20,7 @@ return (
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/change_profile" element={<ChangeProfile />}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
           <Route path="/books/:slug" element={<BookPage />}/>
         </Routes>

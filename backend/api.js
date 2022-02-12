@@ -53,17 +53,22 @@ router.post('/api/login', function (req, res) {
     const Query = { 
         __v: false,
     };
-    Users.findOne({name: String(Username)},Query).then((data) => {
-        bcrypt.compare(Password, data['password'], function(err, result) {
-            if (result) {
-                const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
-                return res
-                .cookie("JWT", token, {httpOnly:true,sameSite:"Lax"})
-                .json({"message":"Success!"});
-            } else {
-                res.status(400).json({"response":"Data invalide!"});
-            }
-        });
+    Users.findOne({name: Username},Query).then((data) => {
+        if (Username === data["username"]) {
+            bcrypt.compare(Password, data['password'], function(err, result) {
+                if (result) {
+                    const token = jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
+                    return res
+                    .cookie("JWT", token, {httpOnly:true,sameSite:"Lax"})
+                    .json({"message":"Success!"});
+                } else {
+                    return res.status(400).json({"response":"Data invalide!"});
+                }
+            });
+
+        } else {
+            return res.status(400).json({"response":"Data invalide!"});
+        }
     })
 })
 

@@ -15,7 +15,7 @@ function BookPage () {
       setBook(response.data)
       setLoading(false)
     })
-  }, [])
+  }, [slug])
   
   function addBook(status) {
     let formatBook = { ...Book };

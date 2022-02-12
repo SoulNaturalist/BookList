@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -8,7 +7,6 @@ function BooksCatalog () {
     const [Books,setBooks] = React.useState("");
     const [loading, setLoading] = React.useState(true);
     const [Error,setError] = React.useState(false);
-    const navigate = useNavigate("/");
     React.useEffect(() => {
         axios({method: 'get',url:'http://127.0.0.1:3030/api/get_library_books',withCredentials: true, headers: {}})
         .then(response => {

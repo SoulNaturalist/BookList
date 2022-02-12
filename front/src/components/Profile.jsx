@@ -6,11 +6,13 @@ import planned from "../assets/planned.png"
 import reviews from "../assets/review.png"
 import { styled } from '@mui/system';
 import {useNavigate} from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 
 function Profile () {
     const [Data,setData] = React.useState("");
     const [Error,setError] = React.useState(false);
+    const [loading,setLoading] = React.useState(false);
     const navigate = useNavigate("/");
     const blue = {
         500: '#000000',
@@ -49,10 +51,13 @@ function Profile () {
     }
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
-        .then(response => {setData(response.data)})
+        .then(response => {
+            setData(response.data)
+            setLoading(true)
+        })
         .catch(err => {setError(err)})
     }, [])
-    const CheckAuth = () => {
+    const UserProfile = () => {
         if (Data.auth_data && !Error) {
             let readedCount = 0;
             let abandonedCount = 0;
@@ -66,7 +71,6 @@ function Profile () {
                 } else {
                     plannedCount += 1;
                 }
-                
             });
             const countReviews = Object.keys(Data.auth_data.reviews).length;
             return <div>
@@ -100,7 +104,7 @@ function Profile () {
     }
     return (
         <div>
-            {CheckAuth()}
+            {loading ? UserProfile() : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
         </div>
   
 )}

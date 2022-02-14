@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     status:{ type: String, default:"" },
     avatar: {type: String, default:""},
     role: {type: Number,default:0}, // user:0 moder:1 admin:2
-    reviews: {type: Object, default:{}},
+    reviews: {type: Object, required: true, default:{}},
 }, { minimize: false });
 
 const BookSchema = new Schema ({

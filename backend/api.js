@@ -390,11 +390,11 @@ router.post('/api/add_review', function (req, res) {
     if (!token) {
         return res.sendStatus(403);
     }
-    const textReview = req.body["text"];
+    const titleReview = req.body["title"];
     const descriptionReview = req.body["description"];
     const bookSlug = req.body["bookSlug"];
     const userRating = req.body["rating"];
-    if (textReview && descriptionReview && bookSlug && userRating) {
+    if (titleReview && descriptionReview && bookSlug && userRating) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         try {
             const Users = DB.model('users', UserSchema);
@@ -404,7 +404,7 @@ router.post('/api/add_review', function (req, res) {
                     Books.find({slug:bookSlug}).then(function (book) {
                         if (book) {
                             const updateReviews = Object.assign(book[0]["reviews"]
-                            ,{[auth_data.username]:{"text":textReview,"description":descriptionReview,"rating":userRating}});
+                            ,{[auth_data.username]:{"title":titleReview,"description":descriptionReview,"rating":userRating}});
                             Books.updateOne({slug: bookSlug}, { $set: {reviews:updateReviews}}, function(err, result) {
                                 if (result) {
                                     return res.sendStatus(200);

@@ -358,4 +358,35 @@ router.post('/api/get_book_by_slug', function (req, res) {
     }
 })
 
+
+router.put('/api/setting_user/', function (req, res) {
+    const token = req.cookies.JWT;
+    if (!token) {
+        return res.sendStatus(403);
+    }
+    const newUsername = req.body["username"];
+    const newStatus = req.body["status"];
+    const newAvatar = req.body["avatar"];
+    if (newUsername && newStatus && newAvatar) {
+        const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        try {
+            const Users = DB.model('users', UserSchema);
+            Users.findOne({_id: data['data']}).then((auth_data) => {
+                if (auth_data) {
+                    Users.updateOne({_id: data['data']}, { $set: {username:newUsername,status:newStatus,avatar:newAvatar}}, function(err, result) {
+                        if (result) {
+                            return res.sendStatus(200);
+                        }
+                    })
+                } else {
+                    return res.status(400);
+                }
+            })
+        } catch (e) {
+            console.log(e);
+            return res.sendStatus(403);
+        }
+    }
+})
+
 module.exports = router;

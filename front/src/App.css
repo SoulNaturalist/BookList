@@ -90,7 +90,6 @@ input {
     display: block;
     box-sizing: border-box;
     padding:20px;
-    width:300px;
     font-size:18px;
     outline:none;
 }
@@ -152,7 +151,6 @@ button[type="submit"],
 input[type="button"],
 input[type="submit"] {
     -webkit-appearance: none;
-    width: 30%;
     display:block;
     margin:auto;
 }
@@ -386,4 +384,44 @@ button[type="button"] {
     to{
         opacity: 0;
     }
+}
+
+.nicname_input,
+.status_input,
+.avatar_input {
+    background-color: #000; 
+    display: block;
+    box-sizing: border-box;
+    padding:20px;
+    width:300px;
+    margin-bottom:20px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+
+}
+
+.nicname_input::placeholder,
+.status_input::placeholder, 
+.avatar_input::placeholder {
+    color: rgb(255, 255, 255);
+    font-family: 'Manrope', sans-serif;
+    text-align: center;
+}
+
+input.save_button {
+    color:#000;
+    background-color:#ffb54d;
+    font-size:15px;
+    display: block;
+    font-size:18px;
+    outline:none;
+    width:140px;
+    height:70px;
+}
+
+.title_main {
+    font-family: 'Manrope', sans-serif;
+    text-align: center;
+    margin-top:160px;
 }

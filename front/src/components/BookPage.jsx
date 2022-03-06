@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import { useNavigate } from "react-router-dom";
 
 function BookPage () {
   const { slug } = useParams();
@@ -27,7 +28,7 @@ function BookPage () {
       book_status:status
     }})
     .then(response => {
-      setAlert(true)
+      setAlert(true);
     })
     .catch(err => {setError(err)})
   }
@@ -36,9 +37,9 @@ function BookPage () {
     <p className="description_book">{Book.description}</p>
     <img className="book_cover" src={Book.cover} alt="cover"/>
     <div className="btn-group">
-      <button onClick={() => addBook("readed")} className="btn_read">Прочитана</button>
-      <button onClick={() => addBook("planned")} className="btn_planned">Запланирована</button>
-      <button onClick={() => addBook("abandoned")} className="btn_abandoned">Брошена</button>
+      <button onClick={() => {addBook("readed");}} className="btn_read">Прочитана</button>
+      <button onClick={() => {addBook("planned")}} className="btn_planned">Запланирована</button>
+      <button onClick={() => {addBook("abandoned")}} className="btn_abandoned">Брошена</button>
       {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
       {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Что-то пошло не так!</Alert> :  ""}
     </div>

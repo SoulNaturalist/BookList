@@ -6,6 +6,7 @@ import BookPage from './components/BookPage.jsx';
 import BooksCatalog from './components/BooksCatalog.jsx';
 import Profile from './components/Profile.jsx';
 import ChangeProfile from './components/ChangeProfile.jsx';
+import ReviewPage from './components/ReviewPage.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -23,6 +24,7 @@ return (
           <Route path="/change_profile" element={<ChangeProfile />}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
           <Route path="/books/:slug" element={<BookPage />}/>
+          <Route path="/write_review" element={<ReviewPage />}/>
         </Routes>
       </Fragment>
     </Router>

@@ -7,6 +7,7 @@ import reviews from "../assets/review.png"
 import { styled } from '@mui/system';
 import {useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
+import UserBooks from '../components/UserBooks.jsx';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 
 function Profile () {
@@ -80,14 +81,14 @@ function Profile () {
                     <p className="username">{Data.auth_data.username}</p>
                     <p className="description">{Data.auth_data.status}</p>
                     <ul className="books_menu">
-                        <li>прочитано</li>
-                        <li>брошено</li>
-                        <li>запланировано</li>
+                        <a href="my_books_readed"><li>прочитано</li></a>
+                        <a href="my_books_drop"><li>брошено</li></a>
+                        <a href="my_books_planned"><li>запланировано</li></a>
                         <li>отзывы</li>
                     </ul>
-                    <img className="readed" src={readed} alt="readed"/>
-                    <img className="drop" src={drop} alt="drop"/>
-                    <img className="planned" src={planned} alt="planned"/>
+                    <a href="my_books_readed"><img className="readed" src={readed} alt="readed"/></a>
+                    <a href="my_books_drop"><img className="drop" src={drop} alt="drop"/></a>
+                    <a href="my_books_planned"><img className="planned" src={planned} alt="planned"/></a>
                     <img className="reviews" src={reviews} alt="reviews"/>
                     <div className="count_block">
                         <p className="readed_count">{readedCount}</p>

@@ -425,3 +425,10 @@ input.save_button {
     text-align: center;
     margin-top:160px;
 }
+
+.title__book {
+    margin-top:20px;
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-size:30px;
+}

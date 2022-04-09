@@ -26,7 +26,7 @@ function BooksCatalog () {
                     <div key={book.id} className="book__card">
                         <a href={`/books/${book.slug}`}>
                             <img src={book.cover} alt="cover" style={{width:"200px", height:"100%"}}/>
-                            <div class="container">
+                            <div className="container">
                                 <p>{book.book_name}</p> 
                                 <p>{book.book_author}</p> 
                             </div>

@@ -66,7 +66,7 @@ function Profile () {
                 let bookStatus = Data.auth_data.books[val].book_status;
                 if (bookStatus === "readed") {
                     readedCount += 1;
-                } else if (bookStatus === "abandoned") {
+                } else if (bookStatus === "drop") {
                     abandonedCount += 1;
                 } else {
                     plannedCount += 1;

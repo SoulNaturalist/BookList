@@ -20,33 +20,35 @@ function UserBooks () {
         })
         .catch(err => {setError(err)})
     }, [])
-    const checkAuth = () => {
-        if (Data.username) {
-            return true;
-        }
-        return false;
-    }
     const checkType = () => {
-        if (checkAuth) {
+        if (Data) {
             if (_type === "_readed") {
-                return <p className='title__book'>Мои прочитанные книги</p>
+                return <p className='title__book'>{Data.auth_data.username} прочитанные книги</p>
             } else if (_type === "_drop") {
-                return <p className='title__book'>Мои брошенные книги</p>
+                return <p className='title__book'>{Data.auth_data.username} брошенные книги</p>
     
             } else if (_type === "_planned") {
-                return <p className='title__book'>Мои запланированные книги</p>
+                return <p className='title__book'>{Data.auth_data.username} запланированные книги</p>
             }
         }
         return navigate("/login");
     }
+    const checkStatusBook = (status, book) => {
+        if (book.book_status === status.split("_")[1]) {
+            return true;
+        }
+        return false;
+    }
     return (
         <div>
-            {checkAuth ? checkType() : navigate("/login")}
+            {Data.auth_data ? checkType() : navigate("/login")}
             <br/>
             {loading ? Object.keys(Data.auth_data.books).map((book,index) => (
                 <div key={index}>
-                    <img src={Object.values(Data.auth_data.books)[index].cover} alt='cover' style={{width: '10%', height: '10%', display:'block',margin:'auto'}}/>
-                    <p className="book_name" style={{textAlign:"center"}}>{book}</p>
+                    {checkStatusBook(_type, Object.values(Data.auth_data.books)[index]) ? <div>
+                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{width: '10%', height: '10%', display:'block',margin:'auto'}}/>
+                        <p className="book_name" style={{textAlign:"center"}}>{book}</p>
+                    </div>:""}
                 </div>
             )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
         </div>

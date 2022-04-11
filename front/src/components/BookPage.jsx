@@ -39,7 +39,7 @@ function BookPage () {
     <div className="btn-group">
       <button onClick={() => {addBook("readed");}} className="btn_read">Прочитана</button>
       <button onClick={() => {addBook("planned")}} className="btn_planned">Запланирована</button>
-      <button onClick={() => {addBook("abandoned")}} className="btn_abandoned">Брошена</button>
+      <button onClick={() => {addBook("drop")}} className="btn_abandoned">Брошена</button>
       {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
       {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Что-то пошло не так!</Alert> :  ""}
     </div>

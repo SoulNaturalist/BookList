@@ -125,7 +125,8 @@ router.post('/api/add_book', function (req,res) {
                     book_author: req.body["book_author"],
                     year_of_release: req.body["year_of_release"],
                     rating:0,
-                    book_status:req.body["book_status"], // readed | abandoned | planned
+                    book_status:req.body["book_status"], // readed | drop | planned
+                    cover:req.body["cover"]
                 }});
             Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},function(err, result) {
                 if (result) return res.sendStatus(201)

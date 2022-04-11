@@ -179,4 +179,22 @@ router.post('/api/change_cover_by_slug', function (req, res) {
 })
 
 
+router.post('/api/get_cover_by_name', function (req, res) {
+    const book_name = req.body["book_name"];
+    const Books = DB.model('books', BookSchema);
+    const bookQuery = {__v: false,_id: false};
+    try {
+        Books.findOne({book_name: book_name},bookQuery).then((data_book) => {
+            if (data_book) {
+                return res.json(data_book);
+            } else {
+                return res.status(400);
+            }
+        })
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+
 module.exports = router;

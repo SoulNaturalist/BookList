@@ -7,7 +7,6 @@ import reviews from "../assets/review.png"
 import { styled } from '@mui/system';
 import {useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import UserBooks from '../components/UserBooks.jsx';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 
 function Profile () {

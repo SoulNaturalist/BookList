@@ -6,46 +6,49 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 function UserBooks () {
-    const [Data,setData] = React.useState("");
+    const { _type } = useParams();
+    const navigate = useNavigate();
+    const [Data,setData] = React.useState([]);
+    const [Cover,setCover] = React.useState([]);
     const [Error,setError] = React.useState("");
-    const [Books,setBooks] = React.useState([]);
+    const [loading,setLoading] = React.useState(false);
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {
             setData(response.data)
+            setLoading(true)
         })
         .catch(err => {setError(err)})
     }, [])
-    const { _type } = useParams();
-    let navigate = useNavigate();
-    const checkType = () => {
-        if (_type === "_readed") {
-            return <p className='title__book'>Мои прочитанные книги</p>
-        } else if (_type === "_drop") {
-            return <p className='title__book'>Мои брошенные книги</p>
-
-        } else if (_type === "_planned") {
-            return <p className='title__book'>Мои запланированные книги</p>
+    const checkAuth = () => {
+        if (Data.username) {
+            return true;
         }
-        return Data ? navigate("/profile"):navigate("/login");
+        return false;
     }
-    React.useEffect(() => {
-        axios({method: 'get',url:'http://127.0.0.1:3030/api/get_library_books',withCredentials: true, headers: {}})
-        .then(response => {
-            setBooks(response.data)
-        })
-        .catch(err => {setError(err)})
-    }, [])
+    const checkType = () => {
+        if (checkAuth) {
+            if (_type === "_readed") {
+                return <p className='title__book'>Мои прочитанные книги</p>
+            } else if (_type === "_drop") {
+                return <p className='title__book'>Мои брошенные книги</p>
+    
+            } else if (_type === "_planned") {
+                return <p className='title__book'>Мои запланированные книги</p>
+            }
+        }
+        return navigate("/login");
+    }
     return (
         <div>
-            {Data ? checkType():navigate("/login")}
+            {checkAuth ? checkType() : navigate("/login")}
             <br/>
-            {Books.map((book,index) => (
+            {loading ? Object.keys(Data.auth_data.books).map((book,index) => (
                 <div key={index}>
-                    <img src={book['cover']} alt='cover' style={{width: '10%', height: '10%', display:'block',margin:'auto'}}/>
-                    <p className="book_name" style={{textAlign:"center"}}>{book['book_name']}</p>
+                    <img src={Object.values(Data.auth_data.books)[index].cover} alt='cover' style={{width: '10%', height: '10%', display:'block',margin:'auto'}}/>
+                    <p className="book_name" style={{textAlign:"center"}}>{book}</p>
                 </div>
-            ))}
+            )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
         </div>
     );
     

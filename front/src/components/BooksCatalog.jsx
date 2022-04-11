@@ -22,14 +22,12 @@ function BooksCatalog () {
             {loading ? (
                 <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>
             ):(
-                Books.map(book => (
-                    <div key={book.id} className="book__card">
+                Books.map((book, index) => (
+                    <div key={index} className="book__card">
                         <a href={`/books/${book.slug}`}>
-                            <img src={book.cover} alt="cover" style={{width:"200px", height:"100%"}}/>
-                            <div className="container">
-                                <p>{book.book_name}</p> 
-                                <p>{book.book_author}</p> 
-                            </div>
+                            <img src={book.cover} alt="cover" style={{ width: '100%', height:'auto',display:'block'}}/>
+                            <p style={{marginLeft:'60px'}}>{book.book_name}</p> 
+                            <p style={{marginLeft:'60px'}}>{book.book_author}</p> 
                         </a>
                     </div>
                 ))

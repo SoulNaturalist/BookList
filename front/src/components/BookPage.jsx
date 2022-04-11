@@ -22,10 +22,9 @@ function BookPage () {
     let formatBook = { ...Book };
     delete formatBook.reviews;
     delete formatBook.slug;
-    delete formatBook.cover;
     axios({method: 'post',url:`http://127.0.0.1:3030/api/add_book`,withCredentials: true, headers: {},data: {
       book_name:formatBook.book_name,book_author:formatBook.book_author,year_of_release:formatBook.year_of_release,
-      book_status:status
+      book_status:status,cover:formatBook.cover
     }})
     .then(response => {
       setAlert(true);

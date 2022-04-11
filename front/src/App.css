@@ -293,10 +293,12 @@ button[type="button"] {
     display: flex;
     align-items: center;
     justify-content: center;
+    align-content:flex-start;
 }
 
 .book__card {
     padding:10px;
+    align-content: stretch
 }
   
 
@@ -308,9 +310,7 @@ button[type="button"] {
     font-size:18px;
 }
 
-.container {
-    padding: 2px 20px;
-}
+
 
 .btn-group {
     margin-top:10px;

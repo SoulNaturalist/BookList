@@ -9,8 +9,6 @@ function UserBooks () {
     const { _type } = useParams();
     const navigate = useNavigate();
     const [Data,setData] = React.useState([]);
-    const [Cover,setCover] = React.useState([]);
-    const [Error,setError] = React.useState("");
     const [loading,setLoading] = React.useState(false);
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
@@ -18,7 +16,6 @@ function UserBooks () {
             setData(response.data)
             setLoading(true)
         })
-        .catch(err => {setError(err)})
     }, [])
     const checkType = () => {
         if (Data) {
@@ -46,7 +43,7 @@ function UserBooks () {
             {loading ? Object.keys(Data.auth_data.books).map((book,index) => (
                 <div key={index}>
                     {checkStatusBook(_type, Object.values(Data.auth_data.books)[index]) ? <div>
-                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}}/>
+                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}} alt="cover"/>
                         <p className="book_name" style={{textAlign:"center"}}>{book}</p>
                     </div>:""}
                 </div>

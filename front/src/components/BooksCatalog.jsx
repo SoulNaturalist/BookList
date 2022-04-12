@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from "axios";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -18,6 +20,9 @@ function BooksCatalog () {
     const BooksCatalog = () => {
         return <div>
             <h1 className="title__catalog">Каталог книг</h1>
+            <div style={{textAlign:'center', padding:'20px'}}>
+                <TextField id="demo-helper-text-aligned-no-helper"  className="search" defaultValue="Поиск" style={{width:'50%'}} focused/>
+            </div>
             <div className="flex-wrapper">
             {loading ? (
                 <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>
@@ -25,7 +30,7 @@ function BooksCatalog () {
                 Books.map((book, index) => (
                     <div key={index} className="book__card">
                         <a href={`/books/${book.slug}`}>
-                            <img src={book.cover} alt="cover" style={{ width: '100%', height:'auto',display:'block'}}/>
+                            <img src={book.cover} alt="cover" style={{ width: '100%', height:'auto'}}/>
                             <p style={{marginLeft:'60px'}}>{book.book_name}</p> 
                             <p style={{marginLeft:'60px'}}>{book.book_author}</p> 
                         </a>
@@ -35,6 +40,7 @@ function BooksCatalog () {
             </div>
         </div>
     }
+
     return (
         <div>{BooksCatalog()}</div>
     );

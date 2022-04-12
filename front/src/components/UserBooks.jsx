@@ -46,7 +46,7 @@ function UserBooks () {
             {loading ? Object.keys(Data.auth_data.books).map((book,index) => (
                 <div key={index}>
                     {checkStatusBook(_type, Object.values(Data.auth_data.books)[index]) ? <div>
-                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{width: '10%', height: '10%', display:'block',margin:'auto'}}/>
+                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}}/>
                         <p className="book_name" style={{textAlign:"center"}}>{book}</p>
                     </div>:""}
                 </div>

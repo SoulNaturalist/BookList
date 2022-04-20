@@ -27,7 +27,7 @@ router.post('/api/change_username', function (req,res) {
                 }
             })
         }
-    }catch (err) {
+    } catch (err) {
         console.log(err);
     }
 })
@@ -159,6 +159,31 @@ router.get('/api/user/:name', function (req, res) {
         res.json({"response":result});
     })
 });
+
+router.get('/api/get_users', function (req, res) {
+    const Users = DB.model('users', UserSchema);
+    const token = req.cookies.JWT;
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (auth_data) {
+                Users.find({}).then(function (books) {
+                    return res.json(books);
+                });
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 
 
 

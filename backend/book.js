@@ -100,9 +100,27 @@ router.post('/api/library_add_book', function (req, res) {
 
 router.get('/api/get_library_books', function (req, res) {
     const Books = DB.model('books', BookSchema);
-    Books.find({}).then(function (books) {
-        return res.json(books);
-    });
+    const Users = DB.model('users', UserSchema);
+    const token = req.cookies.JWT;
+    if (!token) {
+      return res.sendStatus(403);
+    }
+    try {
+        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const Query = { 
+            __v: false,
+            password: false
+        };
+        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
+            if (auth_data) {
+                Books.find({}).then(function (books) {
+                    return res.json(books);
+                });
+            }
+        })
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 router.post('/api/add_book', function (req,res) {
@@ -196,6 +214,5 @@ router.post('/api/get_cover_by_name', function (req, res) {
         console.log(e)
     }
 })
-
 
 module.exports = router;

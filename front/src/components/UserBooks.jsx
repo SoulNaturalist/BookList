@@ -28,7 +28,6 @@ function UserBooks () {
                 return <p className='title__book'>{Data.auth_data.username} запланированные книги</p>
             }
         }
-        return navigate("/login");
     }
     const checkStatusBook = (status, book) => {
         if (book.book_status === status.split("_")[1]) {

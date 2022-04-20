@@ -8,6 +8,7 @@ import Profile from './components/Profile.jsx';
 import ChangeProfile from './components/ChangeProfile.jsx';
 import ReviewPage from './components/ReviewPage.jsx';
 import UserBooks from './components/UserBooks.jsx';
+import AdminPanel from './components/AdminPanel.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -26,6 +27,7 @@ return (
           <Route path="/catalog" element={<BooksCatalog/>}/>
           <Route path="/books/:slug" element={<BookPage />}/>
           <Route path="/write_review" element={<ReviewPage />}/>
+          <Route path="/admin" element={<AdminPanel />}/>
           <Route exec path="/my_books:_type" element={<UserBooks />}/>
         </Routes>
       </Fragment>

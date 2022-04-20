@@ -2,7 +2,6 @@ import React from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import Alert from '@mui/material/Alert';
-import { useNavigate } from "react-router-dom";
 
 function BookPage () {
   const { slug } = useParams();
@@ -40,7 +39,7 @@ function BookPage () {
       <button onClick={() => {addBook("planned")}} className="btn_planned">Запланирована</button>
       <button onClick={() => {addBook("drop")}} className="btn_abandoned">Брошена</button>
       {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
-      {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Что-то пошло не так!</Alert> :  ""}
+      {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Вы не авторизованы!</Alert> :  ""}
     </div>
   </div>
 }

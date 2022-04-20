@@ -350,6 +350,7 @@ button[type="button"] {
 
 .description_book {
     font-family: 'Roboto', sans-serif;
+    padding:5px;
     text-align: center;
 
 }

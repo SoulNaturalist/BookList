@@ -5,11 +5,9 @@ import logo from '../assets/logo.png';
 
 function Header() {
     const [Data,setData] = React.useState("");
-    const [Error,setError] = React.useState(false);
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {setData(response.data)})
-        .catch(err => {setError(err)})
     }, [])
     const ProfileElement = () => {
         if (Data.auth_data) {

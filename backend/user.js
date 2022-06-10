@@ -117,14 +117,15 @@ router.post('/api/change_passwd', function (req, res) {
     }
 })
 
-router.put('/api/setting_user/', function (req, res) {
+router.put('/api/setting_user/',upload.single('avatar'), function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.sendStatus(403);
     }
     const newUsername = req.body["username"];
     const newStatus = req.body["status"];
-    const newAvatar = req.body["avatar"];
+    const newAvatar =  req.avatar;
+    console.log(newAvatar);
     if (newUsername && newStatus && newAvatar) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         try {
@@ -174,8 +175,8 @@ router.get('/api/get_users', function (req, res) {
         };
         Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
             if (auth_data) {
-                Users.find({}).then(function (books) {
-                    return res.json(books);
+                Users.find({}).then(function (users) {
+                    return res.json(users);
                 });
             }
         })

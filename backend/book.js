@@ -215,4 +215,22 @@ router.post('/api/get_cover_by_name', function (req, res) {
     }
 })
 
+router.post('/api/search_books', function (req, res) {
+    const textQuery = req.body["text"];
+    const bookQuery = {__v: false,_id: false};
+    const Books = DB.model('books', BookSchema);
+    try {
+        Books.find({book_name: textQuery},bookQuery)
+       .exec(function(err, docs) {
+           return res.json(docs)
+
+       });
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+
+
+
 module.exports = router;

@@ -117,14 +117,14 @@ router.post('/api/change_passwd', function (req, res) {
     }
 })
 
-router.put('/api/setting_user/',upload.single('avatar'), function (req, res) {
+router.put('/api/setting_user/', function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.sendStatus(403);
     }
     const newUsername = req.body["username"];
     const newStatus = req.body["status"];
-    const newAvatar =  req.avatar;
+    const newAvatar = req.body["avatar"];
     console.log(newAvatar);
     if (newUsername && newStatus && newAvatar) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);

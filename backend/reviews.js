@@ -1,6 +1,5 @@
 const DB = require('./database');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const {UserSchema, BookSchema} = require('./schemes');
 const {JWT_PRIVATE_TOKEN} = require('./config');
 const router = require('express').Router();
@@ -9,7 +8,7 @@ router.use(cookieParser());
 
 
 
-router.post('/api/add_review', function (req, res) {
+router.post('/api/add_review', async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.sendStatus(403);
@@ -19,34 +18,59 @@ router.post('/api/add_review', function (req, res) {
     const bookSlug = req.body["bookSlug"];
     const userRating = req.body["rating"];
     if (titleReview && descriptionReview && bookSlug && userRating) {
-        const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         try {
-            const Users = DB.model('users', UserSchema);
-            const Books = DB.model('books', BookSchema);
-            Users.findOne({_id: data['data']}).then((auth_data) => {
-                if (auth_data) {
-                    Books.find({slug:bookSlug}).then(function (book) {
-                        if (book) {
-                            const updateReviews = Object.assign(book[0]["reviews"]
-                            ,{[auth_data.username]:{"title":titleReview,"description":descriptionReview,"rating":userRating}});
-                            Books.updateOne({slug: bookSlug}, { $set: {reviews:updateReviews}}, function(err, result) {
-                                if (result) {
-                                    return res.sendStatus(200);
-                                }
-                            })
-                        } else {
-                            return res.status(404).json({"response":"The book was not found"});
-                        }
-                    });
-                } else {
-                    return res.status(400);
-                }
-            })
+            const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+            const users = DB.model('users', UserSchema);
+            const books = DB.model('books', BookSchema);
+            const dataUser = await users.findOne({_id: data['data']}).exec();
+            if (dataUser) {
+                const bookData = await books.find({slug:bookSlug}).exec();
+                const updateReviews = Object.assign(bookData[0]["reviews"],{[dataUser.username]:{"title":titleReview,"description":descriptionReview,"rating":userRating}});
+                const addedReviwBook = await books.updateOne({slug: bookSlug}, { $set: {reviews:updateReviews}}).exec();
+                const updateUserReviews = Object.assign(dataUser["reviews"],{"title":titleReview,"description":descriptionReview,"rating":userRating})
+                const addedReviwUser = await users.updateOne({username:dataUser['username']}, { $set: {reviews:updateUserReviews}}).exec();
+                return addedReviwBook.modifiedCount && addedReviwUser.modifiedCount ? res.sendStatus(201):res.sendStatus(304);
+            }
         } catch (e) {
             console.log(e);
             return res.sendStatus(403);
         }
     }
 })
+
+
+
+router.get('/api/get_reviews', async function (req, res) {
+    const token = req.cookies.JWT;
+    const typeReview = req.body["type"];
+    const usernameAuthor = req.body["username"];
+    const bookSlugReview = req.body["book_slug"];
+    if (!token) {
+        return res.sendStatus(403);
+    }
+    if (typeReview) {
+        try {
+            const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+            const users = DB.model('users', UserSchema);
+            const dataUser = await users.findOne({_id: data['data']}).exec();
+            if (typeReview === "user" && usernameAuthor) {
+                const dataCurrentUser = await users.findOne({username: usernameAuthor}).exec();
+                if (Object.keys(dataCurrentUser["reviews"]).length) {
+                    return res.json(dataCurrentUser["reviews"])
+                } else {
+                    return res.sendStatus(404);
+                }
+            } else if (typeReview === "book" && bookSlugReview) {
+                const books = DB.model('books', BookSchema);
+                const dataReviewsBook = await books.findOne({slug: bookSlugReview}).exec();
+                return Object.keys(dataReviewsBook["reviews"]).length ? res.json(dataReviewsBook["reviews"]):res.json({message:"У книг нет отзывов!Будьте первым :)", status: 404});
+            }
+        } catch (e) {
+            console.log(e);
+            return res.sendStatus(403);
+        }
+    }
+})
+
 
 module.exports = router;

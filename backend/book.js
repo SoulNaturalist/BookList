@@ -1,6 +1,5 @@
 const DB = require('./database');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const {UserSchema, BookSchema} = require('./schemes');
 const {JWT_PRIVATE_TOKEN} = require('./config');
 const router = require('express').Router();
@@ -11,7 +10,7 @@ router.use(cookieParser());
 
 
 
-router.post('/api/delete_book', function (req, res) {
+router.delete('/api/delete_book', async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -23,22 +22,20 @@ router.post('/api/delete_book', function (req, res) {
             __v: false,
             password: false
         };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"]) {
-                let Books = auth_data["books"];
-                let BookName = req.body["book_name"];
-                Reflect.deleteProperty(Books, BookName);
-                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}, function(err, result) {
-                    if (err) console.log(err)
-                })
-            }
-        })
+        if (req.body["book_name"]) {
+            const auth_data = await Users.findOne({_id: UserData['data']},Query).exec();
+            const Books = auth_data["books"];
+            const bookName = req.body["book_name"];
+            Reflect.deleteProperty(Books, bookName);
+            const deleteBookRequest = await Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}).exec();
+            return deleteBookRequest.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
+        }
     } catch (err) {
         console.log(err);
     }
 })
 
-router.post('/api/change_book_rating', function (req, res) {
+router.put('/api/change_book_rating', async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -50,23 +47,20 @@ router.post('/api/change_book_rating', function (req, res) {
             __v: false,
             password: false
         };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (req.body["book_name"] && req.body["rating"]) {
-                let Books = auth_data["books"];
-                let BookName = req.body["book_name"];
-                Books[BookName]["rating"] = req.body["rating"];
-                Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}, function(err, result) {
-                    if (err) console.log(err)
-                })
-
-            }
-        })
+        if (req.body["book_name"] && req.body["rating"]) {
+            const auth_data = await Users.findOne({_id: UserData['data']},Query).exec();
+            let Books = auth_data["books"];
+            const BookName = req.body["book_name"];
+            Books[BookName]["rating"] = req.body["rating"];
+            const updatedRating = await Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}).exec();
+            return updatedRating.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
+        }
     } catch (err) {
         console.log(err);
     }
 })
 
-router.post('/api/library_add_book', function (req, res) {
+router.post('/api/library_add_book', async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -78,27 +72,23 @@ router.post('/api/library_add_book', function (req, res) {
             __v: false,
             password: false
         };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (auth_data["role"] === 2) {
-                const Books = DB.model('books', BookSchema);
-                const BookName = req.body["book_name"];
-                const BookAuthor = req.body["book_author"];
-                const YearOfRelease = req.body["year_of_release"];
-                const BookCover = req.body["cover"];
-                Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease,cover:BookCover}).then((response) => {
-                    if (response) {
-                        return res.sendStatus(200);
-                    }
-                });
-            }
-        })
+        const auth_data = await Users.findOne({_id: UserData['data']},Query);
+        if (auth_data["role"] === 2) {
+            const Books = DB.model('books', BookSchema);
+            const BookName = req.body["book_name"];
+            const BookAuthor = req.body["book_author"];
+            const YearOfRelease = req.body["year_of_release"];
+            const BookCover = req.body["cover"];
+            const createBook = await Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease,cover:BookCover}).exec();
+            return createBook.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
+        }
     } catch (err) {
         console.log(err);
     }
 
 })
 
-router.get('/api/get_library_books', function (req, res) {
+router.get('/api/get_library_books', async function (req, res) {
     const Books = DB.model('books', BookSchema);
     const Users = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
@@ -107,23 +97,23 @@ router.get('/api/get_library_books', function (req, res) {
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const Query = { 
+        const query = { 
             __v: false,
-            password: false
+            _id: false
         };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-            if (auth_data) {
-                Books.find({}).then(function (books) {
-                    return res.json(books);
-                });
-            }
-        })
+        const data = await Users.findOne({_id: UserData['data']},query).exec();
+        const queryBook = { 
+                __v: false,
+                password: false
+        };
+        const bookData = await Books.find({},queryBook).exec();
+        return data ? res.json(bookData):res.sendStatus(401);
     } catch (err) {
         console.log(err);
     }
 })
 
-router.post('/api/add_book', function (req,res) {
+router.post('/api/add_book', async function (req,res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -135,21 +125,17 @@ router.post('/api/add_book', function (req,res) {
             __v: false,
             password: false
         };
-        Users.findOne({_id: UserData['data']},Query).then((auth_data) => {
-
-            const Books = Object.assign(auth_data["books"],{
-                [req.body["book_name"]]: {
-
-                    book_author: req.body["book_author"],
-                    year_of_release: req.body["year_of_release"],
-                    rating:0,
-                    book_status:req.body["book_status"], // readed | drop | planned
-                    cover:req.body["cover"]
-                }});
-            Users.updateOne({_id: UserData['data']}, { $set: {books:Books}},function(err, result) {
-                if (result) return res.sendStatus(201)
-            });
-        })
+        authUser = await Users.findOne({_id: UserData['data']},Query).exec();
+        const Books = Object.assign(authUser["books"],{
+            [req.body["book_name"]]: {
+                book_author: req.body["book_author"],
+                year_of_release: req.body["year_of_release"],
+                rating:0,
+                book_status:req.body["book_status"], // readed | drop | planned
+                cover:req.body["cover"]
+            }});
+        const updateBooks = await Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}).exec();
+        return updateBooks.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
     } catch (e) {
         console.log(e);
         return res.sendStatus(403);
@@ -160,19 +146,14 @@ router.post('/api/add_book', function (req,res) {
 
 
 
-router.post('/api/get_book_by_slug', function (req, res) {
+router.post('/api/get_book_by_slug', async function (req, res) {
     const slug = req.body["slug"];
     const Books = DB.model('books', BookSchema);
     const bookQuery = {__v: false,_id: false};
     try {
         if (slug) {
-            Books.findOne({slug: slug},bookQuery).then((data_book) => {
-                if (data_book) {
-                    return res.json(data_book);
-                } else {
-                    return res.status(400);
-                }
-            })
+            const dataSearchSlug = await Books.findOne({slug: slug},bookQuery).exec();
+            return dataSearchSlug ? res.json(dataSearchSlug):res.sendStatus(404);
         }
     } catch (e) {
         console.log(e)
@@ -181,16 +162,14 @@ router.post('/api/get_book_by_slug', function (req, res) {
 
 
 
-router.post('/api/change_cover_by_slug', function (req, res) {
+router.post('/api/change_cover_by_slug', async function (req, res) {
     const slug = req.body["slug"];
     const newCover = req.body["cover"];
     const Books = DB.model('books', BookSchema);
-    const bookQuery = {__v: false,_id: false};
     try {
-        if (slug) {
-            Books.updateOne({slug: slug}, { $set: {cover:newCover}}, function(err, result) {
-                if (err) console.log(err)
-            })
+        if (slug && newCover) {
+            const bookUpdated =  await Books.updateOne({slug: slug}, { $set: {cover:newCover}}).exec();
+            return bookUpdated.modifiedCount ? res.sendStatus(201):res.sendStatus(400);
         }
     } catch (e) {
         console.log(e)
@@ -198,33 +177,32 @@ router.post('/api/change_cover_by_slug', function (req, res) {
 })
 
 
-router.post('/api/get_cover_by_name', function (req, res) {
-    const book_name = req.body["book_name"];
+router.post('/api/get_cover_by_name', async function (req, res) {
+    const bookName = req.body["book_name"];
     const Books = DB.model('books', BookSchema);
     const bookQuery = {__v: false,_id: false};
     try {
-        Books.findOne({book_name: book_name},bookQuery).then((data_book) => {
-            if (data_book) {
-                return res.json(data_book);
-            } else {
-                return res.status(400);
-            }
-        })
+        if (bookName) {
+            let bookData = await Books.findOne({book_name: bookName},bookQuery).exec();
+            if (bookData === null) bookData = false
+            return bookData ? res.json(bookData):res.sendStatus(404);
+        } else {
+            return res.sendStatus(400);
+        }
     } catch (e) {
         console.log(e)
     }
 })
 
-router.post('/api/search_books', function (req, res) {
+router.post('/api/search_books', async function (req, res) {
     const textQuery = req.body["text"];
     const bookQuery = {__v: false,_id: false};
     const Books = DB.model('books', BookSchema);
     try {
-        Books.find({book_name: textQuery},bookQuery)
-       .exec(function(err, docs) {
-           return res.json(docs)
-
-       });
+        const searchByName = await Books.find({book_name: textQuery},bookQuery).exec();
+        const searchByAuthor = await Books.find({book_author: textQuery},bookQuery).exec();
+        return !Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
+       
     } catch (e) {
         console.log(e)
     }

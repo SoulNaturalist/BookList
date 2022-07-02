@@ -7,12 +7,14 @@ const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 const nodemailer = require("nodemailer");
+const uuid = require("uuid");
 
 
 router.post('/api/register', async function (req, res) {
     const usernameField = req.body["username"];
     const passwordField = req.body["password"];
     const emailField = req.body["email"];
+    const codeUserConfirm = uuid.v4();
     if (usernameField && passwordField && emailField) {
         const UsernameValidate = async (str) => !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
         if (!await UsernameValidate(usernameField)) {
@@ -20,46 +22,32 @@ router.post('/api/register', async function (req, res) {
         } else {
             const Users = DB.model('users', UserSchema);
             const hashedPassword = await bcrypt.hash(passwordField, 10);
-            const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField})
-            const Query = { 
-                __v: false,
-                _id:false,
-                password: false
-            };
-            data = await Users.findOne({username: usernameField},Query).exec();
-            let transporter = nodemailer.createTransport({
-                service: "Outlook365",
-                host: "smtp.office365.com",
-                port: "587",
-                tls: {
-                    ciphers: "SSLv3",
-                    rejectUnauthorized: false,
-                },
+            const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm})
+            const transporter = nodemailer.createTransport({
+                host: 'smtp.mail.ru',
+                port: 465,
+                secure: true, 
                 auth: {
-                  user: outlookLogin, 
-                  pass: outlookPass
+                    user: outlookLogin,
+                    pass: outlookPass
                 }
-              });
+            });
             const mailOptions = {
                 from: outlookLogin,
                 to:emailField ,
                 subject: "Потвердите почту BookList",
-                html: `<h1>Здравствуй ${usernameField}</h1>\n<p>Подтверждение почты - http://127.0.0.1:3000/email_confirm/${data["code"]}</p>`
+                html: `<h1>Здравствуй ${usernameField}</h1>\n<p>Подтверждение почты - http://127.0.0.1:3000/email_confirm/${codeUserConfirm}</p>`
             }
-            transporter.sendMail(mailOptions,(err) => {
-                if (err) {
-                    res.status(400).json("Не удалось отправить письмо.");
-                } else {
-                    res.status(201).json("Успешно!");
-                }
-            })
+            const dataSended = await transporter.sendMail(mailOptions);
+            return dataSended ? res.json("Успешно!"): res.json("Ошибка");
+
         }
-    } else {
-        res.status(404).json({"response":"Enter username,password,email"});
 
     }
-
 })
+    
+    
+
 
 router.post('/api/login', async function (req, res) {
     const Username = req.body["username"];
@@ -76,25 +64,25 @@ router.post('/api/login', async function (req, res) {
                     const token = await jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
                     return res
                     .cookie("JWT", token, {httpOnly:true,path:'/'})
-                    .json({"message":"Success!"});
+                    .json({"message":"Авторизация успешна!"});
                 } else {
-                    return res.status(400).json({error: "Активируйте почту!"})
+                    return res.json({message: "Активируйте почту!", codeStatus:400});
                 }
             } else {
-                return res.status(401).json({error: "Неверные данные!"})
+                return res.json({message: "Неверные данные!", codeStatus:401});
             }
         });
 
     } else {
-        return res.status(400).json({"response":"Data invalide!"});
+        return res.json({message: "Неверные данные!", codeStatus:401});
     }
-    })
+})
 
 
 router.post('/api/auth', async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -109,14 +97,14 @@ router.post('/api/auth', async function (req, res) {
         return res.json({auth_data});
     } catch (e) {
         console.log(e);
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
 })
 
 
-router.get('/api/logout', async function(req, res) {
+router.get('/api/logout', async function (req, res) {
     res.clearCookie("JWT");
-    return res.json({"message":"you're out"})
+    return res.json({message: "Вы вышли из аккаунта", codeStatus:200});
 })
 
 

@@ -15,7 +15,7 @@ const UserSchema = new Schema({
     role: {type: Number,default:0}, // user:0 moder:1 admin:2
     reviews: {type: Object, required: true, default:{}},
     bg:{type:String,default:""},
-    code: {type:String,default:uuid.v4()},
+    code: {type:String,required: true},
     emailConfirm:{type:Boolean,default:false},
     twoAuth:{type:Boolean,default:false},
 }, { minimize: false });

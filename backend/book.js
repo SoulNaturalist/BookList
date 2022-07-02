@@ -64,7 +64,7 @@ router.post('/api/library_add_book', async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -81,6 +81,8 @@ router.post('/api/library_add_book', async function (req, res) {
             const BookCover = req.body["cover"];
             const createBook = await Books.create({book_name:BookName,book_author:BookAuthor,year_of_release:YearOfRelease,cover:BookCover}).exec();
             return createBook.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
+        } else {
+            return res.json({message: "У вас нет нужных прав!", codeStatus:403});
         }
     } catch (err) {
         console.log(err);
@@ -93,7 +95,7 @@ router.get('/api/get_library_books', async function (req, res) {
     const Users = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -117,7 +119,7 @@ router.post('/api/add_book', async function (req,res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -138,7 +140,7 @@ router.post('/api/add_book', async function (req,res) {
         return updateBooks.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
     } catch (e) {
         console.log(e);
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
         
 })
@@ -201,7 +203,7 @@ router.post('/api/search_books', async function (req, res) {
     try {
         const searchByName = await Books.find({book_name: textQuery},bookQuery).exec();
         const searchByAuthor = await Books.find({book_author: textQuery},bookQuery).exec();
-        return !Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
+        return Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
        
     } catch (e) {
         console.log(e)

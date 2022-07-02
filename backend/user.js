@@ -14,7 +14,7 @@ router.post('/api/change_username', async function (req,res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -24,7 +24,7 @@ router.post('/api/change_username', async function (req,res) {
         }
     } catch (err) {
         console.log(err);
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
 })
 
@@ -34,7 +34,7 @@ router.post('/api/change_avatar', async function (req,res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -45,7 +45,7 @@ router.post('/api/change_avatar', async function (req,res) {
         }
     }catch (err) {
         console.log(err);
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
 })
 
@@ -53,7 +53,7 @@ router.post('/api/change_status', async function (req,res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -63,14 +63,14 @@ router.post('/api/change_status', async function (req,res) {
         }
     }catch (err) {
         console.log(err);
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
 })
 
 router.post('/api/change_passwd', async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
         const password = req.body["password"];
@@ -119,7 +119,7 @@ router.post('/api/change_passwd', async function (req, res) {
         }
     } catch (e) {
         console.log(e)
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
 })
 

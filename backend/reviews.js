@@ -46,7 +46,7 @@ router.get('/api/get_reviews', async function (req, res) {
     const usernameAuthor = req.body["username"];
     const bookSlugReview = req.body["book_slug"];
     if (!token) {
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     if (typeReview) {
         try {
@@ -58,16 +58,16 @@ router.get('/api/get_reviews', async function (req, res) {
                 if (Object.keys(dataCurrentUser["reviews"]).length) {
                     return res.json(dataCurrentUser["reviews"])
                 } else {
-                    return res.sendStatus(404);
+                    return res.json({message: "По вашему запросу ничего не найдено", codeStatus:404});
                 }
             } else if (typeReview === "book" && bookSlugReview) {
                 const books = DB.model('books', BookSchema);
                 const dataReviewsBook = await books.findOne({slug: bookSlugReview}).exec();
-                return Object.keys(dataReviewsBook["reviews"]).length ? res.json(dataReviewsBook["reviews"]):res.json({message:"У книг нет отзывов!Будьте первым :)", status: 404});
+                return Object.keys(dataReviewsBook["reviews"]).length ? res.json(dataReviewsBook["reviews"]):res.json({message:"У книг нет отзывов!Будьте первым :)", codeStatus: 404});
             }
         } catch (e) {
             console.log(e);
-            return res.sendStatus(403);
+            return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
         }
     }
 })

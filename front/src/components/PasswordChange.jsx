@@ -3,6 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 function PasswordChange () {
@@ -10,7 +11,7 @@ function PasswordChange () {
     const [loading, setLoading] = React.useState(true);
     const [alertSuccessValue, setAlertValue] = React.useState(false);
     const [alertErrorValue, setErrorValue] = React.useState(false);
-    const navigate = useNavigate();
+    const navigate = useNavigate("/");
     React.useEffect(() => {
         axios({method: 'post',url:`http://127.0.0.1:3030/api/auth`,withCredentials: true, headers: {}})
         .then(response => {
@@ -19,6 +20,9 @@ function PasswordChange () {
             if (response.data.auth_data.twoAuth) {
                 axios({method: 'post',url:`http://127.0.0.1:3030/api/change_passwd`,withCredentials: true, headers: {}});
             }
+        })
+        .catch(error => {
+            navigate("/login")
         })
     }, [])
     const onChangePassword = () => {
@@ -81,14 +85,11 @@ function PasswordChange () {
             }
         })
     }
-    const alertSuccess = () => {
-        if (alertSuccessValue) {
-            return <Alert variant="filled" severity="success">Пароль изменен!</Alert>
-        }
-    }
-    const alertError = () => {
+    const alert = () => {
         if (alertErrorValue) {
             return <Alert variant="filled" severity="error">Старый пароль не совпадает!</Alert>
+        } else if (alertSuccessValue) {
+            return <Alert variant="filled" severity="success">Пароль изменен!</Alert>
         }
     }
 
@@ -109,10 +110,9 @@ function PasswordChange () {
     }
 
 
-    return loading ? "":<div>
+    return loading ? <div className="form_wrapper"><CircularProgress disableShrink /></div>:<div>
         {PasswordChangeComponent()}
-        {alertSuccess()}
-        {alertError()}
+        {alert()}
     </div>
 }
 

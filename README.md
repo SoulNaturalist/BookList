@@ -31,4 +31,11 @@ Enter DATABASE_URL,secret,PORT
 ```
 node app.js
 ```
+### Start basic unit tests for backend
+```
+npm test
+```
+
+
+
 

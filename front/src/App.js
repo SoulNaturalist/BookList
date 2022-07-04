@@ -9,6 +9,11 @@ import ChangeProfile from './components/ChangeProfile.jsx';
 import ReviewPage from './components/ReviewPage.jsx';
 import UserBooks from './components/UserBooks.jsx';
 import AdminPanel from './components/AdminPanel.jsx';
+import LogoutPage from './components/LogoutPage.jsx';
+import RegistrationForm from './components/RegistrationForm';
+import ConfirmEmail from './components/ConfirmEmail';
+import CheckEmail from './components/CheckEmail';
+import PasswordChange from './components/PasswordChange';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -22,13 +27,18 @@ return (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/registration" element={<RegistrationForm/>} />
+          <Route path="/logout" element={<LogoutPage/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/change_profile" element={<ChangeProfile />}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
-          <Route path="/books/:slug" element={<BookPage />}/>
+          <Route path="/book/:slug" element={<BookPage />}/>
           <Route path="/write_review" element={<ReviewPage />}/>
           <Route path="/admin" element={<AdminPanel />}/>
+          <Route path="/check_email" element={<CheckEmail/>}/>
+          <Route path="/test" element={<PasswordChange/>}/>
           <Route exec path="/my_books:_type" element={<UserBooks />}/>
+          <Route path="*" element={<ConfirmEmail/>}/>
         </Routes>
       </Fragment>
     </Router>

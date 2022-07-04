@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-function LoginForm () {
+function ReviewPage () {
     const [User, setUser] = React.useState([]);
     const [Error,setError] = React.useState(false);
     const navigate = useNavigate();
@@ -22,18 +22,10 @@ function LoginForm () {
         }
 
     }
-    const {register, formState: { errors }, handleSubmit } = useForm({
-        mode: "onChange"
-    });
-    const onSubmit = (data) => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
-        .then(response => {navigate('/profile')})
-        .catch(error => {setError(error)})
-    }
     return (
         <div>
             {CheckAuth()}
         </div>
 )}
 
-export default LoginForm;
+export default ReviewPage;

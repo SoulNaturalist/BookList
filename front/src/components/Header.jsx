@@ -8,12 +8,13 @@ function Header() {
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {setData(response.data)})
+        .catch((err) => console.log(err))
     }, [])
     const ProfileElement = () => {
         if (Data.auth_data) {
             return <p className="profile"><a href="/profile">Профиль</a></p>
         } else {
-            return "";
+            return <p className="log-in"><a href="/login">Войти</a></p>
         }
 
     }

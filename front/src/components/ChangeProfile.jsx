@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 function ChangeProfile () {
     const [Data,setData] = React.useState("");
     const [Error,setError] = React.useState(false);
-    const [Username, setUsername] = React.useState("");
     const navigate = useNavigate("/");
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
@@ -36,6 +35,11 @@ function ChangeProfile () {
                             defaultValue={Data.auth_data.avatar}
                             {...register("avatar", {})}
                             />
+                            <input type="text" className="bg_url"
+                            placeholder="Изображение описания"
+                            defaultValue={Data.auth_data.bg}
+                            {...register("bg", {})}
+                            />
                             <input className="save_button" type="submit" value="Сохранить" />
                         </form>
                     </div>
@@ -49,7 +53,7 @@ function ChangeProfile () {
     const onSubmit = (data) => {
         if (data.nicname && data.status && data.avatar) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
-            {username:data.nicname, status:data.status,avatar:data.avatar}})
+            {username:data.nicname, status:data.status,avatar:data.avatar,bg:data.bg}})
             .then(response => {navigate('/profile')})
             .catch(error => {console.log(error)})
         }

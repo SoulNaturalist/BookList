@@ -75,7 +75,7 @@ function Profile () {
             const countReviews = Object.keys(Data.auth_data.reviews).length;
             return <div>
                 <img src={Data.auth_data.avatar} className="user_avatar"/>
-                <div className="text-block">
+                <div className="text-block" style={{  backgroundImage: `url(${Data.auth_data.bg})`, backgroundPosition:'center'}}>
                     <br/>
                     <p className="username">{Data.auth_data.username}</p>
                     <p className="description">{Data.auth_data.status}</p>

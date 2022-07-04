@@ -7,16 +7,23 @@ import Alert from '@mui/material/Alert';
 function LoginForm () {
     const [User, setUser] = React.useState([]);
     const [Error,setError] = React.useState("");
-    const [ErrorSubmit,setErrorSubmit] = React.useState("");
     const navigate = useNavigate();
     React.useEffect(() => {
         axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
-        .then(res => {setUser(res.data)})
-        .catch(err => {setError(err)})
+        .then(res => setUser(res.data))
+        .catch(err => console.log(err))
     }, [])
+    const resetErrorAlert = () => setError("");
+    const msgError = (status) => {
+        if (status === "Неверные данные!") {
+            return "Неверные данные!"
+        } else {
+            return "Активируйте почту!"
+        }
+    }
     const errorAlert = () => {
-        if (ErrorSubmit) {
-            return <Alert variant="filled" severity="error">Проверьте правильность введенных данных</Alert>
+        if (Boolean(Error)) {
+            return <Alert variant="filled" severity="error">{msgError(Error)}</Alert>
         }
     }
     const CheckAuth = () => {
@@ -30,13 +37,16 @@ function LoginForm () {
                         placeholder="Логин"
                         required
                         {...register("login", {})}
+                        onChange={(e) => {resetErrorAlert()}}
                         />
                         {errors.login && <p>{errors.login.message}</p>}
                         <input className="password"
                         placeholder="Пароль"
                         {...register("password", {})}
+                        onChange={(e) => {resetErrorAlert()}}
                         type="password" required/>
                         {errors.password && <p>{errors.password.message}</p>}
+                        <a href="http://127.0.0.1:3000/registration" className="registration_link">Нет аккаунта</a>
                         <input type="submit" value="Вход" />
                     </form>
                 </div>
@@ -49,8 +59,13 @@ function LoginForm () {
     });
     const onSubmit = (data) => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
-        .then(response => {navigate('/profile')})
-        .catch(error => {setErrorSubmit(error)})
+        .then(response => {
+            if (response.data.codeStatus) {
+                setError(response.data.message)
+            } else {
+                return navigate("/profile")
+            }
+        })
     }
     return (
         <div>

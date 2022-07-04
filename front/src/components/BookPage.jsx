@@ -2,8 +2,9 @@ import React from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
-function BookPage () {
+function BookPage (props) {
   const { slug } = useParams();
   const [Book,setBook] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -30,17 +31,18 @@ function BookPage () {
     })
     .catch(err => {setError(err)})
   }
-  return <div>
+  return loading ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>:
+  <div>
     <h3 className="title_book">{Book.book_name} {Book.book_author}</h3>
     <p className="description_book">{Book.description}</p>
     <img className="book_cover" src={Book.cover} alt="cover"/>
-    <div className="btn-group">
-      <button onClick={() => {addBook("readed");}} className="btn_read">Прочитана</button>
-      <button onClick={() => {addBook("planned")}} className="btn_planned">Запланирована</button>
-      <button onClick={() => {addBook("drop")}} className="btn_abandoned">Брошена</button>
+    <select className="select_book" onChange={(e) => addBook(e.target.value)}>
+      <option value="readed">Прочитана</option>
+      <option value="planned">Запланирована</option>
+      <option value="drop">Брошена</option>
+    </select>
       {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
       {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Вы не авторизованы!</Alert> :  ""}
-    </div>
   </div>
 }
 

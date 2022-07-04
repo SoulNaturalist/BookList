@@ -14,6 +14,7 @@ import RegistrationForm from './components/RegistrationForm';
 import ConfirmEmail from './components/ConfirmEmail';
 import CheckEmail from './components/CheckEmail';
 import PasswordChange from './components/PasswordChange';
+import UserPage from './components/UserPage';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -31,13 +32,14 @@ return (
           <Route path="/logout" element={<LogoutPage/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/change_profile" element={<ChangeProfile />}/>
+          <Route path="/change_password" element={<PasswordChange/>}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
           <Route path="/book/:slug" element={<BookPage />}/>
           <Route path="/write_review" element={<ReviewPage />}/>
           <Route path="/admin" element={<AdminPanel />}/>
           <Route path="/check_email" element={<CheckEmail/>}/>
-          <Route path="/test" element={<PasswordChange/>}/>
           <Route exec path="/my_books:_type" element={<UserBooks />}/>
+          <Route exec path="/user/:username" element={<UserPage />}/>
           <Route path="*" element={<ConfirmEmail/>}/>
         </Routes>
       </Fragment>

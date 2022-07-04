@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 function UserBooks () {
     const { _type } = useParams();
-    const navigate = useNavigate();
+    const navigate = useNavigate("/");
     const [Data,setData] = React.useState([]);
     const [loading,setLoading] = React.useState(false);
     React.useEffect(() => {

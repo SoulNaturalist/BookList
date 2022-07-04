@@ -2,7 +2,7 @@ const DB = require('./database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {UserSchema} = require('./schemes');
-const {JWT_PRIVATE_TOKEN,outlookLogin,outlookPass} = require('./config');
+const {JWT_PRIVATE_TOKEN,mailPassword,mailLogin} = require('./config');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 const uuid = require("uuid");
@@ -79,6 +79,7 @@ router.post('/api/change_passwd', async function (req, res) {
         const Users = DB.model('users', UserSchema);
         const userData = await Users.findOne({_id: data['data']}).exec();
         if (Boolean(password) && Boolean(newPassword) && password !== newPassword) {
+            // checking that passwords are not undefined and the password is not equal to the new password
             const passwordSuccessMatch = await bcrypt.compare(password,userData.password);
             if (passwordSuccessMatch) {
                 const hashNewPassword = await bcrypt.hash(newPassword, 10);
@@ -97,8 +98,8 @@ router.post('/api/change_passwd', async function (req, res) {
                     port: 465,
                     secure: true, 
                     auth: {
-                        user: outlookLogin,
-                        pass: outlookPass
+                        user: mailLogin,
+                        pass: mailPassword
                     }
                 });
                 const mailOptions = {from: outlookLogin,to:userData.email,
@@ -147,13 +148,13 @@ router.put('/api/setting_user/', async function (req, res) {
     }
 })
 
-router.get('/api/user/:name', async function (req, res) {
+router.get('/api/user/:username', async function (req, res) {
     const token = req.cookies.JWT;
-    const username = req.params.name;
+    const username = req.params.username;
     if (!token) {
         return res.sendStatus(403);
     }
-    const Query = { 
+    const queryData = { 
         password: false,
         __v: false,
         _id: false,
@@ -163,10 +164,10 @@ router.get('/api/user/:name', async function (req, res) {
         emailConfirm:false,
         email:false
     };
-    const Users = DB.model('users', UserSchema);
+    const usersModel = DB.model('users', UserSchema);
     try {
         const authJWT = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const dataUser = await Users.find({username: username},Query).exec();
+        const dataUser = await usersModel.find({username: username},queryData).exec();
         return res.json(dataUser);
     } catch (err) {
         return res.sendStatus(403);

@@ -2,7 +2,7 @@ const DB = require('./database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {UserSchema, BookSchema} = require('./schemes');
-const {JWT_PRIVATE_TOKEN, outlookPass, outlookLogin} = require('./config');
+const {JWT_PRIVATE_TOKEN, mailPassword, mailLogin} = require('./config');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 router.use(cookieParser());
@@ -28,8 +28,8 @@ router.post('/api/register', async function (req, res) {
                 port: 465,
                 secure: true, 
                 auth: {
-                    user: outlookLogin,
-                    pass: outlookPass
+                    user: mailLogin,
+                    pass: mailPassword
                 }
             });
             const mailOptions = {

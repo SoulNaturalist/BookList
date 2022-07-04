@@ -17,18 +17,18 @@ router.delete('/api/delete_book', async function (req, res) {
       return res.sendStatus(403);
     }
     try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const Query = { 
             __v: false,
             password: false
         };
         if (req.body["book_name"]) {
-            const auth_data = await Users.findOne({_id: UserData['data']},Query).exec();
-            const Books = auth_data["books"];
+            const userData = await Users.findOne({_id: idUser['data']},Query).exec();
+            const Books = userData["books"];
             const bookName = req.body["book_name"];
             Reflect.deleteProperty(Books, bookName);
-            const deleteBookRequest = await Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}).exec();
-            return deleteBookRequest.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
+            const deleteBookRequest = await Users.updateOne({_id: idUser['data']}, { $set: {books:Books}}).exec();
+            return deleteBookRequest.modifiedCount ? res.sendStatus(200) : res.sendStatus(400);
         }
     } catch (err) {
         console.log(err);
@@ -42,17 +42,17 @@ router.put('/api/change_book_rating', async function (req, res) {
       return res.sendStatus(403);
     }
     try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const Query = { 
             __v: false,
             password: false
         };
         if (req.body["book_name"] && req.body["rating"]) {
-            const auth_data = await Users.findOne({_id: UserData['data']},Query).exec();
-            let Books = auth_data["books"];
+            const userData = await Users.findOne({_id: idUser['data']},Query).exec();
+            let Books = userData["books"];
             const BookName = req.body["book_name"];
             Books[BookName]["rating"] = req.body["rating"];
-            const updatedRating = await Users.updateOne({_id: UserData['data']}, { $set: {books:Books}}).exec();
+            const updatedRating = await Users.updateOne({_id: idUser['data']}, { $set: {books:Books}}).exec();
             return updatedRating.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
         }
     } catch (err) {
@@ -67,13 +67,13 @@ router.post('/api/library_add_book', async function (req, res) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const Query = { 
             __v: false,
             password: false
         };
-        const auth_data = await Users.findOne({_id: UserData['data']},Query);
-        if (auth_data["role"] === 2) {
+        const userData = await Users.findOne({_id: idUser['data']},Query);
+        if (userData["role"] === 2 || userData["role"] === 3) {
             const Books = DB.model('books', BookSchema);
             const BookName = req.body["book_name"];
             const BookAuthor = req.body["book_author"];
@@ -91,24 +91,24 @@ router.post('/api/library_add_book', async function (req, res) {
 })
 
 router.get('/api/get_library_books', async function (req, res) {
-    const Books = DB.model('books', BookSchema);
-    const Users = DB.model('users', UserSchema);
+    const books = DB.model('books', BookSchema);
+    const users = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
     if (!token) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const query = { 
             __v: false,
             _id: false
         };
-        const data = await Users.findOne({_id: UserData['data']},query).exec();
+        const data = await users.findOne({_id: idUser['data']},query).exec();
         const queryBook = { 
                 __v: false,
                 password: false
         };
-        const bookData = await Books.find({},queryBook).exec();
+        const bookData = await books.find({},queryBook).exec();
         return data ? res.json(bookData):res.sendStatus(401);
     } catch (err) {
         console.log(err);
@@ -199,10 +199,10 @@ router.post('/api/get_cover_by_name', async function (req, res) {
 router.post('/api/search_books', async function (req, res) {
     const textQuery = req.body["text"];
     const bookQuery = {__v: false,_id: false};
-    const Books = DB.model('books', BookSchema);
+    const books = DB.model('books', BookSchema);
     try {
-        const searchByName = await Books.find({book_name: textQuery},bookQuery).exec();
-        const searchByAuthor = await Books.find({book_author: textQuery},bookQuery).exec();
+        const searchByName = await books.find({book_name: textQuery},bookQuery).exec();
+        const searchByAuthor = await books.find({book_author: textQuery},bookQuery).exec();
         return Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
        
     } catch (e) {

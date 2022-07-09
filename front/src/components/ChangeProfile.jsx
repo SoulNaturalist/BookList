@@ -42,6 +42,7 @@ function ChangeProfile () {
                             />
                             <input className="save_button" type="submit" value="Сохранить" />
                         </form>
+                        <a href="http://127.0.0.1:3000/change_password"><p className="reset_password">Забыл пароль</p></a>
                     </div>
                 </div>
         )

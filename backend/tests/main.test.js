@@ -1,6 +1,6 @@
 const assert = require('assert');
 const fetch = require('node-fetch');
-const { testJwt } = require('../config');
+const { testJwt,loginUser,passwordUser } = require('../config');
 
 const sendLoginRequest = async (usernameValue,passwordValue) => {
     const response = await fetch('http://127.0.0.1:3030/api/login/', {
@@ -82,7 +82,7 @@ describe('Login test', async function () {
       assert.equal(data["message"],"Активируйте почту!");
     });
     it('Send valid data and email confirmed', async () => {
-      const data = await sendLoginRequest("HellTerminal", "Gh!2jf!0000000");
+      const data = await sendLoginRequest(loginUser, passwordUser);
       assert.equal(data["message"],"Авторизация успешна!");
     });
 })

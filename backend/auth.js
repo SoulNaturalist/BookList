@@ -22,7 +22,6 @@ router.post('/api/register', async function (req, res) {
         } else {
             const Users = DB.model('users', UserSchema);
             const hashedPassword = await bcrypt.hash(passwordField, 10);
-            const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm})
             const transporter = nodemailer.createTransport({
                 host: 'smtp.mail.ru',
                 port: 465,
@@ -33,13 +32,18 @@ router.post('/api/register', async function (req, res) {
                 }
             });
             const mailOptions = {
-                from: outlookLogin,
+                from: mailLogin,
                 to:emailField ,
                 subject: "Потвердите почту BookList",
                 html: `<h1>Здравствуй ${usernameField}</h1>\n<p>Подтверждение почты - http://127.0.0.1:3000/email_confirm/${codeUserConfirm}</p>`
             }
             const dataSended = await transporter.sendMail(mailOptions);
-            return dataSended ? res.json("Успешно!"): res.json("Ошибка");
+            try {
+                const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm});
+                return dataSended && createdUser ? res.json("Успешно!"): res.json("Ошибка");
+            } catch (err) {
+                return res.json("Ошибка");
+            }
 
         }
 

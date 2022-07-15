@@ -152,7 +152,7 @@ router.get('/api/user/:username', async function (req, res) {
     const token = req.cookies.JWT;
     const username = req.params.username;
     if (!token) {
-        return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     const queryData = { 
         password: false,

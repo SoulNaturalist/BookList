@@ -63,6 +63,24 @@ const sendBrokenAuthRequest = async () => {
   return data;
 }
 
+const sendBookFetchNoCookie = async () => {
+  const response = await fetch('http://127.0.0.1:3030/api/get_library_books', {
+      method: 'get',
+      credentials: 'include',
+  });
+  const data = await response.json();
+  return data;
+}
+
+const sendProfileFetchNoCookie = async (username) => {
+  const response = await fetch(`http://127.0.0.1:3030/api/user/${username}`, {
+      method: 'get',
+      credentials: 'include',
+  });
+  const data = await response.json();
+  return data;
+}
+
 
 describe('Register test', async function () {
     it('Simple test for check registrations', async () => {
@@ -87,7 +105,7 @@ describe('Login test', async function () {
     });
 })
 
-describe('Auth test', async function () {
+describe('Cookie test', async function () {
   it('Check auth method with work cookie', async () => {
     const data = await sendAuthRequest();
     assert.ok(data['auth_data']);
@@ -116,4 +134,17 @@ describe('Book test', async function () {
     const data = await sendBookSearchRequest("456");
     assert.deepEqual(data, []);
   });
+  it('Search book by slug - invalid data 2', async () => {
+    const data = await sendBookFetchNoCookie();
+    assert.equal(data["message"],"Для этого метода нужна авторизация");
+
+  });
 })
+
+describe('Profile test', async function () {
+  it('get data user by username(no cookie)', async () => {
+    const data = await sendProfileFetchNoCookie("MindBreaker");
+    assert.equal(data["message"],"Для этого метода нужна авторизация");
+  });
+})
+

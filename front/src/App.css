@@ -493,3 +493,18 @@ select option {
     top:40px;
     cursor: pointer;
 }
+
+.leader_title h2 {
+    font-family: 'Manrope', sans-serif;
+    text-align: center;
+    position: relative;
+    top:50px;
+}
+
+.leader_menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 100px;
+}

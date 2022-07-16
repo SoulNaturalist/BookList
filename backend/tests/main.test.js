@@ -107,6 +107,29 @@ const sendAdminFetchNoPermissions = async () => {
 }
 
 
+const sendBookChangeCover = async () => {
+  const response = await fetch(`http://127.0.0.1:3030/api/change_cover_by_slug`, {
+      method: 'post',
+      credentials: 'include',
+      headers: {
+        cookie: testJwt
+      }
+  });
+  const data = await response.json();
+  return data;
+}
+
+const sendBookChangeCoverNoCookie = async () => {
+  const response = await fetch(`http://127.0.0.1:3030/api/change_cover_by_slug`, {
+      method: 'post',
+      credentials: 'include',
+  });
+  const data = await response.json();
+  return data;
+}
+
+
+
 describe('Register test', async function () {
     it('Simple test for check registrations', async () => {
       const data = await sendRegistrationsRequest();
@@ -162,7 +185,14 @@ describe('Book test', async function () {
   it('Search book by slug - invalid data 2', async () => {
     const data = await sendBookFetchNoCookie();
     assert.equal(data["message"],"Для этого метода нужна авторизация");
-
+  });
+  it('Change book cover by slug(no permissions)', async () => {
+    const data = await sendBookChangeCover();
+    assert.equal(data["message"],"Для этого метода нужно быть администратором");
+  });
+  it('Change book cover by slug(no cookie)', async () => {
+    const data = await sendBookChangeCoverNoCookie();
+    assert.equal(data["message"],"Для этого метода нужна авторизация");
   });
 })
 

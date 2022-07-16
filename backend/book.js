@@ -122,12 +122,12 @@ router.post('/api/add_book', async function (req,res) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
     try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const Query = { 
             __v: false,
             password: false
         };
-        authUser = await Users.findOne({_id: UserData['data']},Query).exec();
+        const authUser = await Users.findOne({_id: idUser['data']},Query).exec();
         const Books = Object.assign(authUser["books"],{
             [req.body["book_name"]]: {
                 book_author: req.body["book_author"],
@@ -167,11 +167,23 @@ router.post('/api/get_book_by_slug', async function (req, res) {
 router.post('/api/change_cover_by_slug', async function (req, res) {
     const slug = req.body["slug"];
     const newCover = req.body["cover"];
-    const Books = DB.model('books', BookSchema);
+    const books = DB.model('books', BookSchema);
+    const users = DB.model('users', UserSchema);
+    const token = req.cookies.JWT;
+    if (!token) {
+        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
+    }
     try {
-        if (slug && newCover) {
-            const bookUpdated =  await Books.updateOne({slug: slug}, { $set: {cover:newCover}}).exec();
-            return bookUpdated.modifiedCount ? res.sendStatus(201):res.sendStatus(400);
+        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const authUser = await users.findOne({_id: idUser['data']}).exec();
+        if (authUser.role === 3) {
+            if (slug && newCover) {
+                const bookUpdated =  await books.updateOne({slug: slug}, { $set: {cover:newCover}}).exec();
+                return bookUpdated.modifiedCount ? res.sendStatus(201):res.sendStatus(400);
+            }
+
+        } else {
+            return res.json({message: "Для этого метода нужно быть администратором", codeStatus:403})
         }
     } catch (e) {
         console.log(e)

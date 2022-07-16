@@ -36,7 +36,7 @@ function RegistarationForm () {
                         {errors.email && <p>{errors.email.message}</p>}
                         <input className="email"
                         placeholder="Почта"
-                        {...register("email", {required: "Это обязательное поле",min:3,max:15})}
+                        {...register("email", {required: "Это обязательное поле",min:3,max:15,pattern:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/})}
                         type="email"/>
                         <input type="submit" value="Регистрация" />
                     </form>

@@ -187,13 +187,14 @@ button[type="button"] {
     border: 2px solid #000000;
     border-radius:5px;
 }
-.text-block {
+.description-block {
     width:700px;
     height:150px;
     background-color:rgb(0, 0, 0);
     margin-left:auto;
     margin-right:auto;
-    margin-top:-280px;
+    position: relative;
+    top:-200px;
     border-radius:10px;
 }
 
@@ -212,73 +213,58 @@ button[type="button"] {
 .books_menu {
     justify-content: center;
     display: flex;
+    position: relative;
+    top:-180px;
+}
+
+.books_icons {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top:-230px;
+
+}
+
+.books_icons img {
+    margin:53px; /*52,*/
+    position: relative;
+}
+
+.books_icons img:last-child {
+    position: relative;
+
 }
 
 .books_menu li {
     color:black;
-    margin-top:160px;
-    padding:25px;
+    padding:35px;
     font-family: 'Roboto', sans-serif;
 
 }
 
-.readed {
-    margin-left:130px;
-    height:40px;
-    width:40px;
-}
 
-.drop {
-    height:40px;
-    width:40px;
-    margin-left:90px;
-}
-
-.planned {
-    height:40px;
-    width:40px;
-    margin-left:90px;
-
-}
-
-.reviews {
-    height:40px;
-    width:40px;
-    margin-left:100px;
-}
-
-.count_readed {
-    margin-left:145px;
-    margin-top:5px;
-}
-
-.count_drop {
-    margin-left:275px;
-    margin-top:10;
-}
 
 .count_menu {
     justify-content: center;
     display: flex;
 }
 
-.count_menu li {
-    padding-left:90px;
-}
 
 .count_block {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    margin-top:-40px;
+    position: relative;
+    top:-330px;
+    left:4px;
 }
 
 .readed_count,
 .reviews_count,
 .drop_count,
 .planned_count {
-    margin:55px;
+    margin:62px;
     padding:5px 1% 5px 5px;
 }
 .title__catalog {

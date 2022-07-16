@@ -42,10 +42,10 @@ function UserPage () {
     font-size: 0.875rem;
     background-color: ${blue[500]};
     padding: 12px 70px;
-    margin-right:970px;
-    min-width: 100px;
-    text-align:center;
-    margin-top:-140px;
+    position:relative;
+    top:-540px;
+    left:110px;
+    float:left;
     border-radius:5px;
     color: white;
     transition: all 150ms ease;
@@ -68,7 +68,13 @@ function UserPage () {
     function CustomButton(props) {
         return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
     }
+    const returnProfileUser = () => {
+        if (Data.auth_data.username === username) {
+            navigate("/profile");
+        }
+    }
     const UserProfile = () => {
+        returnProfileUser()
         user = user[0];
         let readedCount = 0;
         let abandonedCount = 0;
@@ -85,36 +91,37 @@ function UserPage () {
         });
         const countReviews = Object.keys(user.reviews).length;
         return <div>
-            <img src={user.avatar} className="user_avatar"/>
-            <div className="text-block" style={{  backgroundImage: `url(${user.bg})`, backgroundPosition:'center'}}>
+            <img src={user.avatar} className="user_avatar" alt="avatar"/>
+            <div className="description-block" style={{  backgroundImage: `url(${user.bg})`, backgroundPosition:'center'}}>
                 <br/>
                 <p className="username">{user.username}</p>
                 <p className="description">{user.status}</p>
-                <ul className="books_menu">
+            </div>
+            <ul className="books_menu">
                 <a href="my_books_readed"><li>прочитано</li></a>
                 <a href="my_books_drop"><li>брошено</li></a>
                 <a href="my_books_planned"><li>запланировано</li></a>
                 <li>отзывы</li>
-                </ul>
+            </ul>
+            <div className="books_icons">
                 <a href="my_books_readed"><img className="readed" src={readed} alt="readed"/></a>
                 <a href="my_books_drop"><img className="drop" src={drop} alt="drop"/></a>
                 <a href="my_books_planned"><img className="planned" src={planned} alt="planned"/></a>
                 <img className="reviews" src={reviews} alt="reviews"/>
-                <div className="count_block">
+            </div>
+            <div className="count_block">
                     <p className="readed_count">{readedCount}</p>
                     <p className="drop_count">{abandonedCount}</p>
                     <p className="planned_count">{plannedCount}</p>
                     <p className="reviews_count">{countReviews}</p>
-                </div>
-                <CustomButton>Написать</CustomButton>
-                </div>
             </div>
+            <a href="/change_profile"><CustomButton>Написать</CustomButton></a>
+        </div>
         
     }
     return (
             <div>
                 {loading ? "":UserProfile()}
-
             </div>
     );
     

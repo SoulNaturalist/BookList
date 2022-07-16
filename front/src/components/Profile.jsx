@@ -25,8 +25,10 @@ function Profile () {
     font-size: 0.875rem;
     background-color: ${blue[500]};
     padding: 12px 70px;
-    margin-right:970px;
-    margin-top:-140px;
+    position:relative;
+    top:-540px;
+    left:90px;
+    float:left;
     border-radius:5px;
     color: white;
     transition: all 150ms ease;
@@ -74,29 +76,31 @@ function Profile () {
             });
             const countReviews = Object.keys(Data.auth_data.reviews).length;
             return <div>
-                <img src={Data.auth_data.avatar} className="user_avatar"/>
-                <div className="text-block" style={{  backgroundImage: `url(${Data.auth_data.bg})`, backgroundPosition:'center'}}>
+                <img src={Data.auth_data.avatar} className="user_avatar" alt="avatar"/>
+                <div className="description-block" style={{  backgroundImage: `url(${Data.auth_data.bg})`, backgroundPosition:'center'}}>
                     <br/>
                     <p className="username">{Data.auth_data.username}</p>
                     <p className="description">{Data.auth_data.status}</p>
-                    <ul className="books_menu">
-                        <a href="my_books_readed"><li>прочитано</li></a>
-                        <a href="my_books_drop"><li>брошено</li></a>
-                        <a href="my_books_planned"><li>запланировано</li></a>
-                        <li>отзывы</li>
-                    </ul>
+                </div>
+                <ul className="books_menu">
+                    <a href="my_books_readed"><li>прочитано</li></a>
+                    <a href="my_books_drop"><li>брошено</li></a>
+                    <a href="my_books_planned"><li>запланировано</li></a>
+                    <li>отзывы</li>
+                </ul>
+                <div className="books_icons">
                     <a href="my_books_readed"><img className="readed" src={readed} alt="readed"/></a>
                     <a href="my_books_drop"><img className="drop" src={drop} alt="drop"/></a>
                     <a href="my_books_planned"><img className="planned" src={planned} alt="planned"/></a>
                     <img className="reviews" src={reviews} alt="reviews"/>
-                    <div className="count_block">
+                </div>
+                <div className="count_block">
                         <p className="readed_count">{readedCount}</p>
                         <p className="drop_count">{abandonedCount}</p>
                         <p className="planned_count">{plannedCount}</p>
                         <p className="reviews_count">{countReviews}</p>
-                    </div>
-                    <a href="/change_profile"><CustomButton>Редактировать</CustomButton></a>
                 </div>
+                <a href="/change_profile"><CustomButton>Редактировать</CustomButton></a>
             </div>
         } else {
             navigate("/login");

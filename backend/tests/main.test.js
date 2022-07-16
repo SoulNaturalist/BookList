@@ -54,7 +54,7 @@ const sendAuthRequest = async () => {
   return data;
 }
 
-const sendBrokenAuthRequest = async () => {
+const sendNoCookieAuthRequest = async () => {
   const response = await fetch('http://127.0.0.1:3030/api/auth', {
       method: 'POST',
       credentials: 'include',
@@ -76,6 +76,31 @@ const sendProfileFetchNoCookie = async (username) => {
   const response = await fetch(`http://127.0.0.1:3030/api/user/${username}`, {
       method: 'get',
       credentials: 'include',
+  });
+  const data = await response.json();
+  return data;
+}
+
+const sendProfileFetchCookie = async (username) => {
+  const response = await fetch(`http://127.0.0.1:3030/api/user/${username}`, {
+      method: 'get',
+      credentials: 'include',
+      headers: {
+        cookie: testJwt
+      }
+  });
+  const data = await response.json();
+  return data;
+}
+
+
+const sendAdminFetchNoPermissions = async () => {
+  const response = await fetch(`http://127.0.0.1:3030/api/get_users`, {
+      method: 'get',
+      credentials: 'include',
+      headers: {
+        cookie: testJwt
+      }
   });
   const data = await response.json();
   return data;
@@ -111,7 +136,7 @@ describe('Cookie test', async function () {
     assert.ok(data['auth_data']);
   });
   it('Try auth without the use of cookies', async () => {
-    const data = await sendBrokenAuthRequest();
+    const data = await sendNoCookieAuthRequest();
     assert.equal(data["message"],"Для этого метода нужна авторизация");
   });
 })
@@ -145,6 +170,21 @@ describe('Profile test', async function () {
   it('get data user by username(no cookie)', async () => {
     const data = await sendProfileFetchNoCookie("MindBreaker");
     assert.equal(data["message"],"Для этого метода нужна авторизация");
+  });
+  it('get data user by username', async () => {
+    const data = await sendProfileFetchCookie("MindBreaker");
+    assert.ok(data);
+  });
+  it('get the data of a non-existing user', async () => {
+    const data = await sendProfileFetchCookie("NotExistUser");
+    assert.deepStrictEqual(data, []);
+  });
+})
+
+describe('AdminPanel test', async function () {
+  it('get admin data but,don"t have permissions', async () => {
+    const data = await sendAdminFetchNoPermissions();
+    assert.equal(data["message"],"Для этого метода нужно быть администратором");
   });
 })
 

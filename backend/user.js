@@ -193,7 +193,7 @@ router.get('/api/get_users', async function (req, res) {
             const data = await Users.find({},Query).exec();
             return res.json(data);
         } else {
-            return res.sendStatus(403);
+            return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
         }
     } catch (err) {
         return res.sendStatus(403);

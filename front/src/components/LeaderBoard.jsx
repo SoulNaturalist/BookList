@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from "axios";
 import { styled } from '@mui/system';
-import CircularProgress from '@mui/material/CircularProgress';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 
 
 
 function LeaderBoard () {
-    const [loading, setLoading] = React.useState(true);
-    const [users, SetUsers] = React.useState("");
+    const [users, setUsers] = React.useState("");
+    const [textTitle, setTextTitle] = React.useState("");
     const CustomButtonRoot = styled('span')`
     font-family: IBM Plex Sans, sans-serif;
     font-weight: bold;
@@ -38,15 +37,33 @@ function LeaderBoard () {
     function CustomButton(props) {
         return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
     }
-    const leadersComponent = (typeLeader) => {
+    const GetDataLeaders = (typeLeader) => {
         if (typeLeader === "reviews") {
-
+            axios({method: 'post',url:`http://127.0.0.1:3030/api/get_leaders`,withCredentials: true, headers: {},data: {type_leaders:"reviews"}})
+            .then((res) => {
+                setUsers(res.data)
+                setTextTitle("Лучшие по количеству рецензий")
+            })
         } else if (typeLeader === "books") {
-
-        } else {
-
+            axios({method: 'post',url:`http://127.0.0.1:3030/api/get_leaders`,withCredentials: true, headers: {},data: {type_leaders:"books"}})
+            .then((res) => {
+                setUsers(res.data)
+                setTextTitle("Лучшие по количеству книг")
+            })
         }
-
+    }
+    const leaderTable = () => {
+        return <div className="leaders_table">
+            <h3>{textTitle}</h3>
+            {Object.values(users).map((user, index) => {
+                return <div key={index}>
+                    <a href={`http://127.0.0.1:3000/user/${user.username }`}>
+                        <img src={user.avatar} alt="avatar" className="leader_avatar"/>
+                        <p className="leader_username">{user.username}</p>
+                    </a>
+                </div>
+            })}
+        </div>
     }
     
     return (
@@ -55,10 +72,11 @@ function LeaderBoard () {
                     <h2>Топ пользователей</h2>
                 </div>
                 <div className="leader_menu">
-                    <CustomButton onClick={() => leadersComponent("reviews")}>Рецензии</CustomButton>
-                    <CustomButton onClick={() => leadersComponent("books")}>Книги</CustomButton>
-                    <CustomButton onClick={() => leadersComponent("likes")}>Симпатии</CustomButton>
+                    <CustomButton onClick={() => GetDataLeaders("reviews")}>Рецензии</CustomButton>
+                    <CustomButton onClick={() => GetDataLeaders("books")}>Книги</CustomButton>
+                    <CustomButton onClick={() => GetDataLeaders("likes")}>Симпатии</CustomButton>
                 </div>
+                {users ? leaderTable():""}
             </div>
     );
     

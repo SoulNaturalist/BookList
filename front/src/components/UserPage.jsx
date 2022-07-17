@@ -19,6 +19,9 @@ function UserPage () {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {
             setData(response.data);
+            if (response.data.auth_data.username === username) {
+                navigate("/profile")
+            }
         })
         .catch(() => {
             navigate("/login");
@@ -74,7 +77,6 @@ function UserPage () {
         }
     }
     const UserProfile = () => {
-        returnProfileUser()
         user = user[0];
         let readedCount = 0;
         let abandonedCount = 0;

@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 
 
-router.get('/api/get_leaders', async function (req, res) {
+router.post('/api/get_leaders', async function (req, res) {
     const typeLeaders = req.body["type_leaders"];
     const usersModel = DB.model('users', UserSchema);
     if (typeLeaders === "books") {
@@ -24,7 +24,7 @@ router.get('/api/get_leaders', async function (req, res) {
             bg:false,
             books:false
         };
-        const sortByCountReviews = await usersModel.find(queryData).sort({reviews:"descending"}).limit(3).exec();
+        const sortByCountReviews = await usersModel.find({},queryData).sort({reviews:"descending"}).limit(3).exec();
         return res.json(sortByCountReviews);
     } else {
         return res.json({message:"Сортировка по симпатиям в разработке"});

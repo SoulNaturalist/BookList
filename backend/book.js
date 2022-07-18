@@ -134,7 +134,8 @@ router.post('/api/add_book', async function (req,res) {
                 year_of_release: req.body["year_of_release"],
                 rating:0,
                 book_status:req.body["book_status"], // readed | drop | planned
-                cover:req.body["cover"]
+                cover:req.body["cover"],
+                slug:req.body["slug"]
             }});
         const updateBooks = await Users.updateOne({_id: idUser['data']}, { $set: {books:Books}}).exec();
         return updateBooks.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);

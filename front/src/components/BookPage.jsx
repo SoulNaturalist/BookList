@@ -5,8 +5,7 @@ import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 
 
-
-function BookPage (props) {
+function BookPage () {
   const { slug } = useParams();
   const [Book,setBook] = React.useState("");
   const [loading, setLoading] = React.useState(true);
@@ -38,6 +37,17 @@ function BookPage (props) {
     <h3 className="title_book">{Book.book_name} {Book.book_author}</h3>
     <p className="description_book">{Book.description}</p>
     <img className="book_cover" src={Book.cover} alt="cover"/>
+    <div className="btn-group">
+      <button onClick={() => addBook("readed")}>
+        <img src="https://img.icons8.com/ios-filled/344/open-book.png" width="30px"height="30px" alt="readed_icon"/>
+      </button>
+      <button onClick={() => addBook("drop")}>
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828939.png" width="30px" height="30px" alt="drop_icon"/>
+      </button>
+      <button onClick={() => addBook("planned")}>
+        <img src="https://cdn-icons.flaticon.com/png/512/3416/premium/3416094.png?token=exp=1658159028~hmac=9e7ab77293677ad8e59a34e472f0c903" width="30px" height="30px" alt="planned_icon"/>
+      </button>
+    </div>
     {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
     {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Вы не авторизованы!</Alert> :  ""}
   </div>

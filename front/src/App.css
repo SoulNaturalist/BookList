@@ -299,19 +299,19 @@ button[type="button"] {
 
 
 .btn-group {
-    margin-top:10px;
-    margin-left:55px;
+    position: relative;
+    top:10px;
+    display: inline-block;
+    padding-left:125px;
 }
 
 .btn-group button {
-    background-color: rgba(250, 162, 0, 0.548); 
-    border: 1px solid rgb(0, 0, 0); 
+    background-color: rgba(255, 255, 255, 0.774); 
     color: rgb(0, 0, 0); 
     padding: 10px 24px;
     cursor: pointer;
-    width:20%;
-    display: block;
-    font-family: 'Roboto', sans-serif;
+    border:none; 
+    outline:none;
 }
   
 .btn-group button:not(:last-child) {
@@ -319,7 +319,7 @@ button[type="button"] {
 }
   
 .btn-group button:hover {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(255, 213, 122);
 }
 
 .book_cover {

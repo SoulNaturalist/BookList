@@ -71,11 +71,6 @@ function UserPage () {
     function CustomButton(props) {
         return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
     }
-    const returnProfileUser = () => {
-        if (Data.auth_data.username === username) {
-            navigate("/profile");
-        }
-    }
     const UserProfile = () => {
         user = user[0];
         let readedCount = 0;

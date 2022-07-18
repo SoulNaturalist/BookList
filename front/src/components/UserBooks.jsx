@@ -42,8 +42,10 @@ function UserBooks () {
             {loading ? Object.keys(Data.auth_data.books).map((book,index) => (
                 <div key={index}>
                     {checkStatusBook(_type, Object.values(Data.auth_data.books)[index]) ? <div>
-                        <img src={Object.values(Data.auth_data.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}} alt="cover"/>
-                        <p className="book_name" style={{textAlign:"center"}}>{book}</p>
+                        <a href={`http://127.0.0.1:3000/book/${Object.values(Data.auth_data.books)[index].slug}`}>
+                            <img src={Object.values(Data.auth_data.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}} alt="cover"/>
+                            <p className="book_name" style={{textAlign:"center"}}>{book}</p>
+                        </a>
                     </div>:""}
                 </div>
             )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}

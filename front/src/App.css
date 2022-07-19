@@ -543,3 +543,22 @@ select option {
     top:15px;
 
 }
+
+.rules_wrap {
+    position: relative;
+    top:90px;
+    text-align: center;
+}
+
+.rules_wrap  p {
+    position: relative;
+    top:10px;
+    margin:5px;
+    font-size: 18px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.rules_wrap  h2 {
+    font-size: 25px;
+    font-family: 'Manrope', sans-serif;
+}

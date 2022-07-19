@@ -16,6 +16,7 @@ import CheckEmail from './components/CheckEmail';
 import PasswordChange from './components/PasswordChange';
 import UserPage from './components/UserPage';
 import LeaderBoard from './components/LeaderBoard';
+import Rules from './components/Rules';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -40,6 +41,7 @@ return (
           <Route path="/admin" element={<AdminPanel />}/>
           <Route path="/check_email" element={<CheckEmail/>}/>
           <Route path="/leader_board" element={<LeaderBoard/>}/>
+          <Route path="/rules" element={<Rules/>}/>
           <Route exec path="/my_books:_type" element={<UserBooks />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
           <Route path="*" element={<ConfirmEmail/>}/>

@@ -562,3 +562,10 @@ select option {
     font-size: 25px;
     font-family: 'Manrope', sans-serif;
 }
+
+.title__user_error {
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    position: relative;
+    top:70px;
+}

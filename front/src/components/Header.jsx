@@ -12,11 +12,10 @@ function Header() {
     }, [])
     const ProfileElement = () => {
         if (Data.auth_data) {
-            return <p className="profile"><a href="/profile">Профиль</a></p>
+            return <p className="profile"><a href={`/user/${Data.auth_data.username}`}>Профиль</a></p>
         } else {
             return <p className="log-in"><a href="/login">Войти</a></p>
         }
-
     }
     return (
         <div className="header">

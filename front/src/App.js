@@ -4,7 +4,6 @@ import Home from './components/Home.jsx';
 import LoginForm from './components/LoginForm.jsx';
 import BookPage from './components/BookPage.jsx';
 import BooksCatalog from './components/BooksCatalog.jsx';
-import Profile from './components/Profile.jsx';
 import ChangeProfile from './components/ChangeProfile.jsx';
 import ReviewPage from './components/ReviewPage.jsx';
 import UserBooks from './components/UserBooks.jsx';
@@ -32,7 +31,6 @@ return (
           <Route path="/login" element={<LoginForm />} />
           <Route path="/registration" element={<RegistrationForm/>} />
           <Route path="/logout" element={<LogoutPage/>}/>
-          <Route path="/profile" element={<Profile/>}/>
           <Route path="/change_profile" element={<ChangeProfile />}/>
           <Route path="/change_password" element={<PasswordChange/>}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
@@ -42,7 +40,7 @@ return (
           <Route path="/check_email" element={<CheckEmail/>}/>
           <Route path="/leader_board" element={<LeaderBoard/>}/>
           <Route path="/rules" element={<Rules/>}/>
-          <Route exec path="/my_books:_type" element={<UserBooks />}/>
+          <Route exec path="/:username/books:_type" element={<UserBooks />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
           <Route path="*" element={<ConfirmEmail/>}/>
         </Routes>

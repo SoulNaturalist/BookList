@@ -29,18 +29,25 @@ function AdminPanel () {
         if (Data) {
             if (Data.role === 3) {
                 return <div>
-                    <h1 style={{textAlign: 'center',position: 'relative', top: '30px', fontFamily: 'Roboto'}}>Админ панель, {Data.auth_data.username}</h1>
+                    <h1 style={{textAlign: 'center',position: 'relative', top: '30px', fontFamily: 'Roboto'}}>Админ панель, {Data.username}</h1>
                     <p style={{textAlign: 'center',position: 'relative', top: '40px', fontFamily: 'Roboto'}}>Зарегистрированных пользователей - {Users.length}</p>
                     <p style={{textAlign: 'center',position: 'relative', top: '50px', fontFamily: 'Roboto'}}>Книг на сайте - {Books.length}</p>
                 </div>
             } else {
-                return navigate(`/user/${Data.username}`)
+                return <div>
+                    <img src="https://cdn-icons-png.flaticon.com/512/6540/6540812.png" style={{
+                        width:'10%', height:'50%',position: 'relative', top: '90px',
+                        display:'block', margin:'auto'
+                    }}/>
+                    <h1 style={{textAlign: 'center',position: 'relative', top: '90px', fontFamily: 'Roboto'}}>Ты не являешься администратором, {Data.username}</h1>
+                </div>
+
             }
         }
     }
     return (
         <div>
-            {loading ? checkPermission():<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
+            {loading ? checkPermission():<div style={{display: 'flex', justifyContent: 'center', position:'relative', top:'60px'}}><CircularProgress disableShrink /></div>}
         </div>
     );
     

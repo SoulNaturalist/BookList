@@ -126,7 +126,6 @@ function UserPage () {
                     <p className="description">{user.status}</p>
                 </div>
                 <ul className="books_menu">
-
                     <a href="my_books_readed"><li>прочитано</li></a>
                     <a href="my_books_drop"><li>брошено</li></a>
                     <a href="my_books_planned"><li>запланировано</li></a>

@@ -23,7 +23,7 @@ function UserBooks () {
             setUser(response.data[0])
             setLoading(true)
         })
-    }, [])
+    }, [username])
     const checkType = () => {
         if (Data) {
             if (_type === "_readed") {
@@ -44,7 +44,7 @@ function UserBooks () {
     }
     return (
         <div>
-            {Data.auth_data ? checkType() : navigate("/login")}
+            {Data ? checkType():navigate("/login")}
             <br/>
             {loading ? Object.keys(user.books).map((book,index) => (
                 <div key={index}>

@@ -55,7 +55,7 @@ function ChangeProfile () {
         if (data.nicname && data.status && data.avatar) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
             {username:data.nicname, status:data.status,avatar:data.avatar,bg:data.bg}})
-            .then(response => {navigate('/profile')})
+            .then(response => {navigate(`/user/${Data.auth_data.username}`)})
             .catch(error => {console.log(error)})
         }
     }

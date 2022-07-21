@@ -13,7 +13,7 @@ function AdminPanel () {
     React.useEffect(() => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
         .then(response => {
-            setData(response.data)
+            setData(response.data.auth_data)
         })
         axios({method: 'get',url:'http://127.0.0.1:3030/api/get_library_books',withCredentials: true, headers: {}})
         .then(response => {
@@ -26,15 +26,15 @@ function AdminPanel () {
         })
     }, [])
     const checkPermission = () => {
-        if (Data.auth_data) {
-            if (Data.auth_data.role === 3) {
+        if (Data) {
+            if (Data.role === 3) {
                 return <div>
                     <h1 style={{textAlign: 'center',position: 'relative', top: '30px', fontFamily: 'Roboto'}}>Админ панель, {Data.auth_data.username}</h1>
                     <p style={{textAlign: 'center',position: 'relative', top: '40px', fontFamily: 'Roboto'}}>Зарегистрированных пользователей - {Users.length}</p>
                     <p style={{textAlign: 'center',position: 'relative', top: '50px', fontFamily: 'Roboto'}}>Книг на сайте - {Books.length}</p>
                 </div>
             } else {
-                return navigate("/profile")
+                return navigate(`/user/${Data.username}`)
             }
         }
     }

@@ -15,7 +15,7 @@ function RegistarationForm () {
     }, [])
     const CheckAuth = () => {
         if (User.auth_data) {
-            return navigate("/profile")
+            return navigate(`/user/${User.auth_data.username}`)
         } else {
             return <div>
                 <div className="form_wrapper">

@@ -190,7 +190,7 @@ router.get('/api/get_users', async function (req, res) {
         };
         const userData = await usersModel.findOne({_id: userId['data']}).exec();
         if (userData && userData.role === 3) {
-            const data = await Users.find({},Query).exec();
+            const data = await usersModel.find({},Query).exec();
             return res.json(data);
         } else {
             return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});

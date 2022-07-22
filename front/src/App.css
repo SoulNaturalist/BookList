@@ -603,7 +603,8 @@ select option {
 .manage_buttons input {
     width:40%;
     padding:10px;
-    color:black;
+    color:#000;
     position: relative;
     left:10px;
+    border: 1px solid rgb(0, 0, 0);
 }

@@ -1,4 +1,4 @@
-![](https://github.com/MindBreakerGM/BookList/blob/main/logo.png?raw=true)
+<img src="#" width="300px" height="300px"/>
 
 Online library, adding books, writing reviews, etc.
 

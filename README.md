@@ -1,4 +1,4 @@
-<img src="#" width="300px" height="300px"/>
+<img src="https://github.com/MindBreakerGM/BookList/blob/main/img/logo.png" width="300px" height="300px"/>
 
 Online library, adding books, writing reviews, etc.
 

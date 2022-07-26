@@ -1,7 +1,3 @@
-### BookList
-
-
-
 ![](https://github.com/MindBreakerGM/BookList/blob/main/logo.png?raw=true)
 
 Online library, adding books, writing reviews, etc.

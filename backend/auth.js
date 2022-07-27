@@ -68,7 +68,7 @@ router.post('/api/login', async function (req, res) {
                     const token = await jwt.sign({data:data["_id"]}, JWT_PRIVATE_TOKEN);
                     return res
                     .cookie("JWT", token, {httpOnly:true,path:'/'})
-                    .json({"message":"Авторизация успешна!"});
+                    .json({message:"Успешно!",user:data["username"]});
                 } else {
                     return res.json({message: "Активируйте почту!", codeStatus:400});
                 }

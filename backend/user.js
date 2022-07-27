@@ -106,7 +106,7 @@ router.post('/api/change_passwd', async function (req, res) {
                     subject: "Смена пароля BookList",
                     html: `<h1>Здравствуй ${userData.username},кто-то попытался сменить твой пароль учетной записи.</h1>\n
                     <p>Если это был не ты, проигнорируй это письмо.</p>
-                    <p>Код подтверждения${codeConfirmPassword}</p>
+                    <p>Код подтверждения - ${codeConfirmPassword}.</p>
                     `
                 }
                 const messageSendData = await transporter.sendMail(mailOptions);

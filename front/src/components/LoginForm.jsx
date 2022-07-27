@@ -60,10 +60,10 @@ function LoginForm () {
     const onSubmit = (data) => {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
         .then(response => {
-            if (response.data.codeStatus) {
-                setError(response.data.message)
+            if (response.data.user) {
+                navigate(`/user/${response.data.user}`)
             } else {
-                return navigate(`/user/${User.auth_data.username}`)
+                setError(response.data.message)
             }
         })
     }

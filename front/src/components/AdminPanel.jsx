@@ -5,7 +5,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 function AdminPanel () {
-    const navigate = useNavigate();
     const [Data,setData] = React.useState([]);
     const [Books,setBooks] = React.useState([]);
     const [Users,setUsers] = React.useState([]);

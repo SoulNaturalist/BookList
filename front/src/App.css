@@ -168,7 +168,7 @@ button[type="button"] {
 .auth_title {
     text-align: center;
     margin-top:220px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Manrope', sans-serif;
     font-size:35px;
 }
 
@@ -238,7 +238,7 @@ button[type="button"] {
 .books_menu li {
     color:black;
     padding:35px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Manrope', sans-serif;
 
 }
 
@@ -270,7 +270,7 @@ button[type="button"] {
 .title__catalog {
     text-align: center;
     margin-top:130px;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Manrope', sans-serif;
 }
 
 
@@ -299,10 +299,12 @@ button[type="button"] {
 
 
 .btn-group {
-    position: relative;
-    top:10px;
     display: inline-block;
-    padding-left:125px;
+    position: relative;
+    top:50px;
+    left:6.5%;
+    background-color:rgb(199, 199, 199);
+    border-radius: 10px;
 }
 
 .btn-group button {
@@ -324,21 +326,23 @@ button[type="button"] {
 
 .book_cover {
     position: relative;
-    top:'90px';
+    top:40px;
     padding-right:70%;
     width:25%;
     height:15%;
 }
 
 .title_book {
-    margin-top:70px;
-    font-family: 'Roboto', sans-serif;
+    position: relative;
+    top:30px;
+    font-family: 'Manrope', sans-serif;
     text-align:center;
 }
 
 .description_book {
-    font-family: 'Roboto', sans-serif;
-    padding:5px;
+    font-family: 'Manrope', sans-serif;
+    position: relative;
+    top:40px;
     text-align: center;
 
 }
@@ -638,7 +642,7 @@ select option {
     position: relative;
     top:80px;
     width:1000px;
-    height:250px;
+    height:220px;
     border-radius:20px;
     margin-left: auto;
     margin-right: auto;
@@ -659,15 +663,15 @@ select option {
 
 .author_review {
     position: relative;
-    top:40px;
+    top:20px;
 }   
 
 .title_review {
     position: relative;
-    top:60px;
+    top:30px;
 }
 
 .description_review {
     position: relative;
-    top:80px;
+    top:40px;
 }

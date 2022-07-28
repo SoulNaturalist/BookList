@@ -52,7 +52,7 @@ function BookPage () {
     {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Вы не авторизованы!</Alert> :  ""}
     {Book && Book.reviews ? [Book.reviews].map((data, key) => (
       Object.keys(data).map((review, key) => (
-        <div className="review_card">
+        <div className="review_card" key={key}>
           <div className="paragraph_wrapper">
             <p className="author_review">{Object.keys(data)}</p>
             <p className="title_review">{data[review].title}</p>

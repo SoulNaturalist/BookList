@@ -92,27 +92,12 @@ router.post('/api/library_add_book', async function (req, res) {
 
 router.get('/api/get_library_books', async function (req, res) {
     const books = DB.model('books', BookSchema);
-    const users = DB.model('users', UserSchema);
-    const token = req.cookies.JWT;
-    if (!token) {
-        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
-    }
-    try {
-        const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const query = { 
-            __v: false,
-            _id: false
-        };
-        const data = await users.findOne({_id: idUser['data']},query).exec();
-        const queryBook = { 
-                __v: false,
-                password: false
-        };
-        const bookData = await books.find({},queryBook).exec();
-        return data ? res.json(bookData):res.sendStatus(401);
-    } catch (err) {
-        console.log(err);
-    }
+    const query = { 
+        __v: false,
+         _id: false
+    };
+    const bookData = await books.find({},query).exec();
+    return res.json(bookData);
 })
 
 router.post('/api/add_book', async function (req,res) {

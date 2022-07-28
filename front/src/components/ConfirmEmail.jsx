@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom"
 import CircularProgress from '@mui/material/CircularProgress';
 
-function ConfirmEmail (props) {
+function ConfirmEmail () {
   const [email,setEmail] = React.useState("");
   const [loading,setLoading] = React.useState(false);
   const sampleLocation = useLocation();

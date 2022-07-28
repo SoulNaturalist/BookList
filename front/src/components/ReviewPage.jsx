@@ -12,7 +12,7 @@ function ReviewPage () {
         .then(res => {setUser(res.data)})
         .catch(err => {setError(err)})
     }, [])
-    const CheckAuth = () => {
+    const reviewComponent = () => {
         if (User.auth_data) {
             return <div>
                 <h1 style={{textAlign: 'center'}}>Добавление отзыва</h1>
@@ -24,7 +24,7 @@ function ReviewPage () {
     }
     return (
         <div>
-            {CheckAuth()}
+            {reviewComponent()}
         </div>
 )}
 

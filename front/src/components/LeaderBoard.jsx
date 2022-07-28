@@ -57,7 +57,7 @@ function LeaderBoard () {
             <h3>{textTitle}</h3>
             {Object.values(users).map((user, index) => {
                 return <div key={index}>
-                    <a href={`http://127.0.0.1:3000/user/${user.username }`}>
+                    <a href={`http://127.0.0.1:3000/user/${user.username}`}>
                         <img src={user.avatar} alt="avatar" className="leader_avatar"/>
                         <p className="leader_username">{user.username}</p>
                     </a>

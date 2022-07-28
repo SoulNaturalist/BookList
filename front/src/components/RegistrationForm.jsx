@@ -13,7 +13,7 @@ function RegistarationForm () {
         .then(res => {setUser(res.data)})
         .catch(err => {setError(err)})
     }, [])
-    const CheckAuth = () => {
+    const registrationFormComponent = () => {
         if (User.auth_data) {
             return navigate(`/user/${User.auth_data.username}`)
         } else {
@@ -55,7 +55,7 @@ function RegistarationForm () {
     }
     return (
         <div>
-            {CheckAuth()}
+            {registrationFormComponent()}
         </div>
 )}
 

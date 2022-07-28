@@ -9,7 +9,7 @@ function Header() {
         .then(response => {setData(response.data)})
         .catch((err) => console.log(err))
     }, [])
-    const ProfileElement = () => {
+    const loginComponent = () => {
         if (Data.auth_data && window.location.href !== "http://localhost:3000/logout") {
             return <p className="profile"><a href={`/user/${Data.auth_data.username}`}>Профиль</a></p>
         } else {
@@ -24,7 +24,7 @@ function Header() {
                         <li>
                             <img className="logo" src={logo} alt="logo"/>
                             <h1><a href="/">BookList</a></h1>
-                            {ProfileElement()}
+                            {loginComponent()}
                         </li>
                     </ul>
                 </nav>

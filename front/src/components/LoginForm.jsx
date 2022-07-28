@@ -26,7 +26,7 @@ function LoginForm () {
             return <Alert variant="filled" severity="error">{msgError(Error)}</Alert>
         }
     }
-    const CheckAuth = () => {
+    const LoginFormComponent = () => {
         if (User.auth_data) {
             return navigate(`/user/${User.auth_data.username}`)
         } else {
@@ -69,7 +69,7 @@ function LoginForm () {
     }
     return (
         <div>
-            {CheckAuth()}
+            {LoginFormComponent()}
             {errorAlert()}
         </div>
 )}

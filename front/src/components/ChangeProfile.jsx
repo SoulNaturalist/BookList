@@ -13,7 +13,7 @@ function ChangeProfile () {
         .catch(err => {setError(err)})
     }, [])
     const {register,handleSubmit} = useForm();
-    const CheckAuth = () => {
+    const profileSettingsComponent = () => {
         if (Data.auth_data) {
             return (
                 <div>
@@ -61,7 +61,7 @@ function ChangeProfile () {
     }
     return (
         <div>
-            {CheckAuth()}
+            {profileSettingsComponent()}
         </div>
   
 )}

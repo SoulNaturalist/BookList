@@ -4,8 +4,6 @@ router.use(cookieParser());
 const userController = require('../controllers/user')
 
 
-router.post('/api/change_username',userController.change_username);
-
 router.post('/api/change_avatar',userController.change_avatar);
 
 router.post('/api/change_status',userController.change_status);

@@ -127,13 +127,13 @@ const setting_user = (async function (req, res) {
     const newStatus = req.body["status"];
     const newAvatar = req.body["avatar"];
     const newBg = req.body["bg"];
-    if (newUsername && newStatus && newAvatar) {
+    if (newStatus && newAvatar) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         try {
             const userModel = DB.model('users', UserSchema);
             const currentUser = await userModel.findOne({_id: data['data']}).exec();
             if (currentUser) {
-                const dataChanged = await userModel.updateOne({_id: data['data']}, { $set: {username:newUsername,status:newStatus,avatar:newAvatar,bg:newBg}}).exec();
+                const dataChanged = await userModel.updateOne({_id: data['data']}, { $set: {status:newStatus,avatar:newAvatar,bg:newBg}}).exec();
                 return dataChanged.modifiedCount ? res.sendStatus(200):res.sendStatus(301);
             }
         } catch (e) {

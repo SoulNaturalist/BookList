@@ -20,11 +20,6 @@ function ChangeProfile () {
                     <h2 className="title_main">Основное</h2>
                     <div className="form_wrapper">
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <input className="nicname_input"
-                            placeholder="Никнейм"
-                            defaultValue={Data.auth_data.username}
-                            {...register("nicname", {})}
-                            />
                             <input type="text" className="status_input"
                             placeholder="Статус"
                             defaultValue={Data.auth_data.status}
@@ -54,7 +49,7 @@ function ChangeProfile () {
     const onSubmit = (data) => {
         if (data.nicname && data.status && data.avatar) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
-            {username:data.nicname, status:data.status,avatar:data.avatar,bg:data.bg}})
+            {status:data.status,avatar:data.avatar,bg:data.bg}})
             .then(response => {navigate(`/user/${Data.auth_data.username}`)})
             .catch(error => {console.log(error)})
         }

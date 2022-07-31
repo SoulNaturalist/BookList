@@ -1,16 +1,10 @@
-const DB = require('./database');
+const DB = require('../database');
 const jwt = require('jsonwebtoken');
-const {UserSchema, BookSchema} = require('./schemes');
-const {JWT_PRIVATE_TOKEN} = require('./config');
-const router = require('express').Router();
-const cookieParser = require('cookie-parser');
-router.use(cookieParser());
+const {UserSchema, BookSchema} = require('../schemes');
+const {JWT_PRIVATE_TOKEN} = require('../config');
 
 
-
-
-
-router.delete('/api/delete_book', async function (req, res) {
+const delete_book = (async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -35,7 +29,7 @@ router.delete('/api/delete_book', async function (req, res) {
     }
 })
 
-router.put('/api/change_book_rating', async function (req, res) {
+const change_book_rating = (async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -60,7 +54,7 @@ router.put('/api/change_book_rating', async function (req, res) {
     }
 })
 
-router.post('/api/library_add_book', async function (req, res) {
+const library_add_book = (async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -87,10 +81,9 @@ router.post('/api/library_add_book', async function (req, res) {
     } catch (err) {
         console.log(err);
     }
-
 })
 
-router.get('/api/get_library_books', async function (req, res) {
+const get_library_books = (async function (req, res) {
     const books = DB.model('books', BookSchema);
     const query = { 
         __v: false,
@@ -100,7 +93,7 @@ router.get('/api/get_library_books', async function (req, res) {
     return res.json(bookData);
 })
 
-router.post('/api/add_book', async function (req,res) {
+const add_book = (async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
     if (!token) {
@@ -128,13 +121,9 @@ router.post('/api/add_book', async function (req,res) {
         console.log(e);
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
-        
 })
 
-
-
-
-router.post('/api/get_book_by_slug', async function (req, res) {
+const get_book_by_slug = (async function (req, res) {
     const slug = req.body["slug"];
     const Books = DB.model('books', BookSchema);
     const bookQuery = {__v: false,_id: false};
@@ -148,9 +137,7 @@ router.post('/api/get_book_by_slug', async function (req, res) {
     }
 })
 
-
-
-router.post('/api/change_cover_by_slug', async function (req, res) {
+const change_cover_by_slug = (async function (req, res) {
     const slug = req.body["slug"];
     const newCover = req.body["cover"];
     const books = DB.model('books', BookSchema);
@@ -176,8 +163,7 @@ router.post('/api/change_cover_by_slug', async function (req, res) {
     }
 })
 
-
-router.post('/api/get_cover_by_name', async function (req, res) {
+const get_cover_by_name = (async function (req, res) {
     const bookName = req.body["book_name"];
     const Books = DB.model('books', BookSchema);
     const bookQuery = {__v: false,_id: false};
@@ -194,21 +180,19 @@ router.post('/api/get_cover_by_name', async function (req, res) {
     }
 })
 
-router.post('/api/search_books', async function (req, res) {
+const search_books = (async function (req, res) {
     const textQuery = req.body["text"];
     const bookQuery = {__v: false,_id: false};
     const books = DB.model('books', BookSchema);
-    try {
-        const searchByName = await books.find({book_name: textQuery},bookQuery).exec();
-        const searchByAuthor = await books.find({book_author: textQuery},bookQuery).exec();
-        return Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
-       
-    } catch (e) {
-        console.log(e)
-    }
+    const searchByName = await books.find({book_name: textQuery},bookQuery).exec();
+    const searchByAuthor = await books.find({book_author: textQuery},bookQuery).exec();
+    return Boolean(searchByName) ? res.json(searchByName):res.json(searchByAuthor);
 })
 
-
-
-
-module.exports = router;
+module.exports = {
+    delete_book,change_book_rating,
+    library_add_book,
+    get_library_books,add_book,
+    get_book_by_slug,change_cover_by_slug,
+    get_cover_by_name,search_books
+};

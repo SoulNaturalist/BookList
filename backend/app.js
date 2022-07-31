@@ -1,9 +1,9 @@
 const cors = require('cors');
-const  authRouter = require('./auth.js');
-const  bookRouter = require('./book.js');
-const  userRouter = require('./user.js');
-const  leaderBoardRouter = require('./leaderBoard.js');
-const reviewsRouter  = require('./reviews.js');
+const authRouter = require('./routers/auth');
+const  bookRouter = require('./routers/book.js');
+const  userRouter = require('./routers/user');
+// const  leaderBoardRouter = require('./leaderBoard.js');
+// const reviewsRouter  = require('./reviews.js');
 const { PORT } = require('./config');
 const helmet = require('helmet');
 const express = require('express');
@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', authRouter);
 app.use('/', bookRouter);
 app.use('/', userRouter);
-app.use('/', reviewsRouter);
-app.use('/', leaderBoardRouter);
+// app.use('/', reviewsRouter);
+// app.use('/', leaderBoardRouter);
 
 app.listen(PORT, () => console.log(`Server start port - ${PORT}`));

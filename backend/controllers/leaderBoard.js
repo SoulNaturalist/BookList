@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 
 
-router.post('/api/get_leaders', async function (req, res) {
+const get_leaders = (async function (req, res) {
     const typeLeaders = req.body["type_leaders"];
     const usersModel = DB.model('users', UserSchema);
     if (typeLeaders === "books") {
@@ -28,10 +28,9 @@ router.post('/api/get_leaders', async function (req, res) {
         return res.json(sortByCountReviews);
     } else {
         return res.json({message:"Сортировка по симпатиям в разработке"});
-
-
     }
-
 })
 
-module.exports = router;
+module.exports = {
+    get_leaders
+};

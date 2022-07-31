@@ -1,8 +1,8 @@
-const DB = require('./database');
+const DB = require('../database');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const {UserSchema} = require('./schemes');
-const {JWT_PRIVATE_TOKEN,mailPassword,mailLogin} = require('./config');
+const {UserSchema} = require('../schemes');
+const {JWT_PRIVATE_TOKEN,mailPassword,mailLogin} = require('../config');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 const uuid = require("uuid");
@@ -10,7 +10,7 @@ const nodemailer = require("nodemailer");
 router.use(cookieParser());
 
 
-router.post('/api/change_username', async function (req,res) {
+const change_username = (async function (req, res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
@@ -28,9 +28,7 @@ router.post('/api/change_username', async function (req,res) {
     }
 })
 
-
-
-router.post('/api/change_avatar', async function (req,res) {
+const change_avatar = (async function (req, res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
@@ -49,7 +47,8 @@ router.post('/api/change_avatar', async function (req,res) {
     }
 })
 
-router.post('/api/change_status', async function (req,res) {
+
+const change_status = (async function (req, res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
     if (!token) {
@@ -67,7 +66,7 @@ router.post('/api/change_status', async function (req,res) {
     }
 })
 
-router.post('/api/change_passwd', async function (req, res) {
+const change_passwd = (async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
@@ -119,11 +118,7 @@ router.post('/api/change_passwd', async function (req, res) {
     }
 })
 
-
-
-
-
-router.put('/api/setting_user/', async function (req, res) {
+const setting_user = (async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.sendStatus(403);
@@ -148,7 +143,8 @@ router.put('/api/setting_user/', async function (req, res) {
     }
 })
 
-router.get('/api/user/:username', async function (req, res) {
+
+const get_user_data = (async function (req, res) {
     const token = req.cookies.JWT;
     const username = req.params.username;
     if (!token) {
@@ -171,11 +167,31 @@ router.get('/api/user/:username', async function (req, res) {
         return res.json(dataUser);
     } catch (err) {
         return res.sendStatus(403);
-
     }
-});
+})
 
-router.get('/api/get_users', async function (req, res) {
+const confirm_change_password = (async function (req, res) {
+    const token = req.cookies.JWT;
+    try {
+        const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
+        const users = DB.model('users', UserSchema);
+        const dataUser = await users.findOne({_id: data['data']}).exec();
+        const newPassword = req.body["new_password"];
+        const codeFactor = req.body["code"];
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        if (dataUser['password'] !== hashedPassword && dataUser['code'] === codeFactor) {
+            const userPasswordChange = await users.updateOne({username: dataUser['username']}, { $set: {password:hashedPassword}}).exec();
+            const changedCode = await users.updateOne({_id: dataUser['_id']}, { $set: {code:uuid.v4()}}).exec();
+            return userPasswordChange.modifiedCount && changedCode.modifiedCount ? res.sendStatus(200):res.sendStatus(400);
+        }
+    } catch (e) {
+        console.log(e);
+        return res.sendStatus(403);
+    }
+})
+
+
+const get_users = (async function (req, res) {
     const usersModel = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
     if (!token) {
@@ -200,7 +216,8 @@ router.get('/api/get_users', async function (req, res) {
     }
 })
 
-router.post('/api/confirm_email', async function(req, res) {
+
+const confirm_email = (async function (req, res) {
     const codeCheck = req.body["code"];
     const Users = DB.model('users', UserSchema);
     const Query = { 
@@ -213,28 +230,16 @@ router.post('/api/confirm_email', async function(req, res) {
         const changeEmail = await Users.updateOne({code: codeCheck}, { $set: {emailConfirm:true}})
         return changeEmail.modifiedCount ? res.json({'message':'Почта потверждена!'}):res.json({'message':'Произошла ошибка'});
     }
-    
 })
 
-
-router.post('/api/confirm_change_password', async function(req, res) {
-    const token = req.cookies.JWT;
-    try {
-        const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const users = DB.model('users', UserSchema);
-        const dataUser = await users.findOne({_id: data['data']}).exec();
-        const newPassword = req.body["new_password"];
-        const codeFactor = req.body["code"];
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        if (dataUser['password'] !== hashedPassword && dataUser['code'] === codeFactor) {
-            const userPasswordChange = await users.updateOne({username: dataUser['username']}, { $set: {password:hashedPassword}}).exec();
-            const changedCode = await users.updateOne({_id: dataUser['_id']}, { $set: {code:uuid.v4()}}).exec();
-            return userPasswordChange.modifiedCount && changedCode.modifiedCount ? res.sendStatus(200):res.sendStatus(400);
-        }
-    } catch (e) {
-        console.log(e);
-        return res.sendStatus(403);
-    }
-})
-
-module.exports = router;
+module.exports = {
+    change_username,
+    change_avatar,
+    change_status,
+    change_passwd,
+    setting_user,
+    get_user_data,
+    confirm_change_password,
+    get_users,
+    confirm_email
+};

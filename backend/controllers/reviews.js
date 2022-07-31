@@ -1,14 +1,13 @@
-const DB = require('./database');
+const DB = require('../database');
 const jwt = require('jsonwebtoken');
-const {UserSchema, BookSchema} = require('./schemes');
-const {JWT_PRIVATE_TOKEN} = require('./config');
+const {UserSchema, BookSchema} = require('../schemes');
+const {JWT_PRIVATE_TOKEN} = require('../config');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 router.use(cookieParser());
 
 
-
-router.post('/api/add_review', async function (req, res) {
+const add_review = (async function (req, res) {
     const token = req.cookies.JWT;
     if (!token) {
         return res.sendStatus(403);
@@ -36,11 +35,10 @@ router.post('/api/add_review', async function (req, res) {
             return res.sendStatus(403);
         }
     }
+
 })
 
-
-
-router.get('/api/get_reviews', async function (req, res) {
+const get_reviews = (async function (req, res) {
     const token = req.cookies.JWT;
     const typeReview = req.body["type"];
     const usernameAuthor = req.body["username"];
@@ -72,5 +70,7 @@ router.get('/api/get_reviews', async function (req, res) {
     }
 })
 
-
-module.exports = router;
+module.exports = {
+    add_review,
+    get_reviews
+};

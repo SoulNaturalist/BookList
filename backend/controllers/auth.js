@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const jwt = require('jsonwebtoken');
 const DB = require('../database');
 const {UserSchema} = require('../schemes');
-const {JWT_PRIVATE_TOKEN, mailPassword, mailLogin} = require('../config');
+const {JWT_PRIVATE_TOKEN,allowedEmails,mailPassword,mailLogin} = require('../config');
 
 const register = (async function (req, res) {
     const usernameField = req.body["username"];
@@ -13,29 +13,35 @@ const register = (async function (req, res) {
     const codeUserConfirm = uuid.v4();
     if (usernameField && passwordField && emailField) {
         const Users = DB.model('users', UserSchema);
-        const hashedPassword = await bcrypt.hash(passwordField, 10);
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.mail.ru',
-            port: 465,
-            secure: true, 
-            auth: {
-                user: mailLogin,
-                pass: mailPassword
+        const uniqueUsername = await Users.count({ username: usernameField });
+        const uniqueEmail = await Users.count({ email: emailField });
+        
+        if (!uniqueUsername && !uniqueEmail) {
+            if (allowedEmails.includes(emailField.split("@")[1])) {
+                const hashedPassword = await bcrypt.hash(passwordField, 10);
+                const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm});
+                const transporter = nodemailer.createTransport({
+                    host: 'smtp.mail.ru',
+                    port: 465,
+                    secure: true,
+                    auth: {
+                        user: mailLogin,
+                        pass: mailPassword
+                    }
+                });
+                const mailOptions = {
+                    from: mailLogin,
+                    to:emailField ,
+                    subject: "Потвердите почту BookList",
+                    html: `<h1>Здравствуй ${usernameField}</h1>\n<p>Подтверждение почты - http://127.0.0.1:3000/email_confirm/${codeUserConfirm}</p>`
                 }
-            });
-        const mailOptions = {
-            from: mailLogin,
-            to:emailField ,
-            subject: "Потвердите почту BookList",
-            html: `<h1>Здравствуй ${usernameField}</h1>\n<p>Подтверждение почты - http://127.0.0.1:3000/email_confirm/${codeUserConfirm}</p>`
-        }
-        const dataSended = await transporter.sendMail(mailOptions);
-        try {
-            const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm});
-            return dataSended && createdUser ? res.json("Успешно!"): res.json("Ошибка");
-        } catch (err) {
-            console.log(err)
-            return res.json("Ошибка");
+                const dataSended = await transporter.sendMail(mailOptions);
+                return dataSended && createdUser ? res.json("Успешно!"): res.json("Ошибка");
+            } else {
+                return res.status(400).json({message:{message:"Ваша почта не входит в список разрешенных!", codeStatus:400}});
+            }
+        } else {
+            return res.status(422).json({message:{message:"Имя пользователя и почта должны быть уникальны!", codeStatus:422}});
         }
     }
 })

@@ -8,5 +8,6 @@ const testJwt = process.env.testJwt;
 const loginUser = process.env.loginUser;
 const passwordUser = process.env.passwordUser;
 const adminJwt = process.env.adminJwt;
+const allowedEmails = ["mail.ru", "gmail.com","yandex.ru"];
 
-module.exports = { DB_URL,PORT,JWT_PRIVATE_TOKEN,mailPassword,mailLogin,testJwt,loginUser,passwordUser,adminJwt };
+module.exports = { DB_URL,PORT,JWT_PRIVATE_TOKEN,mailPassword,mailLogin,testJwt,loginUser,passwordUser,adminJwt,allowedEmails };

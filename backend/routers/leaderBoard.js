@@ -1,5 +1,3 @@
-const DB = require('./database');
-const {UserSchema} = require('./schemes');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 const leadersConroller = require('../controllers/leaderBoard');

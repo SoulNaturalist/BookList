@@ -1,5 +1,5 @@
-const DB = require('./database');
-const {UserSchema} = require('./schemes');
+const DB = require('../database');
+const {UserSchema} = require('../schemes');
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 router.use(cookieParser());
@@ -31,6 +31,4 @@ const get_leaders = (async function (req, res) {
     }
 })
 
-module.exports = {
-    get_leaders
-};
+module.exports = {get_leaders};

@@ -172,32 +172,6 @@ const confirm_change_password = (async function (req, res) {
 })
 
 
-const get_users = (async function (req, res) {
-    const usersModel = DB.model('users', UserSchema);
-    const token = req.cookies.JWT;
-    if (!token) {
-        return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
-    }
-    try {
-        const userId = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const Query = { 
-            __v: false,
-            password: false,
-            _id:false
-        };
-        const userData = await usersModel.findOne({_id: userId['data']}).exec();
-        if (userData && userData.role === 3) {
-            const data = await usersModel.find({},Query).exec();
-            return res.json(data);
-        } else {
-            return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
-        }
-    } catch (err) {
-        console.log(err)
-    }
-})
-
-
 const confirm_email = (async function (req, res) {
     const codeCheck = req.body["code"];
     const Users = DB.model('users', UserSchema);
@@ -220,6 +194,5 @@ module.exports = {
     setting_user,
     get_user_data,
     confirm_change_password,
-    get_users,
     confirm_email
 };

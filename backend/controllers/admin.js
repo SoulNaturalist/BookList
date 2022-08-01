@@ -8,7 +8,7 @@ const get_users = (async function (req, res) {
     const usersModel = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
     if (!token) {
-        return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
+        return res.json({message: "Для этого метода нужна вторизация", codeStatus:401});
     }
     try {
         const userId = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -39,15 +39,10 @@ const delete_user = (async function (req, res) {
     }
     try {
         const userId = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        const Query = { 
-            __v: false,
-            password: false,
-            _id:false
-        };
         const userData = await usersModel.findOne({_id: userId['data']}).exec();
         if (userData && userData.role === 3) {
-            const deleteUserByUsername = await usersModel.find({username:usernameDeleted}).remove().exec();
-            return deleteUserByUsername.modifiedCount ? res.json(`Пользователь ${usename} удален`):res.json(`Пользователя ${usename} не удалось удалить`);
+            const deleteUserByUsername = await usersModel.deleteOne({ username:usernameDeleted}).exec();
+            return deleteUserByUsername.deletedCount ? res.json({message:`Пользователь ${usernameDeleted} удален`, StatusCode:200}):res.json({message:`Пользователя ${usernameDeleted} не удалось удалить`, StatusCode:400});
         } else {
             return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
         }

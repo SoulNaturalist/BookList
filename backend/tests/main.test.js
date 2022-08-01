@@ -1,6 +1,6 @@
 const assert = require('assert');
 const fetch = require('node-fetch');
-const { testJwt,loginUser,passwordUser } = require('../config');
+const { testJwt,adminJwt,loginUser,passwordUser } = require('../config');
 
 const sendLoginRequest = async (usernameValue,passwordValue) => {
     const response = await fetch('http://127.0.0.1:3030/api/login/', {
@@ -63,15 +63,6 @@ const sendNoCookieAuthRequest = async () => {
   return data;
 }
 
-const sendBookFetchNoCookie = async () => {
-  const response = await fetch('http://127.0.0.1:3030/api/get_library_books', {
-      method: 'get',
-      credentials: 'include',
-  });
-  const data = await response.json();
-  return data;
-}
-
 const sendProfileFetchNoCookie = async (username) => {
   const response = await fetch(`http://127.0.0.1:3030/api/user/${username}`, {
       method: 'get',
@@ -128,7 +119,35 @@ const sendBookChangeCoverNoCookie = async () => {
   return data;
 }
 
+const deleteUserNoPermissionsFetch = async (username) => {
+  const response = await fetch(`http://127.0.0.1:3030/api/delete_user`, {
+      method: 'delete',
+      credentials: 'include',
+      headers: {
+        cookie:testJwt
+      },
+      body: JSON.stringify({
+        username:username
+      }),
+  });
+  const data = await response.json();
+  return data;
+}
 
+const deleteHavePermissionsFetch = async (username) => {
+  const response = await fetch(`http://127.0.0.1:3030/api/delete_user`, {
+      method: 'delete',
+      credentials: 'include',
+      headers: {
+        cookie: adminJwt
+      },
+      body: JSON.stringify({
+        username:username
+      }),
+  });
+  const data = await response.json();
+  return data;
+}
 
 describe('Register test', async function () {
     it('Simple test for check registrations', async () => {
@@ -215,6 +234,14 @@ describe('AdminPanel test', async function () {
   it('get admin data but,don"t have permissions', async () => {
     const data = await sendAdminFetchNoPermissions();
     assert.equal(data["message"],"Для этого метода нужно быть администратором");
+  });
+  it('try delete user, don"t have permissions', async () => {
+    const data = await deleteUserNoPermissionsFetch("TestUser");
+    assert.equal(data["message"],"Для этого метода нужно быть администратором");
+  });
+  it('delete TestUser', async () => {
+    const data = await deleteHavePermissionsFetch("testUser");
+    assert.deepStrictEqual(data["message"],"Пользователь testUser удален");
   });
 })
 

@@ -10,24 +10,6 @@ const nodemailer = require("nodemailer");
 router.use(cookieParser());
 
 
-const change_username = (async function (req, res) {
-    const token = req.cookies.JWT;
-    const usersModel = DB.model('users', UserSchema);
-    if (!token) {
-        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
-    }
-    try {
-        const UserData = jwt.verify(token, JWT_PRIVATE_TOKEN);
-        if (req.body["username"]) {
-            const changedUsername = await usersModel.updateOne({_id: UserData['data']}, { $set: {username:req.body["username"]}}).exec();
-            return changedUsername.modifiedCount ?  res.sendStatus(200):res.sendStatus(301);
-        }
-    } catch (err) {
-        console.log(err);
-        return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
-    }
-})
-
 const change_avatar = (async function (req, res) {
     const token = req.cookies.JWT;
     const usersModel = DB.model('users', UserSchema);
@@ -123,7 +105,6 @@ const setting_user = (async function (req, res) {
     if (!token) {
         return res.sendStatus(403);
     }
-    const newUsername = req.body["username"];
     const newStatus = req.body["status"];
     const newAvatar = req.body["avatar"];
     const newBg = req.body["bg"];
@@ -195,7 +176,7 @@ const get_users = (async function (req, res) {
     const usersModel = DB.model('users', UserSchema);
     const token = req.cookies.JWT;
     if (!token) {
-      return res.sendStatus(403);
+        return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
     }
     try {
         const userId = jwt.verify(token, JWT_PRIVATE_TOKEN);
@@ -212,7 +193,7 @@ const get_users = (async function (req, res) {
             return res.json({message: "Для этого метода нужно быть администратором", codeStatus:400});
         }
     } catch (err) {
-        return res.sendStatus(403);
+        console.log(err)
     }
 })
 
@@ -233,7 +214,6 @@ const confirm_email = (async function (req, res) {
 })
 
 module.exports = {
-    change_username,
     change_avatar,
     change_status,
     change_passwd,

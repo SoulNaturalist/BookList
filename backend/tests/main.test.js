@@ -149,7 +149,7 @@ describe('Login test', async function () {
     });
     it('Send valid data and email confirmed', async () => {
       const data = await sendLoginRequest(loginUser, passwordUser);
-      assert.equal(data["message"],"Авторизация успешна!");
+      assert.equal(data["message"],"Успешно!");
     });
 })
 
@@ -182,9 +182,9 @@ describe('Book test', async function () {
     const data = await sendBookSearchRequest("456");
     assert.deepEqual(data, []);
   });
-  it('Search book by slug - invalid data 2', async () => {
-    const data = await sendBookFetchNoCookie();
-    assert.equal(data["message"],"Для этого метода нужна авторизация");
+  it('Search book by slug - invalid data 3', async () => {
+    const data = await sendBookSearchRequest("rekgoergk");
+    assert.deepEqual(data, []);
   });
   it('Change book cover by slug(no permissions)', async () => {
     const data = await sendBookChangeCover();

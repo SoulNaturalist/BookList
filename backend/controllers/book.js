@@ -153,6 +153,8 @@ const change_cover_by_slug = (async function (req, res) {
             if (slug && newCover) {
                 const bookUpdated =  await books.updateOne({slug: slug}, { $set: {cover:newCover}}).exec();
                 return bookUpdated.modifiedCount ? res.sendStatus(201):res.sendStatus(400);
+            } else {
+                return res.json({message: "Для этого метода нужно быть администратором", codeStatus:403});
             }
 
         } else {

@@ -34,6 +34,7 @@ const register = (async function (req, res) {
             const createdUser = await Users.create({username:usernameField, password:hashedPassword, email:emailField, code:codeUserConfirm});
             return dataSended && createdUser ? res.json("Успешно!"): res.json("Ошибка");
         } catch (err) {
+            console.log(err)
             return res.json("Ошибка");
         }
     }

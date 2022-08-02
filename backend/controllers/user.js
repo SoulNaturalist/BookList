@@ -108,7 +108,7 @@ const setting_user = (async function (req, res) {
     const newStatus = req.body["status"];
     const newAvatar = req.body["avatar"];
     const newBg = req.body["bg"];
-    if (newStatus && newAvatar) {
+    if (newStatus || newAvatar || newBg) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         try {
             const userModel = DB.model('users', UserSchema);

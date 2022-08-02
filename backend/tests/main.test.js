@@ -15,7 +15,7 @@ const sendLoginRequest = async (usernameValue,passwordValue) => {
     return data;
 }
 
-const sendRegistrationsRequest = async () => {
+const sendRegistrationRequest = async () => {
   const response = await fetch('http://127.0.0.1:3030/api/register', {
       method: 'POST',
       credentials: 'include',
@@ -23,6 +23,21 @@ const sendRegistrationsRequest = async () => {
         username:"testUser",
         password:"testPassword",
         email:"test@mail.ru"
+      }),
+  });
+
+  const data = await response.json();
+  return data;
+}
+
+const sendRegistrationBrokenRequest = async () => {
+  const response = await fetch('http://127.0.0.1:3030/api/register', {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify({
+        username:"Santipic",
+        password:"SantipicPass",
+        email:"xafire7928@logodez.com"
       }),
   });
 
@@ -150,9 +165,13 @@ const deleteHavePermissionsFetch = async (username) => {
 }
 
 describe('Register test', async function () {
-    it('Simple test for check registrations', async () => {
-      const data = await sendRegistrationsRequest();
+    it('Simple test for check registration', async () => {
+      const data = await sendRegistrationRequest();
       assert.equal(data, "Успешно!");
+    });
+    it('Simple test for check registration, but email invalid', async () => {
+      const data = await sendRegistrationBrokenRequest();
+      assert.equal(data["message"], "Ваша почта не входит в список разрешенных!");
     });
 })
 

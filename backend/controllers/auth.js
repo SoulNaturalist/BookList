@@ -15,7 +15,6 @@ const register = (async function (req, res) {
         const Users = DB.model('users', UserSchema);
         const uniqueUsername = await Users.count({ username: usernameField });
         const uniqueEmail = await Users.count({ email: emailField });
-        
         if (!uniqueUsername && !uniqueEmail) {
             if (allowedEmails.includes(emailField.split("@")[1])) {
                 const hashedPassword = await bcrypt.hash(passwordField, 10);
@@ -38,10 +37,10 @@ const register = (async function (req, res) {
                 const dataSended = await transporter.sendMail(mailOptions);
                 return dataSended && createdUser ? res.json("Успешно!"): res.json("Ошибка");
             } else {
-                return res.status(400).json({message:{message:"Ваша почта не входит в список разрешенных!", codeStatus:400}});
+                return res.status(400).json({message:"Ваша почта не входит в список разрешенных!", codeStatus:400});
             }
         } else {
-            return res.status(422).json({message:{message:"Имя пользователя и почта должны быть уникальны!", codeStatus:422}});
+            return res.status(422).json({message:"Имя пользователя и почта должны быть уникальны!", codeStatus:422});
         }
     }
 })

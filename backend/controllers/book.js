@@ -149,7 +149,7 @@ const change_cover_by_slug = (async function (req, res) {
     try {
         const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const authUser = await users.findOne({_id: idUser['data']}).exec();
-        if (authUser.role === 3) {
+        if (authUser && authUser.role === 3) {
             if (slug && newCover) {
                 const bookUpdated =  await books.updateOne({slug: slug}, { $set: {cover:newCover}}).exec();
                 return bookUpdated.modifiedCount ? res.sendStatus(201):res.sendStatus(400);

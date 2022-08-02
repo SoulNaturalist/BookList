@@ -47,7 +47,7 @@ function ChangeProfile () {
         }
     }
     const onSubmit = (data) => {
-        if (data.nicname && data.status && data.avatar) {
+        if (data.status || data.avatar || data.bg) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
             {status:data.status,avatar:data.avatar,bg:data.bg}})
             .then(response => {navigate(`/user/${Data.auth_data.username}`)})

@@ -45,17 +45,19 @@ ul {
 
 .site_description {
     font-size:27px;
+    position: relative;
     text-align: center;
-    margin-top:60px;
+    top:80px;
     font-family: 'Manrope', sans-serif;
 }
 
 .library_photo {
     display:block;
     margin:auto;
-    width:1053px;
-    height: 475px;
-    margin-top:60px;
+    position: relative;
+    top:120px;
+    width:20%;
+    height:30%;
     border-radius:10px;
     border: 1px solid;
 }

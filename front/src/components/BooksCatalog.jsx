@@ -38,7 +38,7 @@ function BooksCatalog () {
             <div className="flex-wrapper">
             <button onClick={getDataSearch} className="search_button">Найти</button>
             <input type="search" className="search_books" defaultValue='Название книги' onChange={e => SearchData(e)}/>  
-            {loading ? <div style={{display: 'flex', justifyContent: 'center', position:'relative', top:'30px'}}><CircularProgress disableShrink /></div>:
+            {loading ? <div style={{display: 'flex', justifyContent: 'center', position:'relative', top:'90px'}}><CircularProgress disableShrink /></div>:
             !Boolean(searchButton) ? (
                 Books.map((book, index) => (
                     <div key={index} className="book__card">

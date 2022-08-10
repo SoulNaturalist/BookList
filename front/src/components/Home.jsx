@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import bookHomeImg from '../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
 
 function Home() {
@@ -25,15 +26,20 @@ function Home() {
         }
 
     }
-    const LibraryEelement = <div>
+    const libraryWelcomeElement = <div>
         <p className="welcome_title">Добро пожаловать {Username()}</p>
         <p className="site_description">BookList - это онлайн библиотека добавляй книги,пиши рецензии и оцени прочитанные книги по достоинству.</p>
         <p className="site_description">Также ты можешь скачать книги на нашем сайте.</p>
-        <img className="library_photo" src="https://github.com/MindBreakerGM/BookList/raw/main/images/logo.png" alt="library_photo"/>
+        <img className="library_photo" src={bookHomeImg} alt="library_photo"/>
+        <div className="rules_link">
+            <a href="/rules">Правила</a>
+            <span>&</span>
+            <a href="/catalog">Каталог</a>
+        </div>
     </div>
     return (
         <div>
-            {loading ? LibraryEelement : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
+            {loading ? libraryWelcomeElement : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
         </div>
     );
 };

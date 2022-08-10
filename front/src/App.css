@@ -56,8 +56,8 @@ ul {
     margin:auto;
     position: relative;
     top:120px;
-    width:20%;
-    height:30%;
+    width:40%;
+    height:auto;
     border-radius:10px;
     border: 1px solid;
 }
@@ -676,4 +676,23 @@ select option {
 .description_review {
     position: relative;
     top:40px;
+}
+
+.rules_link {
+    display:flex;
+    justify-content: center;
+    justify-items: center;
+    position: relative;
+    top:170px;
+}
+
+.rules_link a {
+    margin-block:10px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.rules_link span {
+    font-size:20px;
+    margin:5px;
+    font-family: 'Manrope', sans-serif;
 }

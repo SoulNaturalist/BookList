@@ -10,7 +10,8 @@ function Header() {
         .catch((err) => console.log(err))
     }, [])
     const loginComponent = () => {
-        if (Data.auth_data && window.location.href !== "http://localhost:3000/logout") {
+        const subLink = window.location.href.split("/")[3];
+        if (Data.auth_data && subLink && subLink !== "logout") {
             return <p className="profile"><a href={`/user/${Data.auth_data.username}`}>Профиль</a></p>
         } else {
             return <p className="log-in"><a href="/login">Войти</a></p>

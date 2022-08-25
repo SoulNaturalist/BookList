@@ -3,6 +3,7 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useNavigate } from "react-router-dom";
 import planned from "../assets/realtime-protection.png";
 import dropped from "../assets/1828939.png";
 import readed from "../assets/open-book.png";
@@ -11,8 +12,9 @@ function BookPage () {
   const { slug } = useParams();
   const [Book,setBook] = React.useState("");
   const [loading, setLoading] = React.useState(true);
-  const [AlertError,setError] = React.useState(false);
   const [AlertSuccess,setAlert] = React.useState(false);
+  const [currentUser, setUser] = React.useState(false);
+  const navigate = useNavigate();
   React.useEffect(() => {
     axios({method: 'post',url:`http://127.0.0.1:3030/api/get_book_by_slug`,withCredentials: true, headers: {},data: {slug:slug}})
     .then(response => {
@@ -20,17 +22,27 @@ function BookPage () {
       setLoading(false)
     })
   }, [slug])
-  function addBook(status) {
-    let formatBook = { ...Book };
-    delete formatBook.reviews;
-    axios({method: 'post',url:`http://127.0.0.1:3030/api/add_book`,withCredentials: true, headers: {},data: {
-      book_name:formatBook.book_name,book_author:formatBook.book_author,year_of_release:formatBook.year_of_release,
-      book_status:status,cover:formatBook.cover,slug:formatBook.slug
-    }})
+  React.useEffect(() => {
+    axios({method: 'post',url:`http://127.0.0.1:3030/api/auth`,withCredentials: true, headers: {}})
     .then(response => {
-      setAlert(true);
+      setUser(response.data)
+      setLoading(false)
     })
-    .catch(err => {setError(err)})
+  }, [])
+  function addBook(status) {
+    if (Boolean(currentUser.auth_data)) {
+      let formatBook = { ...Book };
+      delete formatBook.reviews;
+      axios({method: 'post',url:`http://127.0.0.1:3030/api/add_book`,withCredentials: true, headers: {},data: {
+        book_name:formatBook.book_name,book_author:formatBook.book_author,year_of_release:formatBook.year_of_release,
+        book_status:status,cover:formatBook.cover,slug:formatBook.slug
+      }})
+      .then(response => {
+        setAlert(true);
+      })
+    } else {
+      return navigate("/login")
+    }
   }
   return loading ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>:
   <div>
@@ -49,7 +61,6 @@ function BookPage () {
       </button>
     </div>
     {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
-    {AlertError ? <Alert severity="error" style={{width:"20%",margin:"0 auto"}} className="alert_error">Вы не авторизованы!</Alert> :  ""}
     {Book && Book.reviews ? [Book.reviews].map((data, key) => (
       Object.keys(data).map((review, key) => (
         <div className="review_card" key={key}>

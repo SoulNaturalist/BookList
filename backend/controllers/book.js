@@ -96,6 +96,7 @@ const get_library_books = (async function (req, res) {
 const add_book = (async function (req, res) {
     const token = req.cookies.JWT;
     const Users = DB.model('users', UserSchema);
+    const booksSchemEntity = DB.model('books', BookSchema);
     if (!token) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
@@ -106,17 +107,21 @@ const add_book = (async function (req, res) {
             password: false
         };
         const authUser = await Users.findOne({_id: idUser['data']},Query).exec();
-        const Books = Object.assign(authUser["books"],{
-            [req.body["book_name"]]: {
-                book_author: req.body["book_author"],
-                year_of_release: req.body["year_of_release"],
-                rating:0,
-                book_status:req.body["book_status"], // readed | drop | planned
-                cover:req.body["cover"],
-                slug:req.body["slug"]
-            }});
-        const updateBooks = await Users.updateOne({_id: idUser['data']}, { $set: {books:Books}}).exec();
-        return updateBooks.modifiedCount ?  res.sendStatus(200):res.sendStatus(400);
+        const bookValidation = await booksSchemEntity.findOne({book_author:req.body["book_author"],book_name:req.body["book_name"], year_of_release:req.body["year_of_release"], cover:req.body["cover"], slug:req.body["slug"]}).exec();
+        if (bookValidation !== null && Object.keys(bookValidation)) {
+            Object.assign(authUser["books"],{
+                [req.body["book_name"]]: {
+                    book_author: req.body["book_author"],
+                    year_of_release: req.body["year_of_release"],
+                    rating:0,
+                    book_status:req.body["book_status"], // readed | drop | planned
+                    cover:req.body["cover"],
+                    slug:req.body["slug"]
+                }});
+            return res.sendStatus(200);
+        } else {
+            return res.sendStatus(400);
+        }
     } catch (e) {
         console.log(e);
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
@@ -196,5 +201,5 @@ module.exports = {
     library_add_book,
     get_library_books,add_book,
     get_book_by_slug,change_cover_by_slug,
-    get_cover_by_name,search_books
+    get_cover_by_name,search_books,add_book
 };

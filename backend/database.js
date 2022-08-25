@@ -1,4 +1,4 @@
-const { DB_URL, PORT } = require('./config.js');
+const { DB_URL } = require('./config.js');
 const mongoose = require('mongoose');
 
 mongoose.connect(DB_URL)

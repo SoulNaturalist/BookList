@@ -23,7 +23,7 @@ const change_avatar = (async function (req, res) {
             return changedAvatar.modifiedCount ?  res.sendStatus(200):res.sendStatus(301);
 
         }
-    }catch (err) {
+    } catch (err) {
         console.log(err);
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
@@ -42,7 +42,7 @@ const change_status = (async function (req, res) {
             const changedStatus = await usersModel.updateOne({_id: UserData['data']}, { $set: {status:req.body["status"]}}).exec()
             return changedStatus.modifiedCount ?  res.sendStatus(200):res.sendStatus(301);
         }
-    }catch (err) {
+    } catch (err) {
         console.log(err);
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
     }
@@ -64,8 +64,12 @@ const change_passwd = (async function (req, res) {
             const passwordSuccessMatch = await bcrypt.compare(password,userData.password);
             if (passwordSuccessMatch) {
                 const hashNewPassword = await bcrypt.hash(newPassword, 10);
-                const changePassword = await Users.updateOne({_id: data['data']}, { $set: {password:hashNewPassword}}).exec();
-                return changePassword.modifiedCount ? res.sendStatus(201):res.sendStatus(401);
+                if (hashNewPassword !== passwordSuccessMatch) {
+                    const changePassword = await Users.updateOne({_id: data['data']}, { $set: {password:hashNewPassword}}).exec();
+                    return changePassword.modifiedCount ? res.sendStatus(201):res.sendStatus(401);
+                } else {
+                    return res.status(400).send("Пароль совпадает с текущим");
+                }
             } else {
                 return res.sendStatus(400);
             }

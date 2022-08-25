@@ -87,7 +87,7 @@ function PasswordChange () {
     }
     const alert = () => {
         if (alertErrorValue) {
-            return <Alert variant="filled" severity="error">Старый пароль не совпадает!</Alert>
+            return <Alert variant="filled" severity="error">{alertErrorValue}</Alert>
         } else if (alertSuccessValue) {
             return <Alert variant="filled" severity="success">Пароль изменен!</Alert>
         }
@@ -104,7 +104,9 @@ function PasswordChange () {
         })
         .catch(err => {
             if (String(err) === "Error: Request failed with status code 400") {
-                setErrorValue(true);
+                setErrorValue("Старый пароль не совпадает!");
+            } else if (String(err) === "Error: Request failed with status code 403") {
+                setErrorValue("Новый пароль сопадает с текущим!");
             }
         })
     }

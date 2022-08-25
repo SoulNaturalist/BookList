@@ -7,6 +7,11 @@ function Home() {
     const [User, setUser] = React.useState([]);
     const [Error,setError] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const useTitle = (title) => {
+        React.useEffect(() => {
+            document.title = title;
+        })
+    }
     React.useEffect(() => {
         axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
         .then(res => {

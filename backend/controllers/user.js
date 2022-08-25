@@ -59,22 +59,22 @@ const change_passwd = (async function (req, res) {
         const data = jwt.verify(token, JWT_PRIVATE_TOKEN);
         const Users = DB.model('users', UserSchema);
         const userData = await Users.findOne({_id: data['data']}).exec();
-        if (Boolean(password) && Boolean(newPassword) && password !== newPassword) {
+        if (Boolean(password) && Boolean(newPassword) && password !== newPassword && !userData.twoAuth) {
             // checking that passwords are not undefined and the password is not equal to the new password
             const passwordSuccessMatch = await bcrypt.compare(password,userData.password);
             if (passwordSuccessMatch) {
                 const hashNewPassword = await bcrypt.hash(newPassword, 10);
-                if (hashNewPassword !== passwordSuccessMatch) {
-                    const changePassword = await Users.updateOne({_id: data['data']}, { $set: {password:hashNewPassword}}).exec();
-                    return changePassword.modifiedCount ? res.sendStatus(201):res.sendStatus(401);
-                } else {
-                    return res.status(400).send("Пароль совпадает с текущим");
-                }
+                const changePassword = await Users.updateOne({_id: data['data']}, { $set: {password:hashNewPassword}}).exec();
+                return changePassword.modifiedCount ? res.sendStatus(201):res.sendStatus(401);
             } else {
                 return res.sendStatus(400);
             }
+
+
+        } else if (password === newPassword && !userData.twoAuth) {
+            return res.status(403).send("Пароль совпадает с текущим");
         } else {
-            if (userData.twoAuth && Boolean(userData)) {
+            if (password !== newPassword) {
                 // user enabled 2 factor auth
                 const codeConfirmPassword = uuid.v4();
                 const changedCode = await Users.updateOne({_id: userData['_id']}, { $set: {code:codeConfirmPassword}}).exec();

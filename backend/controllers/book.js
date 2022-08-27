@@ -139,6 +139,7 @@ const get_book_by_slug = (async function (req, res) {
         }
     } catch (e) {
         console.log(e)
+        return res.sendStatus(500);
     }
 })
 

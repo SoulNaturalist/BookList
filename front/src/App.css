@@ -639,19 +639,17 @@ select option {
 
 .review_card {
     background-color:#FFE7CB;
-    display: flex;
-    justify-content:center;
     position: relative;
     top:80px;
-    width:1000px;
+    left:auto;
+    right:auto;
+    width:40%;
     height:220px;
-    border-radius:20px;
-    margin-left: auto;
-    margin-right: auto;
-    -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
-    -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
-    box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+    border-radius:10px;
     border: solid rgb(0, 0, 0) 1px;
+    display: block;
+    margin:0 auto;
+    margin-bottom:10px; 
 }
 
 .paragraph_wrapper {
@@ -694,5 +692,60 @@ select option {
 .rules_link span {
     font-size:20px;
     margin:5px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.book_name_review {
+    text-align: center;
+    position: relative;
+    top:20px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.book_title_review {
+    text-align: center;
+    position: relative;
+    top:40px;
+    font-family: 'Manrope', sans-serif;
+}
+
+.book_description_review {
+    text-align: center;
+    position: relative;
+    top:60px;
+    font-family: 'Manrope', sans-serif;
+}
+
+
+.review_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.review_card_profile {
+    background-color:#FFE7CB;
+    position: relative;
+    display: block;
+    margin:0 auto;
+    top:100px;
+    width:30%;
+    height:170px;
+    border-radius:10px;
+    -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+    -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+    box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
+    border: solid rgb(0, 0, 0) 1px;
+    padding:5px;
+}
+
+.review_card_profile * {
+    font-size:25px;
+}
+
+.title_reviews_user {
+    text-align: center;
+    position: relative;
+    top:60px;
     font-family: 'Manrope', sans-serif;
 }

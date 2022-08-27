@@ -15,6 +15,7 @@ import PasswordChange from './components/PasswordChange';
 import UserPage from './components/UserPage';
 import LeaderBoard from './components/LeaderBoard';
 import Rules from './components/Rules';
+import UserReview from './components/UserReview';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -39,6 +40,7 @@ return (
           <Route path="/leader_board" element={<LeaderBoard/>}/>
           <Route path="/rules" element={<Rules/>}/>
           <Route exec path="/:username/books:_type" element={<UserBooks />}/>
+          <Route exec path="/:username/reviews" element={<UserReview />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
           <Route path="*" element={<ConfirmEmail/>}/>
         </Routes>

@@ -698,21 +698,21 @@ select option {
 .book_name_review {
     text-align: center;
     position: relative;
-    top:20px;
+    top:5px;
     font-family: 'Manrope', sans-serif;
 }
 
 .book_title_review {
     text-align: center;
     position: relative;
-    top:40px;
+    top:10px;
     font-family: 'Manrope', sans-serif;
 }
 
 .book_description_review {
     text-align: center;
     position: relative;
-    top:60px;
+    top:20px;
     font-family: 'Manrope', sans-serif;
 }
 
@@ -736,7 +736,14 @@ select option {
     -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
     box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.6) inset;
     border: solid rgb(0, 0, 0) 1px;
-    padding:5px;
+    padding:35px;
+}
+
+.review_card_profile span {
+    top:-8px;
+    float:none;
+    display: flex; 
+    justify-content: center
 }
 
 .review_card_profile * {

@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from "axios";
+import Rating from '@mui/material/Rating';
 import {useParams, useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -29,8 +30,9 @@ export default function UserReview () {
             loading ? Object.keys(user.reviews).map((review,index) => (
                 <div key={index} className="review_card_profile">
                     <h1 className="book_name_review">{review}</h1>
-                    <h2 className="book_title_review">{user.reviews[review].title}</h2>
+                    <p className="book_title_review">{user.reviews[review].title}</p>
                     <p className="book_description_review">{user.reviews[review].description}</p>
+                    <Rating name="read-only" value={user.reviews[review].rating} readOnly/>
                 </div>
             )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>:navigate("/login")
         }

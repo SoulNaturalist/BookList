@@ -30,7 +30,7 @@ Create .env file
 Enter db_url,port,jwt_private_token,mailPassword,mailLogin,testJwt,loginUser,passwordUser
 
 ```
-node app.js
+npm start
 ```
 ### Start basic unit tests for backend
 ```

@@ -22,13 +22,16 @@ const add_review = (async function (req, res) {
             const users = DB.model('users', UserSchema);
             const books = DB.model('books', BookSchema);
             const dataUser = await users.findOne({_id: data['data']}).exec();
-            if (dataUser) {
+            const bookValidation = await books.findOne({slug:bookSlug}).exec();
+            if (dataUser && bookValidation) {
                 const bookData = await books.find({slug:bookSlug}).exec();
                 const updateReviews = Object.assign(bookData[0]["reviews"],{[dataUser.username]:{"title":titleReview,"description":descriptionReview,"rating":userRating}});
                 const addedReviwBook = await books.updateOne({slug: bookSlug}, { $set: {reviews:updateReviews}}).exec();
                 const updateUserReviews = Object.assign(dataUser["reviews"],{[bookData[0].book_name]:{"title":titleReview,"description":descriptionReview,"rating":userRating}})
                 const addedReviwUser = await users.updateOne({username:dataUser['username']}, { $set: {reviews:updateUserReviews}}).exec();
                 return addedReviwBook.modifiedCount && addedReviwUser.modifiedCount ? res.sendStatus(201):res.sendStatus(304);
+            } else {
+                return res.sendStatus(400);
             }
         } catch (e) {
             console.log(e);

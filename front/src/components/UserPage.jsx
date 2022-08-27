@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { styled } from '@mui/system';
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
+import CircularProgress from '@mui/material/CircularProgress';
 import readed  from "../assets/readed.png";
 import drop  from "../assets/abandoned.png";
 import planned from "../assets/planned.png";
@@ -153,7 +154,7 @@ function UserPage () {
     return (
 
         <div>
-            {loading ? "":UserProfile()}
+            {loading ? <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '90px'}}><CircularProgress disableShrink /></div>:UserProfile()}
         </div>
     );
     

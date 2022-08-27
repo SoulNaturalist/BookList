@@ -39,8 +39,8 @@ return (
           <Route path="/check_email" element={<CheckEmail/>}/>
           <Route path="/leader_board" element={<LeaderBoard/>}/>
           <Route path="/rules" element={<Rules/>}/>
-          <Route exec path="/:username/books:_type" element={<UserBooks />}/>
-          <Route exec path="/:username/reviews" element={<UserReview />}/>
+          <Route exec path="/user/:username/books:_type" element={<UserBooks />}/>
+          <Route exec path="/user/:username/reviews" element={<UserReview />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
           <Route path="*" element={<ConfirmEmail/>}/>
         </Routes>

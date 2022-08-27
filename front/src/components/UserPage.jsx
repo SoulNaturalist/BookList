@@ -132,10 +132,10 @@ function UserPage () {
                     <li>отзывы</li>
                 </ul>
                 <div className="books_icons">
-                    <a href={`/${username}/books_readed`}><img className="readed" src={readed} alt="readed"/></a>
-                    <a href={`/${username}/books_drop`}><img className="drop" src={drop} alt="drop"/></a>
-                    <a href={`/${username}/books_planned`}><img className="planned" src={planned} alt="planned"/></a>
-                    <img className="reviews" src={reviews} alt="reviews"/>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_readed`}><img className="readed" src={readed} alt="readed"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_drop`}><img className="drop" src={drop} alt="drop"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_planned`}><img className="planned" src={planned} alt="planned"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/reviews`}><img className="reviews" src={reviews} alt="reviews"/></a>
                 </div>
                 <div className="count_block">
                     <p className="readed_count">{readedCount}</p>

@@ -17,6 +17,7 @@ const UserSchema = new Schema({
     code: {type:String,required: true},
     emailConfirm:{type:Boolean,default:false},
     twoAuth:{type:Boolean,default:false},
+    bookListPlus:{type:Object,default:{}}
 }, { minimize: false });
 
 const BookSchema = new Schema ({

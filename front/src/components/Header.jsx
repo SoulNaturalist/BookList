@@ -1,9 +1,13 @@
 import useSWR from 'swr'
 import React from 'react';
-import fetcher from './fetch';
+import axios from 'axios';
 import logo from '../assets/logo.png';
 
 function Header() {
+    async function fetcher() {
+        const res = await axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
+        return res
+    }
     const { data, error } = useSWR('http://127.0.0.1:3030/api/auth', fetcher)
     const loginComponent = () => {
         const subLink = window.location.href.split("/")[3];

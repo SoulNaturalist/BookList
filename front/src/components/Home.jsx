@@ -1,35 +1,18 @@
 import React from 'react';
 import axios from 'axios';
+import useSWR from 'swr';
 import bookHomeImg from '../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
 
 function Home() {
-    const [User, setUser] = React.useState([]);
-    const [Error,setError] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
-    const useTitle = (title) => {
-        React.useEffect(() => {
-            document.title = title;
-        })
-    }
-    React.useEffect(() => {
-        axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
-        .then(res => {
-            setUser(res.data)
-            setLoading(true)
-        })
-        .catch(err => {
-            setError(err)
-            setLoading(true)
-        })
-    }, [])
+    const fetcher = async () => await axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}});
+    const { data } = useSWR('http://127.0.0.1:3030/api/auth', fetcher);
     const Username = () => {
-        if (User.auth_data) {
-            return User.auth_data.username;
+        if (data && data.auth_data) {
+            return data.auth_data.username;
         } else {
             return "гость";
         }
-
     }
     const libraryWelcomeElement = <div>
         <p className="welcome_title">Добро пожаловать {Username()}</p>
@@ -44,7 +27,7 @@ function Home() {
     </div>
     return (
         <div>
-            {loading ? libraryWelcomeElement : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
+            {data ? libraryWelcomeElement : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
         </div>
     );
 };

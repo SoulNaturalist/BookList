@@ -1,14 +1,11 @@
-import useSWR from 'swr'
+import useSWR from 'swr';
 import React from 'react';
 import axios from 'axios';
 import logo from '../assets/logo.png';
 
 function Header() {
-    async function fetcher() {
-        const res = await axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
-        return res
-    }
-    const { data, error } = useSWR('http://127.0.0.1:3030/api/auth', fetcher)
+    const fetcher = async () => await axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}});
+    const { data, error } = useSWR('http://127.0.0.1:3030/api/auth', fetcher);
     const loginComponent = () => {
         const subLink = window.location.href.split("/")[3];
         if (data && data.auth_data && subLink !== "logout") {

@@ -1,18 +1,14 @@
+import useSWR from 'swr'
 import React from 'react';
-import axios from 'axios';
+import fetcher from './fetch';
 import logo from '../assets/logo.png';
 
 function Header() {
-    const [Data,setData] = React.useState("");
-    React.useEffect(() => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
-        .then(response => {setData(response.data)})
-        .catch((err) => console.log(err))
-    }, [])
+    const { data, error } = useSWR('http://127.0.0.1:3030/api/auth', fetcher)
     const loginComponent = () => {
         const subLink = window.location.href.split("/")[3];
-        if (Data.auth_data && subLink !== "logout") {
-            return <p className="profile"><a href={`/user/${Data.auth_data.username}`}>Профиль</a></p>
+        if (data && data.auth_data && subLink !== "logout") {
+            return <p className="profile"><a href={`/user/${data.auth_data.username}`}>Профиль</a></p>
         } else {
             return <p className="log-in"><a href="/login">Войти</a></p>
         }

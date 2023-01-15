@@ -1,12 +1,17 @@
 import React from 'react';
-import axios from 'axios';
 import useSWR from 'swr';
 import bookHomeImg from '../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
 
 function Home() {
-    const fetcher = async () => await axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}});
-    const { data } = useSWR('http://127.0.0.1:3030/api/auth', fetcher);
+    const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    }).then(res => res.json()));
     const Username = () => {
         if (data && data.auth_data) {
             return data.auth_data.username;

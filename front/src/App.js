@@ -6,7 +6,6 @@ import BookPage from './components/BookPage.jsx';
 import BooksCatalog from './components/BooksCatalog.jsx';
 import ChangeProfile from './components/ChangeProfile.jsx';
 import UserBooks from './components/UserBooks.jsx';
-import AdminPanel from './components/AdminPanel.jsx';
 import LogoutPage from './components/LogoutPage.jsx';
 import RegistrationForm from './components/RegistrationForm';
 import ConfirmEmail from './components/ConfirmEmail';
@@ -35,7 +34,6 @@ return (
           <Route path="/change_password" element={<PasswordChange/>}/>
           <Route path="/catalog" element={<BooksCatalog/>}/>
           <Route path="/book/:slug" element={<BookPage />}/>
-          <Route path="/admin" element={<AdminPanel />}/>
           <Route path="/check_email" element={<CheckEmail/>}/>
           <Route path="/leader_board" element={<LeaderBoard/>}/>
           <Route path="/rules" element={<Rules/>}/>

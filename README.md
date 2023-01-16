@@ -25,9 +25,7 @@ npm start
 ```
 npm install
 ```
-Create .env file
-
-Enter db_url,port,jwt_private_token,mailPassword,mailLogin,testJwt,loginUser,passwordUser
+Enter the data in example.env and change the file name to .env then
 
 ```
 npm start

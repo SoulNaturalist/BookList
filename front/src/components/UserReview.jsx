@@ -37,7 +37,4 @@ export default function UserReview () {
             )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>:navigate("/login")
         }
         </div>
-
-        
-    
 }

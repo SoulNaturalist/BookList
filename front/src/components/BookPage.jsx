@@ -62,10 +62,10 @@ function BookPage () {
     </div>
     {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
       {Book && Book.reviews ? [Book.reviews].map((data, key) => (
-        Object.keys(data).map((review, key) => (
+        Object.keys(data).map((review, index) => (
           <div className="review_card" key={key}>
             <div className="paragraph_wrapper">
-              <p className="author_review">{Object.keys(data)}</p>
+              <p className="author_review">{Object.keys(data)[index]}</p>
               <p className="title_review">{data[review].title}</p>
               <p className="description_review">{data[review].description}</p>
             </div>

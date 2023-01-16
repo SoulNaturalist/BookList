@@ -1,20 +1,19 @@
 import React from 'react';
 import axios from 'axios';
+import useSWR from 'swr';
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
+import CircularProgress from '@mui/material/CircularProgress';
 
 function ChangeProfile () {
-    const [Data,setData] = React.useState("");
-    const [Error,setError] = React.useState(false);
     const navigate = useNavigate("/");
-    React.useEffect(() => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/auth',withCredentials: true, headers: {}})
-        .then(response => {setData(response.data)})
-        .catch(err => {setError(err)})
-    }, [])
+    const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+        credentials: 'include'
+    }).then(res => res.json()));
     const {register,handleSubmit} = useForm();
     const profileSettingsComponent = () => {
-        if (Data.auth_data) {
+        if (data.auth_data) {
             return (
                 <div>
                     <h2 className="title_main">Основное</h2>
@@ -22,17 +21,17 @@ function ChangeProfile () {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <input type="text" className="status_input"
                             placeholder="Статус"
-                            defaultValue={Data.auth_data.status}
+                            defaultValue={data.auth_data.status}
                             {...register("status", {})}
                             />
                             <input type="text" className="avatar_input"
                             placeholder="Аватар"
-                            defaultValue={Data.auth_data.avatar}
+                            defaultValue={data.auth_data.avatar}
                             {...register("avatar", {})}
                             />
                             <input type="text" className="bg_url"
                             placeholder="Изображение описания"
-                            defaultValue={Data.auth_data.bg}
+                            defaultValue={data.auth_data.bg}
                             {...register("bg", {})}
                             />
                             <input className="save_button" type="submit" value="Сохранить" />
@@ -46,17 +45,17 @@ function ChangeProfile () {
             navigate("/login")
         }
     }
-    const onSubmit = (data) => {
-        if (data.status || data.avatar || data.bg) {
+    const onSubmit = (dataSubmut) => {
+        if (dataSubmut.status || dataSubmut.avatar || dataSubmut.bg) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
-            {status:data.status,avatar:data.avatar,bg:data.bg}})
-            .then(response => {navigate(`/user/${Data.auth_data.username}`)})
+            {status:dataSubmut.status,avatar:dataSubmut.avatar,bg:dataSubmut.bg}})
+            .then(() => {navigate(`/user/${data.auth_data.username}`)})
             .catch(error => {console.log(error)})
         }
     }
     return (
         <div>
-            {profileSettingsComponent()}
+            {data ? profileSettingsComponent():<div style={{display: 'flex', justifyContent: 'center', position:'relative',top:'350px'}}><CircularProgress disableShrink /></div>}
         </div>
   
 )}

@@ -417,7 +417,7 @@ select option {
     background-color:#ffffff;
 }
 
-.check_email, .email_confirm {
+.check_email {
     text-align: center;
     position: relative;
     top:120px;
@@ -425,18 +425,8 @@ select option {
 
 }
 
-.email_icon,.icon_success {
-    width:300px;
-    height:300px;
-    display: block;
-    margin:0 auto;
-    position: relative;
-    top:125px;
-}
-
 .registration_link {
     font-family: 'Manrope', sans-serif;
-
 }
 
 .reset_password {

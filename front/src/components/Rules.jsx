@@ -1,33 +1,44 @@
 import React from 'react';
-
+import styled from 'styled-components';
 
 function Rules () {
+    const WrapperRules = styled.div`
+    text-align: center;
+    `
+    const ParagraphRules = styled.p`
+    position: relative;
+    margin:5px;
+    font-size: 20px;
+    font-family: 'Manrope', sans-serif;
+    `
+    const TitleRules = styled.h2`
+    font-size: 35px;
+    font-family: 'Manrope', sans-serif;
+    `
+    const SubTitleRules = styled.h2`
+    font-size: 30px;
+    font-family: 'Manrope', sans-serif;
+    `
+    const FlexWrapper = styled.div`
+    position:relative;
+    top:250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    `
     return (
-        <div className="rules_wrap">
-            <h2>Правила BookList:</h2>
-            <p>Написание Рецензий / Отзывов.</p>
-            <p>1.Спам - наказание бан 3д/запрет на их написание.</p>
-            <p>2.Флуд - наказание бан 3д/запрет на их написание.</p>
-            <p>3.Отсутствие смысловой нагрузки в рецензии -  бан 1д/1н/запрет на их написание.</p>
-            <p>4.Копирование чужой рецензии бан 3д//запрет на их написание.</p>
-            <br/>
-            <p>Написание сообщений.</p>
-            <p>1.Спам - наказание бан 3д/запрет на их написание.</p>
-            <p>2.Флуд - наказание бан 3д/запрет на их написание.</p>
-            <p>3.Деанон - бан на всегда.</p>
-            <p>4.Слив оф информации - бан на всегда.</p>
-            <br/>
-            <p>Безопасность сайта.</p>
-            <p>1.Попытка взлома - бан навсегда.</p>
-            <p>2.Использование абузов - бан навсегда.</p>
-            <p>3.Если найдете баг напишите администрации - получите персональное преимущество.</p>
-            <br/>
-            <p>Добавление книг на сайт.</p>
-            <p>1.Спам - наказание бан 3н/запрет на их написание.</p>
-            <p>2.Флуд - наказание бан 3н/запрет на их написание.</p>
-            <p>Добавление 3 не принятых книг бан данной возможности.</p>
-            <br/>
-            <p><b>Также Администраторы имеют право забанить кого угодно без причины.</b></p>
-    </div>
+        <FlexWrapper>
+            <WrapperRules>
+                <TitleRules>Правила BookList:</TitleRules>
+                <ParagraphRules>Пример правила 1</ParagraphRules>
+                <ParagraphRules>Пример правила 2</ParagraphRules>
+                <ParagraphRules>Пример правила 3</ParagraphRules>
+                <br/>
+                <SubTitleRules>Пример подзаголовка каких-либо правил</SubTitleRules>
+                <ParagraphRules>Пример правила 1</ParagraphRules>
+                <ParagraphRules>Пример правила 2</ParagraphRules>
+                <ParagraphRules>Пример правила 3</ParagraphRules>
+            </WrapperRules>
+        </FlexWrapper>
 )}
 export default Rules;

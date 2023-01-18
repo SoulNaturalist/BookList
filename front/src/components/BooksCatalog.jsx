@@ -94,7 +94,6 @@ function BooksCatalog () {
     position:relative;
     top: 90px;
     `
-
     const BooksCatalog = () => {
         return <div>
             <TitleCatalog>Каталог книг</TitleCatalog>

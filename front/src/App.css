@@ -138,60 +138,6 @@ button[type="button"] {
 }
 
 
-
-.btn-group {
-    display: inline-block;
-    position: relative;
-    top:50px;
-    left:6.5%;
-    background-color:rgb(199, 199, 199);
-    border-radius: 10px;
-}
-
-.btn-group button {
-    background-color: rgba(255, 255, 255, 0.774); 
-    color: rgb(0, 0, 0); 
-    padding: 10px 24px;
-    cursor: pointer;
-    border:none; 
-    outline:none;
-}
-  
-.btn-group button:not(:last-child) {
-    border-bottom: none; 
-}
-  
-.btn-group button:hover {
-    background-color: rgb(255, 213, 122);
-}
-
-.book_cover {
-    position: relative;
-    top:40px;
-    padding-right:70%;
-    width:25%;
-    height:15%;
-}
-
-.title_book {
-    position: relative;
-    top:30px;
-    font-family: 'Manrope', sans-serif;
-    text-align:center;
-}
-
-.description_book {
-    font-family: 'Manrope', sans-serif;
-    position: relative;
-    top:40px;
-    text-align: center;
-
-}
-
-.btn-readed, .btn-planned,.btn-drop {
-    color:white;
-}
-
 .alert_success {
     animation: fadein 5s linear 1 normal forwards;
 }
@@ -404,46 +350,6 @@ select option {
     position: relative;
     left:10px;
     border: 1px solid rgb(0, 0, 0);
-}
-
-
-.review_card {
-    background-color:#FFE7CB;
-    position: relative;
-    top:80px;
-    left:auto;
-    right:auto;
-    width:40%;
-    height:220px;
-    border-radius:10px;
-    border: solid rgb(0, 0, 0) 1px;
-    display: block;
-    margin:0 auto;
-    margin-bottom:10px; 
-}
-
-.paragraph_wrapper {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    text-shadow: -1px 4px 5px rgb(255, 255, 255);
-}
-
-
-
-.author_review {
-    position: relative;
-    top:20px;
-}   
-
-.title_review {
-    position: relative;
-    top:30px;
-}
-
-.description_review {
-    position: relative;
-    top:40px;
 }
 
 .book_name_review {

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import planned from "../assets/realtime-protection.png";
 import dropped from "../assets/1828939.png";
 import readed from "../assets/open-book.png";
+import styled from 'styled-components';
 
 function BookPage () {
   const { slug } = useParams();
@@ -44,35 +45,116 @@ function BookPage () {
       return navigate("/login")
     }
   }
-  return loading ? <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>:
-  <div>
-    <h3 className="title_book">{Book.book_name} {Book.book_author}</h3>
-    <p className="description_book">{Book.description}</p>
-    <img className="book_cover" src={Book.cover} alt="cover"/>
-    <div className="btn-group">
-      <button onClick={() => addBook("readed")}>
-        <img src={readed} width="30px"height="30px" alt="readed_icon"/>
-      </button>
-      <button onClick={() => addBook("drop")}>
-        <img src={dropped} width="30px" height="30px" alt="drop_icon"/>
-      </button>
-      <button onClick={() => addBook("planned")}>
-        <img src={planned} width="30px" height="30px" alt="planned_icon"/>
-      </button>
-    </div>
+  const FlexWrapper = styled.div`
+    display: flex;
+    justify-content:center;
+    position:relative;
+  `
+  const ReviewCard = styled.div`
+  background-color:#FFE7CB;
+  position: relative;
+  top:80px;
+  left:auto;
+  right:auto;
+  width:40%;
+  height:220px;
+  border-radius:10px;
+  border: solid rgb(0, 0, 0) 1px;
+  display: block;
+  margin:0 auto;
+  margin-bottom:10px;
+  `
+  const ParagraphWrapper = styled.p`
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-shadow: -1px 4px 5px rgb(255, 255, 255);
+  `
+  const ParagraphAuthor = styled.p`
+  position: relative;
+  top:20px;
+  `
+  const ParagraphReview = styled.p`
+  position: relative;
+  top:30px;
+  `
+  const ParagraphDescription = styled.p`
+  position: relative;
+  top:40px;
+  `
+  const TitleBook = styled.h3`
+  position: relative;
+  top:30px;
+  font-family: 'Manrope', sans-serif;
+  text-align:center;
+  `
+  const ParagraphBook = styled.p`
+  font-family: 'Manrope', sans-serif;
+  position: relative;
+  top:40px;
+  text-align: center;
+  `
+  const BookCoverImg = styled.img`
+  position: relative;
+  top:40px;
+  padding-right:70%;
+  width:25%;
+  height:15%;
+  `
+  const ButtonBook = styled.button`
+  background-color: rgba(255, 255, 255, 0.774); 
+  color: rgb(0, 0, 0); 
+  padding: 10px 24px;
+  cursor: pointer;
+  border:none; 
+  outline:none;
+  `
+  const WrapperButton = styled.div`
+  display: inline-block;
+  position: relative;
+  top:50px;
+  left:6.5%;
+  background-color:rgb(199, 199, 199);
+  border-radius: 10px;
+  &:hover ${ButtonBook} {
+    background-color: rgb(255, 213, 122);
+  }
+  `
+  const Wrapper = styled.div` 
+  `
+  const ImgButton = styled.img`
+  width:30px;
+  height:30px;
+  `
+  return loading ? <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>:
+  <Wrapper>
+    <TitleBook>{Book.book_name} {Book.book_author}</TitleBook>
+    <ParagraphBook>{Book.description}</ParagraphBook>
+    <BookCoverImg src={Book.cover} alt="cover"/>
+    <WrapperButton>
+      <ButtonBook onClick={() => addBook("readed")}>
+        <ImgButton src={readed} alt="readed_icon"/>
+      </ButtonBook>
+      <ButtonBook onClick={() => addBook("drop")}>
+        <ImgButton src={dropped} alt="drop_icon"/>
+      </ButtonBook>
+      <ButtonBook onClick={() => addBook("planned")}>
+        <ImgButton src={planned} alt="planned_icon"/>
+      </ButtonBook>
+    </WrapperButton>
     {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
       {Book && Book.reviews ? [Book.reviews].map((data, key) => (
         Object.keys(data).map((review, index) => (
-          <div className="review_card" key={key}>
-            <div className="paragraph_wrapper">
-              <p className="author_review">{Object.keys(data)[index]}</p>
-              <p className="title_review">{data[review].title}</p>
-              <p className="description_review">{data[review].description}</p>
-            </div>
-          </div>
+          <ReviewCard key={key}>
+            <ParagraphWrapper>
+              <ParagraphAuthor>{Object.keys(data)[index]}</ParagraphAuthor>
+              <ParagraphReview>{data[review].title}</ParagraphReview>
+              <ParagraphDescription>{data[review].description}</ParagraphDescription>
+            </ParagraphWrapper>
+          </ReviewCard>
         ))
       )):""}
-  </div>
+  </Wrapper>
 }
 
 export default BookPage;

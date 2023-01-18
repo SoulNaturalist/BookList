@@ -2,8 +2,7 @@ import React from 'react';
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { styled } from '@mui/system';
-import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
+import styled from 'styled-components';
 import CircularProgress from '@mui/material/CircularProgress';
 import readed  from "../assets/readed.png";
 import drop  from "../assets/abandoned.png";
@@ -32,48 +31,20 @@ function UserPage () {
             setLoading(false);
         })
     }, [username]);
-    const blue = {
-        500: '#000000',
-        600: '#474646',
-        700: '#474646',
-    };
-    const CustomButtonMsg = styled('span')`
+    const BooksUl = styled.ul`
+    justify-content: center;
+    display: flex;
+    position: relative;
+    top:-180px;
+    `
+    const ButtonChange = styled.button`
     font-family: IBM Plex Sans, sans-serif;
     font-weight: bold;
     font-size: 0.875rem;
-    background-color: ${blue[500]};
+    background-color: #000000;
     padding: 12px 70px;
     position:relative;
-    top:-540px;
-    left:110px;
-    float:left;
-    border-radius:5px;
-    color: white;
-    transition: all 150ms ease;
-    cursor: pointer;
-    border: none;
-
-    &:hover {
-        background-color: ${blue[600]};
-    }
-
-    &.${buttonUnstyledClasses.active} {
-        background-color: ${blue[700]};
-    }
-
-    &.${buttonUnstyledClasses.focusVisible} {
-        box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
-        outline: none;
-    }
-    `;
-    const CustomButtonChange = styled('span')`
-    font-family: IBM Plex Sans, sans-serif;
-    font-weight: bold;
-    font-size: 0.875rem;
-    background-color: ${blue[500]};
-    padding: 12px 70px;
-    position:relative;
-    top:-540px;
+    top:-500px;
     left:100px;
     float:left;
     border-radius:5px;
@@ -81,27 +52,97 @@ function UserPage () {
     transition: all 150ms ease;
     cursor: pointer;
     border: none;
-
     &:hover {
-        background-color: ${blue[600]};
+        background-color: #474646;
     }
-
-    &.${buttonUnstyledClasses.active} {
-        background-color: ${blue[700]};
+    `
+    const ButtonMsg = styled.button`
+    font-family: IBM Plex Sans, sans-serif;
+    font-weight: bold;
+    font-size: 0.875rem;
+    background-color: #000000;
+    padding: 12px 70px;
+    position:relative;
+    top:-500px;
+    left:110px;
+    float:left;
+    border-radius:5px;
+    color: white;
+    transition: all 150ms ease;
+    cursor: pointer;
+    border: none;
+    &:hover {
+        background-color:#474646;
     }
-
-    &.${buttonUnstyledClasses.focusVisible} {
-        box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
-        outline: none;
-    }
-    `;
-    function ButtonMsg(props) {
-        return <ButtonUnstyled {...props} component={CustomButtonMsg} />;
-    }
-    function ButtonChange(props) {
-        return <ButtonUnstyled {...props} component={CustomButtonChange} />;
-    }
-    
+    `
+    const ImgAvatar = styled.img`
+    width:299px;
+    height:275px;
+    margin-top:80px;
+    margin-left:70px;
+    border: 2px solid #000000;
+    border-radius:5px;
+    `
+    const BookMenuLi = styled.li`
+    color:black;
+    padding:35px 35px 5px;
+    font-family: 'Manrope', sans-serif;
+    `
+    const DescriptionDiv = styled.div`
+    width:700px;
+    height:150px;
+    background-color:rgb(0, 0, 0);
+    margin-left:auto;
+    margin-right:auto;
+    position: relative;
+    top:-200px;
+    border-radius:10px;
+    `
+    const UsernameParagraph = styled.p`
+    text-align:center;
+    font-size:25px;
+    color:white;
+    `
+    const DescriptionParagraph = styled.p`
+    color:white;
+    text-align:center;
+    margin-top:10px;
+    `
+    const IconsWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top:-230px;
+    `
+    const IconImg = styled.img`
+    margin:53px;
+    position: relative;
+    `
+    const CountWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    position: relative;
+    top:-330px;
+    left:4px;
+    ` 
+    const CountParagraph = styled.p`
+    margin:62px;
+    padding:5px 1% 5px 5px;
+    `
+    const TitleError = styled.h1`
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    position: relative;
+    top:70px;
+    `
+    const FlexWrapper = styled.div`
+    display: flex;
+    justify-content:center;
+    position:relative;
+    top: 90px;
+    `
     const UserProfile = () => {
         if (user?.length && Data) {
             user = user[0];
@@ -120,44 +161,43 @@ function UserPage () {
             });
             const countReviews = Object.keys(user.reviews).length;
             return <div>
-                <img src={user.avatar} className="user_avatar" alt="avatar"/>
-                <div className="description-block" style={{  backgroundImage: `url(${user.bg})`, backgroundPosition:'center'}}>
+                <ImgAvatar src={user.avatar} className="user_avatar" alt="avatar"/>
+                <DescriptionDiv style={{  backgroundImage: `url(${user.bg})`, backgroundPosition:'center'}}>
                     <br/>
-                    <p className="username">{user.username}</p>
-                    <p className="description">{user.status}</p>
-                </div>
-                <ul className="books_menu">
-                    <a href="my_books_readed"><li>прочитано</li></a>
-                    <a href="my_books_drop"><li>брошено</li></a>
-                    <a href="my_books_planned"><li>запланировано</li></a>
-                    <li>отзывы</li>
-                </ul>
-                <div className="books_icons">
-                    <a href={`http://127.0.0.1:3000/user/${username}/books_readed`}><img className="readed" src={readed} alt="readed"/></a>
-                    <a href={`http://127.0.0.1:3000/user/${username}/books_drop`}><img className="drop" src={drop} alt="drop"/></a>
-                    <a href={`http://127.0.0.1:3000/user/${username}/books_planned`}><img className="planned" src={planned} alt="planned"/></a>
-                    <a href={`http://127.0.0.1:3000/user/${username}/reviews`}><img className="reviews" src={reviews} alt="reviews"/></a>
-                </div>
-                <div className="count_block">
-                    <p className="readed_count">{readedCount}</p>
-                    <p className="drop_count">{abandonedCount}</p>
-                    <p className="planned_count">{plannedCount}</p>
-                    <p className="reviews_count">{countReviews}</p>
-                </div>
+                    <UsernameParagraph>{user.username}</UsernameParagraph>
+                    <DescriptionParagraph>{user.status}</DescriptionParagraph>
+                </DescriptionDiv>
+                <BooksUl>
+                    <a href="my_books_readed"><BookMenuLi>прочитано</BookMenuLi></a>
+                    <a href="my_books_drop"><BookMenuLi>брошено</BookMenuLi></a>
+                    <a href="my_books_planned"><BookMenuLi>запланировано</BookMenuLi></a>
+                    <BookMenuLi>отзывы</BookMenuLi>
+                </BooksUl>
+                <IconsWrapper>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_readed`}><IconImg src={readed} alt="readed"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_drop`}><IconImg className="drop" src={drop} alt="drop"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/books_planned`}><IconImg className="planned" src={planned} alt="planned"/></a>
+                    <a href={`http://127.0.0.1:3000/user/${username}/reviews`}><IconImg className="reviews" src={reviews} alt="reviews"/></a>
+                </IconsWrapper>
+                <CountWrapper>
+                    <CountParagraph>{readedCount}</CountParagraph>
+                    <CountParagraph>{abandonedCount}</CountParagraph>
+                    <CountParagraph>{plannedCount}</CountParagraph>
+                    <CountParagraph>{countReviews}</CountParagraph>
+                </CountWrapper>
                 {Data && Data.username === username ? <a href="/change_profile"><ButtonChange>Редактировать</ButtonChange></a>:<ButtonMsg>Написать</ButtonMsg>}
 
             </div>
             } else {
-                return Data ? <h1 className="title__user_error">Пользователя с никнеймом {username} не существует!</h1>:navigate("/login")
+                return Data ? <TitleError>Пользователя с никнеймом {username} не существует!</TitleError>:navigate("/login")
             }
     }
     return (
 
         <div>
-            {loading ? <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '90px'}}><CircularProgress disableShrink /></div>:UserProfile()}
+            {loading ? <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>:UserProfile()}
         </div>
     );
     
 }
-
 export default UserPage;

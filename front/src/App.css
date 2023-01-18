@@ -127,51 +127,7 @@ button[type="button"] {
     margin-right:5px;
 }
 
-.user_avatar {
-    width:299px;
-    height:275px;
-    margin-top:80px;
-    margin-left:70px;
-    border: 2px solid #000000;
-    border-radius:5px;
-}
-.description-block {
-    width:700px;
-    height:150px;
-    background-color:rgb(0, 0, 0);
-    margin-left:auto;
-    margin-right:auto;
-    position: relative;
-    top:-200px;
-    border-radius:10px;
-}
 
-.description {
-    color:white;
-    text-align:center;
-    margin-top:10px;
-}
-
-.username {
-    text-align:center;
-    font-size:25px;
-    color:white;
-}
-
-.books_menu {
-    justify-content: center;
-    display: flex;
-    position: relative;
-    top:-180px;
-}
-
-.books_icons {
-    display: flex;
-    justify-content: center;
-    position: relative;
-    top:-230px;
-
-}
 
 .books_icons img {
     margin:53px; /*52,*/
@@ -192,21 +148,7 @@ button[type="button"] {
 
 
 
-.count_menu {
-    justify-content: center;
-    display: flex;
-}
 
-
-.count_block {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    position: relative;
-    top:-330px;
-    left:4px;
-}
 
 .readed_count,
 .reviews_count,
@@ -486,12 +428,6 @@ select option {
 
 }
 
-.title__user_error {
-    text-align: center;
-    font-family: 'Manrope', sans-serif;
-    position: relative;
-    top:70px;
-}
 
 .admin_manage_table {
     background-color:#FFEBB9;

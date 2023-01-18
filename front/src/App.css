@@ -255,13 +255,6 @@ select option {
     font-family: 'Manrope', sans-serif;
 }
 
-.reset_password {
-    text-align: center;
-    position: relative;
-    top:40px;
-    cursor: pointer;
-}
-
 .leader_title h2 {
     font-family: 'Manrope', sans-serif;
     text-align: center;

@@ -6,7 +6,8 @@ function LogoutPage () {
     const [authStatus,setAuthStatus] = React.useState("");
     const { data } = useSWR('http://127.0.0.1:3030/api/logout', (apiURL) => fetch(apiURL,{
         method: 'get',headers: {'Accept': 'application/json','Content-Type': 'application/json'},credentials: 'include'
-    }).then(res => {res.json()
+    }).then(res => {
+        res.json()
         setAuthStatus(true)
     }));
     const logoutAlert = () => {

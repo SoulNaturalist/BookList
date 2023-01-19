@@ -4,6 +4,11 @@ import styled from 'styled-components';
 function Rules () {
     const WrapperRules = styled.div`
     text-align: center;
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     `
     const ParagraphRules = styled.p`
     position: relative;
@@ -20,8 +25,6 @@ function Rules () {
     font-family: 'Manrope', sans-serif;
     `
     const FlexWrapper = styled.div`
-    position:relative;
-    top:250px;
     display: flex;
     justify-content: center;
     align-items: center;

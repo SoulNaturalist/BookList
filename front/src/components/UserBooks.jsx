@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+import styled from 'styled-components';
 import {useParams, useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -23,15 +24,37 @@ function UserBooks () {
             setLoading(true)
         })
     }, [username])
+    const ParagraphBook = styled.p`
+    position:relative;
+    top:20px;
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-size:30px;
+    `
+    const FlexWrapper = styled.div`
+    display:flex;
+    justify-content:center;
+    `
+    const ParagraphBookName = styled.p`
+    font-size:20px;
+    text-align:center;
+    `
+    const ImgCover = styled.img`
+    width:auto;
+    height:20%;
+    display:block;
+    margin:auto;
+    padding:10px;
+    `
     const checkType = () => {
         if (Data) {
             if (_type === "_readed") {
-                return <p className='title__book'>{user.username} прочитанные книги</p>
+                return <ParagraphBook>{user.username} прочитанные книги</ParagraphBook>
             } else if (_type === "_drop") {
-                return <p className='title__book'>{user.username} брошенные книги</p>
+                return <ParagraphBook>{user.username} брошенные книги</ParagraphBook>
     
             } else if (_type === "_planned") {
-                return <p className='title__book'>{user.username} запланированные книги</p>
+                return <ParagraphBook>{user.username} запланированные книги</ParagraphBook>
             }
         }
     }
@@ -49,15 +72,13 @@ function UserBooks () {
                 <div key={index}>
                     {checkStatusBook(_type, Object.values(user.books)[index]) ? <div>
                         <a href={`http://127.0.0.1:3000/book/${Object.values(user.books)[index].slug}`}>
-                            <img src={Object.values(user.books)[index].cover} style={{ width: 'auto', height:'20%', display: 'block', margin: 'auto', padding:'10px'}} alt="cover"/>
-                            <p className="book_name" style={{textAlign:"center"}}>{book}</p>
+                            <ImgCover src={Object.values(user.books)[index].cover} alt="cover"/>
+                            <ParagraphBookName>{book}</ParagraphBookName>
                         </a>
                     </div>:""}
                 </div>
-            )):<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
+            )):<FlexWrapper><CircularProgress disableShrink /></FlexWrapper>}
         </div>
     );
-    
 }
-
 export default UserBooks;

@@ -1,80 +1,115 @@
 import React from 'react';
-import axios from 'axios';
+import useSWR from "swr";
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function RegistarationForm () {
-    const [User, setUser] = React.useState([]);
-    const [Error,setError] = React.useState("");
-    const [authError,setAuthError] = React.useState("");
     const navigate = useNavigate();
-    React.useEffect(() => {
-        axios('http://127.0.0.1:3030/api/auth',{method: 'post',mode:'no-cors',withCredentials: true})
-        .then(res => {setUser(res.data)})
-        .catch(err => {setAuthError(err)})
-    }, [])
+    const [error,setError] = React.useState("");
+    const [toFetch,setFetch] = React.useState(false);
+    const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+        credentials: 'include'
+    }).then(res => res.json()));
     const resetErrorAlert = () => setError(false);
     const msgError = () => {
-        if (Error === "Request failed with status code 422") {
+        if (error === "Request failed with status code 422") {
             return "Почта или никнейм не уникальны!"
         }
-        if (Error === "Request failed with status code 400") {
+        if (error === "Request failed with status code 400") {
             return "Ваша почта не входит в список разрешенных!"
         }
     }
-    const errorAlert = () => {
-        if (Boolean(Error)) {
-            return <Alert variant="filled" severity="error">{msgError(Error)}</Alert>
-        }
-    }
+    const FormWrapper = styled.div`
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    `
+    const FlexWrapper = styled.div`
+    display:flex;
+    justify-content:center;
+    position:relative;
+    top:170px;
+    `
+    const Input = styled.input`
+    color:white;
+    background-color: #000; 
+    display: block;
+    box-sizing: border-box;
+    padding:20px;
+    width:300px;
+    margin-bottom:20px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+    `
+    const RegistrationButton = styled.button`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:10px;
+    appearance: none;
+    background: rgb(0, 0, 0);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    color: white;
+    font-size: 16px;
+    cursor:pointer;
+    `
     const registrationFormComponent = () => {
-        if (User.auth_data) {
-            return navigate(`/user/${User.auth_data.username}`)
+        if (data && data.auth_data) {
+            return navigate(`/user/${data.auth_data.username}`)
         } else {
             return <div>
-                <div className="form_wrapper">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        {errors.login && <p>{errors.login.message}</p>}
-                        <input className="login"
+                <FormWrapper>
+                    {errors.login && <p>{errors.login.message}</p>}
+                    <Input className="login"
                         placeholder="Никнейм"
-                        onChange={(e) => {resetErrorAlert()}}
-                        {...register("login", {required: "Это обязательное поле",
-                        minLength: {value: 2,message: "Нужен более длинный никнейм"},
-                        maxLength: {value: 15,message: "Нужен более короткий никнейм"}
-                        })}
-                        />
-                        {errors.password && <p>{errors.password.message}</p>}
-                        <input className="password"
+                        {...register("login", {required: "Это обязательное поле"})}
+                    />
+                    {errors.password && <p>{errors.password.message}</p>}
+                    <Input className="password"
                         placeholder="Пароль"
+                        onChange={() => {resetErrorAlert()}}
                         {...register("password", {required: "Это обязательное поле"})}
-                        onChange={(e) => {console.log(Error)}}
-                        type="password"/>
-                        {errors.email && <p>{errors.email.message}</p>}
-                        <input className="email"
+                    type="password"/>
+                    {errors.email && <p>{errors.email.message}</p>}
+                    <Input className="email"
                         placeholder="Почта"
-                        onChange={(e) => {resetErrorAlert()}}
+                        onChange={() => {resetErrorAlert()}}
                         {...register("email", {required: "Это обязательное поле",min:3,max:15})}
-                        type="email"/>
-                        <input type="submit" value="Регистрация" />
-                    </form>
-                </div>
+                    type="email"/>
+                    <RegistrationButton type="submit" onClick={() => setFetch(true)}>Регистрация</RegistrationButton>
+                </FormWrapper>
             </div>
         }
 
     }
-    const {register, formState: { errors }, handleSubmit } = useForm({
+    const {register,getValues, formState: { errors }, handleSubmit } = useForm({
         mode: "onChange"
     });
-    const onSubmit = (data) => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/register',withCredentials: true, headers: {}, data: {username: data.login, password: data.password, email:data.email}})
-        .then(response => {navigate('/check_email')})
-        .catch(error => {setError(error.message)})
-    }
+    const dataForm = getValues()
+    const { registartionData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/register', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+        'Content-Type': 'application/json'},
+        credentials: 'include',
+        body:JSON.stringify({username: dataForm.login, password: dataForm.password, email:dataForm.email})
+    }).then(res => {
+        res.json()
+        navigate("/check_email")
+    })
+    .catch((err) => setError(err)));
     return (
         <div>
-            {registrationFormComponent()}
-            {errorAlert()}
+            {data ? registrationFormComponent():<FlexWrapper><CircularProgress disableShrink /></FlexWrapper>}
+            {Boolean(error) ? <Alert variant="filled" severity="error">{msgError(error)}</Alert>:""}
         </div>
 )}
 

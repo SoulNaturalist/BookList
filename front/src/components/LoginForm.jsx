@@ -3,6 +3,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import Alert from '@mui/material/Alert';
 
 function LoginForm () {
@@ -22,30 +23,71 @@ function LoginForm () {
             return "Активируйте почту!"
         }
     }
+    const FormWrapper = styled.div`
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    `
+    const LoginButton = styled.button`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:10px;
+    appearance: none;
+    background: rgb(0, 0, 0);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 4px;
+    -webkit-appearance: none;
+    color: white;
+    font-size: 16px;
+    cursor:pointer;
+    `
+    const Input = styled.input`
+    color:white;
+    background-color: #000; 
+    display: block;
+    box-sizing: border-box;
+    padding:20px;
+    width:300px;
+    margin-bottom:20px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+    `
+    const LinkCreateAcc = styled.a`
+    font-family: 'Manrope', sans-serif;
+    position:relative;
+    left:10px;
+    top:-3px;
+    `
     const LoginFormComponent = () => {
         if (dataUser && dataUser.auth_data) {
             return navigate(`/user/${dataUser.auth_data.username}`)
         } else {
             return <div>
-                <div className="form_wrapper">
+                <FormWrapper>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <input className="login"
+                        <Input
                         placeholder="Логин"
                         required
                         {...register("login", {})}
-                        onChange={(e) => {resetErrorAlert()}}
+                        onChange={() => {resetErrorAlert()}}
                         />
                         {errors.login && <p>{errors.login.message}</p>}
-                        <input className="password"
+                        <Input
                         placeholder="Пароль"
                         {...register("password", {})}
-                        onChange={(e) => {resetErrorAlert()}}
+                        onChange={() => {resetErrorAlert()}}
                         type="password" required/>
                         {errors.password && <p>{errors.password.message}</p>}
-                        <a href="http://127.0.0.1:3000/registration" className="registration_link">Нет аккаунта</a>
-                        <input type="submit" value="Вход"/>
+                        <LinkCreateAcc href="http://127.0.0.1:3000/registration">Нет аккаунта</LinkCreateAcc>
+                        <LoginButton type="submit">Вход</LoginButton>
                     </form>
-                </div>
+                </FormWrapper>
             </div>
         }
     }
@@ -56,7 +98,11 @@ function LoginForm () {
         axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
         .then(response => {
             if (response && response.data) {
-                navigate(`/user/${response.data.user}`)
+                if (response.data.user === undefined) {
+                    setError("Неверные данные!")
+                } else {
+                    navigate(`/user/${response.data.user}`)
+                }
             } else {
                 setError("Ошибка сервера!")
             }

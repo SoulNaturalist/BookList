@@ -14,7 +14,7 @@ ul {
     list-style-type: none;
 }
 
-.form_wrapper, .center_wrapper {
+.center_wrapper {
     padding: 50px;
     position: fixed; top: 50%; left: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -22,36 +22,12 @@ ul {
     transform: translate(-50%, -50%);
 }
   
-.login,.password,.email {
-    background-color: #000; 
-    display: block;
-    box-sizing: border-box;
-    padding:20px;
-    width:300px;
-    margin-bottom:20px;
-    font-size:18px;
-    outline:none;
-    border-radius:10px;
-}
-
-input {
-    display: block;
-    box-sizing: border-box;
-    padding:20px;
-    font-size:18px;
-    outline:none;
-}
-
 ::placeholder {
     color: rgb(255, 255, 255);
     opacity: 1;
     font-family: 'Manrope', sans-serif;
 }
 
-input, select, textarea{
-    color: #ffffff;
-    font-family: 'Manrope', sans-serif;
-}
 
 p {
     font-family: 'Manrope', sans-serif;
@@ -67,58 +43,7 @@ label {
     font-size: 14px;
     font-weight: 200;
 }
-  
-button[type="submit"],
-input[type="submit"] {
-    background: #000000;
-    color: white;
-    border: none;
-    padding: 15px;
-    font-size: 16px;
-}
-  
-button[type="submit"]:active,
-input[type="button"]:active,
-input[type="submit"]:active {
-    transition: 0.3s all;
-    transform: translateY(3px);
-    border: 1px solid transparent;
-    opacity: 0.8;
-}
-  
-input:disabled {
-    opacity: 0.4;
-}
-  
-input[type="button"]:hover {
-    transition: 0.3s all;
-}
-  
-button[type="submit"],
-input[type="button"],
-input[type="submit"] {
-    -webkit-appearance: none;
-    display:block;
-    margin:auto;
-}
-  
-button[type="button"] {
-    display: block;
-    appearance: none;
-    background: rgb(0, 0, 0);
-    color: white;
-    border: none;
-    text-transform: uppercase;
-    padding: 10px 20px;
-    border-radius: 4px;
-}
 
-.auth_title {
-    text-align: center;
-    margin-top:220px;
-    font-family: 'Manrope', sans-serif;
-    font-size:35px;
-}
 
 .profile, span {
     font-size:15px;
@@ -165,47 +90,6 @@ button[type="button"] {
     }
 }
 
-.nicname_input,
-.status_input,
-.avatar_input,
-.bg_url {
-    background-color: #000; 
-    display: block;
-    box-sizing: border-box;
-    padding:20px;
-    width:300px;
-    margin-bottom:20px;
-    font-size:18px;
-    outline:none;
-    border-radius:10px;
-
-}
-
-.nicname_input::placeholder,
-.status_input::placeholder, 
-.avatar_input::placeholder {
-    color: rgb(255, 255, 255);
-    font-family: 'Manrope', sans-serif;
-    text-align: center;
-}
-
-input.save_button {
-    color:#000;
-    background-color:#ffb54d;
-    font-size:15px;
-    display: block;
-    font-size:18px;
-    outline:none;
-    width:140px;
-    height:70px;
-}
-
-.title_main {
-    font-family: 'Manrope', sans-serif;
-    text-align: center;
-    margin-top:160px;
-}
-
 .title__book {
     margin-top:20px;
     text-align: center;
@@ -249,10 +133,6 @@ select option {
     top:120px;
     font-family: 'Manrope', sans-serif;
 
-}
-
-.registration_link {
-    font-family: 'Manrope', sans-serif;
 }
 
 .leader_title h2 {

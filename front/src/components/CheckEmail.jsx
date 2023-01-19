@@ -9,7 +9,7 @@ function CheckEmail () {
     top:120px;
     font-family: 'Manrope', sans-serif;
     `
-    const ImgEmail = styled.h2`
+    const ImgEmail = styled.img`
     width:300px;
     height:300px;
     display: block;

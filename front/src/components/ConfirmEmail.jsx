@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 function ConfirmEmail () {
   const sampleLocation = useLocation();
-  const { dataEmail } = useSWR('http://127.0.0.1:3030/api/confirm_email', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+  const { data } = useSWR('http://127.0.0.1:3030/api/confirm_email', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
         'Content-Type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify({code:sampleLocation.pathname.split("/")[2]})
@@ -26,14 +26,15 @@ function ConfirmEmail () {
   top:125px;
   `
   const emailComponent = () => {
-    if (dataEmail['message'] === 'Почта потверждена!') {
+    if (data['message'] === 'Почта потверждена!') {
       return <div>
         <TitleEmail>Ваша почта подтверждена!<a href="http://127.0.0.1:3000/login">Зайти на аккаунт</a></TitleEmail>
         <ImgSuccess src="https://www.suunto.com/contentassets/a831335e43eb4b3b90b55547ed33ab41/icon-success.png" alt="icon_success"/>
       </div>
     }
   }
-  return dataEmail ? emailComponent():<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>
+  
+  return data ? emailComponent():<div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>
 }
 
 export default ConfirmEmail;

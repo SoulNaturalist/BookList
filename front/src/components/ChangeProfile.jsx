@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
+import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -11,32 +12,68 @@ function ChangeProfile () {
         'Content-Type': 'application/json'},
         credentials: 'include'
     }).then(res => res.json()));
-    const {register,handleSubmit} = useForm();
+    const {register,getValues} = useForm();
+    const MainTitle = styled.h2`
+    font-family: 'Manrope', sans-serif;
+    text-align: center;
+    position:relative;
+    top:160px;
+    `
+    const FormWrapper = styled.div`
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    `
+    const InputWrapper = styled.input`
+    background-color: #000; 
+    display: block;
+    box-sizing: border-box;
+    padding:20px;
+    width:300px;
+    margin-bottom:20px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+    color: #ffffff;
+    font-family: 'Manrope', sans-serif;
+    `
+    const SaveButton = styled.button`
+    color:#000;
+    background-color:#ffb54d;
+    display: block;
+    font-size:18px;
+    outline:none;
+    width:140px;
+    height:70px;
+    margin:0 auto;
+    cursor:pointer;
+    font-family: 'Manrope', sans-serif;
+    `
     const profileSettingsComponent = () => {
         if (data.auth_data) {
             return (
                 <div>
-                    <h2 className="title_main">Основное</h2>
-                    <div className="form_wrapper">
-                        <form onSubmit={handleSubmit(onSubmit)}>
-                            <input type="text" className="status_input"
+                    <MainTitle>Основное</MainTitle>
+                    <FormWrapper>
+                        <InputWrapper type="text" className="status_input"
                             placeholder="Статус"
                             defaultValue={data.auth_data.status}
                             {...register("status", {})}
-                            />
-                            <input type="text" className="avatar_input"
+                        />
+                        <InputWrapper type="text" className="avatar_input"
                             placeholder="Аватар"
                             defaultValue={data.auth_data.avatar}
                             {...register("avatar", {})}
-                            />
-                            <input type="text" className="bg_url"
+                        />
+                        <InputWrapper type="text" className="bg_url"
                             placeholder="Изображение описания"
                             defaultValue={data.auth_data.bg}
                             {...register("bg", {})}
-                            />
-                            <input className="save_button" type="submit" value="Сохранить" />
-                        </form>
-                    </div>
+                        />
+                        <SaveButton type="submit" onClick={() => onSubmit()}>Сохранить</SaveButton>
+                    </FormWrapper>
                 </div>
         )
 
@@ -44,7 +81,8 @@ function ChangeProfile () {
             navigate("/login")
         }
     }
-    const onSubmit = (dataSubmut) => {
+    const onSubmit = () => {
+        const dataSubmut = getValues();
         if (dataSubmut.status || dataSubmut.avatar || dataSubmut.bg) {
             axios({method: 'put',url:'http://127.0.0.1:3030/api/setting_user/',withCredentials: true, headers: {}, data: 
             {status:dataSubmut.status,avatar:dataSubmut.avatar,bg:dataSubmut.bg}})

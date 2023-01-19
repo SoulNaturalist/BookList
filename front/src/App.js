@@ -40,7 +40,7 @@ return (
           <Route exec path="/user/:username/books:_type" element={<UserBooks />}/>
           <Route exec path="/user/:username/reviews" element={<UserReview />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
-          <Route path="*" element={<ConfirmEmail/>}/>
+          <Route exec path="/email_confirm/:code" element={<ConfirmEmail/>}/>
         </Routes>
       </Fragment>
     </Router>

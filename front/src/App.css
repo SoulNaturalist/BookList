@@ -97,13 +97,6 @@ label {
     font-size:30px;
 }
 
-.log-in {
-    font-size:15px;
-    float:right;
-    margin-top:15px;
-    margin-right:5px;
-}
-
 .select_book {
     background-color:#ffb54d;
     border:1px solid rgb(0, 0, 0);

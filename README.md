@@ -4,6 +4,7 @@ Online library, adding books, writing reviews, etc.
 
 Technologies
 - React.js
+- Styled-components
 - Node.js
 - Express
 - JWT

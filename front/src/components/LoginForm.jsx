@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from 'react';
 import useSWR from 'swr';
 import { useForm } from "react-hook-form";
@@ -92,11 +91,11 @@ function LoginForm () {
             </div>
         }
     }
-    const {register,getValues, formState: { errors }, handleSubmit } = useForm({
+    const {register,getValues, formState: { errors } } = useForm({
         mode: "onChange"
     });
     const dataForm = getValues()
-    const { loading, loginData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/login/', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+    const { loginData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/login/', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
     'Content-Type': 'application/json'},
     credentials: 'include',
     body: JSON.stringify({username: dataForm.login, password: dataForm.password})
@@ -104,7 +103,7 @@ function LoginForm () {
         if (res.ok) {
             navigate("/user/" + dataForm.login)
         } else {
-                setError("Неверные данные!")
+            setError("Неверные данные!")
         }
     }));
     return (

@@ -151,6 +151,7 @@ const get_user_data = (async function (req, res) {
         const dataUser = await usersModel.find({username: username},queryData).exec();
         return res.json(dataUser);
     } catch (err) {
+        console.log(err)
         return res.sendStatus(403);
     }
 })
@@ -186,8 +187,8 @@ const confirm_email = (async function (req, res) {
     };
     const data = await Users.findOne({code:codeCheck},Query).exec();
     if (data) {
-        const changeEmail = await Users.updateOne({code: codeCheck}, { $set: {emailConfirm:true}})
-        return changeEmail.modifiedCount ? res.json({'message':'Почта потверждена!'}):res.json({'message':'Произошла ошибка'});
+        await Users.updateOne({code: codeCheck}, { $set: {emailConfirm:true}});
+        return res.json({'message':'Почта потверждена!'});
     }
 })
 

@@ -8,6 +8,7 @@ import Alert from '@mui/material/Alert';
 
 function LoginForm () {
     const [Error,setError] = React.useState("");
+    const [toFetch,setFetch] = React.useState(false);
     const navigate = useNavigate();
     const { dataUser } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
         'Content-Type': 'application/json'},
@@ -70,7 +71,7 @@ function LoginForm () {
         } else {
             return <div>
                 <FormWrapper>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form>
                         <Input
                         placeholder="Логин"
                         required
@@ -85,29 +86,27 @@ function LoginForm () {
                         type="password" required/>
                         {errors.password && <p>{errors.password.message}</p>}
                         <LinkCreateAcc href="http://127.0.0.1:3000/registration">Нет аккаунта</LinkCreateAcc>
-                        <LoginButton type="submit">Вход</LoginButton>
+                        <LoginButton type="submit" onClick={() => setFetch(true)}>Вход</LoginButton>
                     </form>
                 </FormWrapper>
             </div>
         }
     }
-    const {register, formState: { errors }, handleSubmit } = useForm({
+    const {register,getValues, formState: { errors }, handleSubmit } = useForm({
         mode: "onChange"
     });
-    const onSubmit = (data) => {
-        axios({method: 'post',url:'http://127.0.0.1:3030/api/login/',withCredentials: true, headers: {}, data: {username: data.login, password: data.password}})
-        .then(response => {
-            if (response && response.data) {
-                if (response.data.user === undefined) {
-                    setError("Неверные данные!")
-                } else {
-                    navigate(`/user/${response.data.user}`)
-                }
-            } else {
-                setError("Ошибка сервера!")
-            }
-        })
-    }
+    const dataForm = getValues()
+    const { loading, loginData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/login/', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+    'Content-Type': 'application/json'},
+    credentials: 'include',
+    body: JSON.stringify({username: dataForm.login, password: dataForm.password})
+    }).then(res => {
+        if (res.ok) {
+            navigate("/user/" + dataForm.login)
+        } else {
+                setError("Неверные данные!")
+        }
+    }));
     return (
         <div>
             {LoginFormComponent()}

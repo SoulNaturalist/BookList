@@ -65,12 +65,12 @@ const login = (async function (req, res) {
                     return res.json({message: "Активируйте почту!", codeStatus:400});
                 }
             } else {
-                return res.json({message: "Неверные данные!", codeStatus:401});
+                return res.status(400).json({message: "Неверные данные!", codeStatus:401});
             }
         });
 
     } else {
-        return res.json({message: "Неверные данные!", codeStatus:401});
+        return res.status(400).json({message: "Неверные данные!", codeStatus:401});
     }
    
 })

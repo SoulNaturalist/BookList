@@ -93,7 +93,7 @@ function RegistarationForm () {
         }
 
     }
-    const {register,getValues, formState: { errors }, handleSubmit } = useForm({
+    const {register,getValues, formState: { errors } } = useForm({
         mode: "onChange"
     });
     const dataForm = getValues()

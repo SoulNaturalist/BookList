@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 
 function PasswordChange () {
@@ -32,6 +32,17 @@ function PasswordChange () {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     `;
+    const buttonClickAnimation = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+    `;
     const ResetButton = styled.input`
     color:black;
     display: block;
@@ -43,6 +54,9 @@ function PasswordChange () {
     border-radius:10px;
     background-color:#ffb54d;
     border:none;
+    &:active {
+        animation: ${buttonClickAnimation} 0.2s ease-in-out;
+    }
     `;
     const MainTitle = styled.h2`
     font-family: 'Manrope', sans-serif;

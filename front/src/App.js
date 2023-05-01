@@ -15,6 +15,7 @@ import UserPage from './components/UserPage';
 import LeaderBoard from './components/LeaderBoard';
 import Rules from './components/Rules';
 import UserReview from './components/UserReview';
+import Dialogs from './components/Dialogs.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 
@@ -41,6 +42,7 @@ return (
           <Route exec path="/user/:username/reviews" element={<UserReview />}/>
           <Route exec path="/user/:username" element={<UserPage />}/>
           <Route exec path="/email_confirm/:code" element={<ConfirmEmail/>}/>
+          <Route exec path="/dialogs/" element={<Dialogs/>}/>
         </Routes>
       </Fragment>
     </Router>

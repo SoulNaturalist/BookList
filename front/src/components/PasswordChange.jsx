@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
+import styled from "styled-components";
 
 
 function PasswordChange () {
@@ -12,6 +13,45 @@ function PasswordChange () {
     const [alertSuccessValue, setAlertValue] = React.useState(false);
     const [alertErrorValue, setErrorValue] = React.useState(false);
     const navigate = useNavigate("/");
+
+    const Input = styled.input`
+    color:white;
+    background-color: #000; 
+    display: block;
+    box-sizing: border-box;
+    padding:20px;
+    width:300px;
+    margin-bottom:20px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+    `;
+    const FormWrapper = styled.div`
+    padding: 50px;
+    position: fixed; top: 50%; left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    `;
+    const ResetButton = styled.input`
+    color:black;
+    display: block;
+    box-sizing: border-box;
+    padding:15px;
+    width:300px;
+    font-size:18px;
+    outline:none;
+    border-radius:10px;
+    background-color:#ffb54d;
+    border:none;
+    `;
+    const MainTitle = styled.h2`
+    font-family: 'Manrope', sans-serif;
+    text-align: center;
+    position:relative;
+    top:240px;
+    `
+
     React.useEffect(() => {
         axios({method: 'post',url:`http://127.0.0.1:3030/api/auth`,withCredentials: true, headers: {}})
         .then(response => {
@@ -31,44 +71,46 @@ function PasswordChange () {
     }
     const PasswordChangeComponent = () => {
         if (user["auth_data"]) {
-            if (user["auth_data"]["twoAuth"] === true) {
+            if (user["auth_data"]["twoAuth"]) {
                 return <div>
-                        <div className="form_wrapper">
+                        <MainTitle>Безопасность аккаунта</MainTitle>
+                        <FormWrapper>
                             <form onSubmit={handleSubmit(onSubmit)}>
                                 {errors.login && <p>{errors.login.message}</p>}
-                                <input className="login"
+                                <Input className="login"
                                     placeholder="Код"
                                     {...register("code", {required: "Это обязательное поле"})}
                                 />
                                 {errors.password && <p>{errors.password.message}</p>}
-                                <input className="password"
+                                <Input className="password"
                                     placeholder="Новый пароль"
                                     {...register("new_password", {required: "Это обязательное поле"})}
                                     type="password"/>
                                     {errors.email && <p>{errors.email.message}</p>}
-                                <input type="submit" value="Сменить пароль" />
+                                <Input type="submit" value="Сменить пароль" />
                             </form>
-                        </div>
+                        </FormWrapper>
                     </div>
             } else {
                 return <div>
-                        <div className="form_wrapper">
+                        <MainTitle>Безопасность аккаунта</MainTitle>
+                        <FormWrapper>
                             <form onSubmit={handleSubmit(onSubmitDefault)}>
                                 {errors.password && <p>{errors.password.message}</p>}
-                                <input className="login"
+                                <Input
                                     placeholder="Текущий пароль"
                                     type="password"
                                     {...register("password", {required: "Это обязательное поле"})}
                                     onChange={(e) => onChangePassword()}
                                 />
                                 {errors.new_password && <p>{errors.new_password.message}</p>}
-                                <input className="password"
+                                <Input
                                     placeholder="Новый пароль"
                                     {...register("new_password", {required: "Это обязательное поле"})}
                                     type="password"/>
-                                <input type="submit" value="Сменить пароль" />
+                                <ResetButton type="submit" value="Сменить пароль" />
                             </form>
-                        </div>
+                        </FormWrapper>
                     </div>
             }
         }
@@ -111,8 +153,7 @@ function PasswordChange () {
         })
     }
 
-
-    return loading ? <div className="form_wrapper"><CircularProgress disableShrink /></div>:<div>
+    return loading ? <FormWrapper><CircularProgress disableShrink /></FormWrapper>:<div>
         {PasswordChangeComponent()}
         {alert()}
     </div>

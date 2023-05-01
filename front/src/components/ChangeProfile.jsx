@@ -75,17 +75,17 @@ function ChangeProfile () {
                 <div>
                     <MainTitle>Основное</MainTitle>
                     <FormWrapper>
-                        <InputWrapper type="text" className="status_input"
+                        <InputWrapper type="text"
                             placeholder="Статус"
                             defaultValue={data.auth_data.status}
                             {...register("status", {})}
                         />
-                        <InputWrapper type="text" className="avatar_input"
+                        <InputWrapper type="text"
                             placeholder="Аватар"
                             defaultValue={data.auth_data.avatar}
                             {...register("avatar", {})}
                         />
-                        <InputWrapper type="text" className="bg_url"
+                        <InputWrapper type="text"
                             placeholder="Изображение описания"
                             defaultValue={data.auth_data.bg}
                             {...register("bg", {})}

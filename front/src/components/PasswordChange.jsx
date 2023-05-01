@@ -2,7 +2,6 @@ import React from 'react';
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import styled from "styled-components";
 
@@ -51,6 +50,46 @@ function PasswordChange () {
     position:relative;
     top:240px;
     `
+    const ErrorAlert = styled.div`
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 4px;
+    box-shadow: none;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    background-color: #d32f2f;
+    display: -webkit-box;
+    display: -webkit-flex;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 10px 16px;
+    color: #fff;
+    top: -33px;
+    `;
+    const SuccessAlert = styled.div`
+    -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    border-radius: 4px;
+    box-shadow: none;
+    font-family: "Roboto","Helvetica","Arial",sans-serif;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    background-color:#a3ff73;
+    display: -webkit-box;
+    display: -webkit-flex;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 10px 16px;
+    color: #000;
+    top: -33px;
+    `;
 
     React.useEffect(() => {
         axios({method: 'post',url:`http://127.0.0.1:3030/api/auth`,withCredentials: true, headers: {}})
@@ -129,9 +168,9 @@ function PasswordChange () {
     }
     const alert = () => {
         if (alertErrorValue) {
-            return <Alert variant="filled" severity="error">{alertErrorValue}</Alert>
+            return <ErrorAlert>{alertErrorValue}</ErrorAlert>
         } else if (alertSuccessValue) {
-            return <Alert variant="filled" severity="success">Пароль изменен!</Alert>
+            return <SuccessAlert variant="filled" severity="success">Пароль изменен!</SuccessAlert>
         }
     }
 

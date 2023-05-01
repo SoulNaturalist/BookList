@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import useSWR from 'swr';
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -39,6 +39,17 @@ function ChangeProfile () {
     color: #ffffff;
     font-family: 'Manrope', sans-serif;
     `
+    const buttonClickAnimation = keyframes`
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+    `;
     const SaveButton = styled.button`
     color:#000;
     background-color:#ffb54d;
@@ -50,6 +61,13 @@ function ChangeProfile () {
     margin:0 auto;
     cursor:pointer;
     font-family: 'Manrope', sans-serif;
+    border:none;
+    &:hover {
+        background-color:#ff9f00;
+    }
+    &:active {
+        animation: ${buttonClickAnimation} 0.2s ease-in-out;
+    }
     `
     const profileSettingsComponent = () => {
         if (data.auth_data) {

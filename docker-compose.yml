@@ -7,7 +7,7 @@ services:
     ports:
       - "3030:3030"
     environment:
-      - MONGO_URI=DB_URI
+      - MONGO_URI=mongodb+srv://SPD:GTege2345DF@cluster0.saxtg.mongodb.net/BookList
     command: node app.js
 
   frontend:
@@ -27,4 +27,4 @@ services:
     volumes:
       - ./data/db:/data/db
     environment:
-      - MONGO_URI=DB_URI
+      - MONGO_URI=mongodb+srv://SPD:GTege2345DF@cluster0.saxtg.mongodb.net/BookList

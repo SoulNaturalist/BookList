@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import useSWR from 'swr';
 import axios from 'axios';
+import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "./styles/UserReview.styles";
 
 export default function UserReview() {
   const navigate = useNavigate();
@@ -34,19 +35,18 @@ export default function UserReview() {
       </div>
     );
   }
-
   const { reviews } = userData.data[0];
 
   return (
     <div>
-      <h1 className="title_reviews_user">Рецензии {username}</h1>
+      <Title>Рецензии {username}</Title>
       {Object.keys(reviews).map((review, index) => (
-        <div key={index} className="review_card_profile">
-          <h1 className="book_name_review">{review}</h1>
-          <p className="book_title_review">{reviews[review].title}</p>
-          <p className="book_description_review">{reviews[review].description}</p>
+        <ReviewCardProfile key={index}>
+          <BookNameTitle>{review}</BookNameTitle>
+          <BookTitleReview>{reviews[review].title}</BookTitleReview>
+          <BookDescription>{reviews[review].description}</BookDescription>
           <Rating name="read-only" value={reviews[review].rating} readOnly />
-        </div>
+        </ReviewCardProfile>
       ))}
     </div>
   );

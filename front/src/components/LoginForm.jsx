@@ -2,8 +2,8 @@ import React from 'react';
 import useSWR from 'swr';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import Alert from '@mui/material/Alert';
+import {FormWrapper, Input, LinkCreateAcc, LoginButton} from './styles/LoginForm.styles';
 
 function LoginForm () {
     const [Error,setError] = React.useState("");
@@ -23,47 +23,6 @@ function LoginForm () {
             return "Активируйте почту!"
         }
     }
-    const FormWrapper = styled.div`
-    padding: 50px;
-    position: fixed; top: 50%; left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    `
-    const LoginButton = styled.button`
-    display:block;
-    margin:auto;
-    position:relative;
-    top:10px;
-    appearance: none;
-    background: rgb(0, 0, 0);
-    color: white;
-    border: none;
-    padding: 15px 20px;
-    border-radius: 4px;
-    -webkit-appearance: none;
-    color: white;
-    font-size: 16px;
-    cursor:pointer;
-    `
-    const Input = styled.input`
-    color:white;
-    background-color: #000; 
-    display: block;
-    box-sizing: border-box;
-    padding:20px;
-    width:300px;
-    margin-bottom:20px;
-    font-size:18px;
-    outline:none;
-    border-radius:10px;
-    `
-    const LinkCreateAcc = styled.a`
-    font-family: 'Manrope', sans-serif;
-    position:relative;
-    left:10px;
-    top:-3px;
-    `
     const LoginFormComponent = () => {
         if (dataUser && dataUser.auth_data) {
             return navigate(`/user/${dataUser.auth_data.username}`)
@@ -85,7 +44,7 @@ function LoginForm () {
                         type="password" required/>
                         {errors.password && <p>{errors.password.message}</p>}
                         <LinkCreateAcc href="http://127.0.0.1:3000/registration">Нет аккаунта</LinkCreateAcc>
-                        <LoginButton type="submit" onClick={() => setFetch(true)}>Вход</LoginButton>
+                        <LoginButton type="button" onClick={() => setFetch(true)}>Вход</LoginButton>
                     </form>
                 </FormWrapper>
             </div>
@@ -95,7 +54,7 @@ function LoginForm () {
         mode: "onChange"
     });
     const dataForm = getValues()
-    const { loginData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/login/', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+    useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/login/', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
     'Content-Type': 'application/json'},
     credentials: 'include',
     body: JSON.stringify({username: dataForm.login, password: dataForm.password})

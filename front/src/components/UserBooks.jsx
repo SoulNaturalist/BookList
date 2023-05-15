@@ -1,9 +1,8 @@
 import React from 'react';
 import axios from "axios";
-import styled from 'styled-components';
 import {useParams, useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-
+import {ParagraphBook, FlexWrapper, ParagraphBookName, ImgCover} from "./styles/UserBooks.styles";
 
 function UserBooks () {
     const { _type, username } = useParams();
@@ -24,28 +23,6 @@ function UserBooks () {
             setLoading(true)
         })
     }, [username])
-    const ParagraphBook = styled.p`
-    position:relative;
-    top:20px;
-    text-align: center;
-    font-family: 'Manrope', sans-serif;
-    font-size:30px;
-    `
-    const FlexWrapper = styled.div`
-    display:flex;
-    justify-content:center;
-    `
-    const ParagraphBookName = styled.p`
-    font-size:20px;
-    text-align:center;
-    `
-    const ImgCover = styled.img`
-    width:auto;
-    height:20%;
-    display:block;
-    margin:auto;
-    padding:10px;
-    `
     const checkType = () => {
         if (Data) {
             if (_type === "_readed") {

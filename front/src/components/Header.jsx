@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import React from 'react';
-import styled from 'styled-components';
 import logo from '../assets/logo.png';
+import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link} from "./styles/Header.styles";
 
 function Header() {
     const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{
@@ -12,34 +12,6 @@ function Header() {
         },
         credentials: 'include'
     }).then(res => res.json()));
-    const Header = styled.header`
-    background-color:#FF7A00
-    `;
-    const TitleHeader = styled.header`
-    font-family: 'Manrope', sans-serif;
-    position: relative;
-    top:10px;
-    font-size:28px;
-    height:50px;
-    width:50%;
-    display: inline-block;
-    `;
-    const ImgHeader = styled.img`
-    float: left;
-    margin-left:15px;
-    margin-top:10px;
-    width:40px;
-    `
-    const ParagraphLogin = styled.p`
-    font-size:15px;
-    float:right;
-    margin-top:15px;
-    margin-right:5px;
-    `
-    const Link = styled.a`
-    color:black;
-    text-decoration: none;
-    `
     const loginComponent = () => {
         const subLink = window.location.href.split("/")[3];
         if (data && data.auth_data && subLink !== "logout") {
@@ -49,7 +21,7 @@ function Header() {
         }
     }
     return (
-        <Header>
+        <HeaderComponent>
             <Link href="/">
                 <ImgHeader src={logo}/>
                 <TitleHeader>
@@ -57,7 +29,7 @@ function Header() {
                 </TitleHeader>
             </Link>
             {loginComponent()}
-        </Header>
+        </HeaderComponent>
     );
 };
 

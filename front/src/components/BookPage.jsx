@@ -7,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 import planned from "../assets/realtime-protection.png";
 import dropped from "../assets/1828939.png";
 import readed from "../assets/open-book.png";
-import styled from 'styled-components';
+import {FlexWrapper, ReviewCard, ParagraphWrapper, ParagraphAuthor, 
+  ParagraphReview, ParagraphDescription, TitleBook, ParagraphBook, 
+  BookCoverImg, WrapperButton, Wrapper, ImgButton, ButtonBook} from "./styles/BookPage.styles";
 
 function BookPage () {
   const { slug } = useParams();
@@ -45,87 +47,6 @@ function BookPage () {
       return navigate("/login")
     }
   }
-  const FlexWrapper = styled.div`
-    display: flex;
-    justify-content:center;
-    position:relative;
-  `
-  const ReviewCard = styled.div`
-  background-color:#FFE7CB;
-  position: relative;
-  top:80px;
-  left:auto;
-  right:auto;
-  width:40%;
-  height:220px;
-  border-radius:10px;
-  border: solid rgb(0, 0, 0) 1px;
-  display: block;
-  margin:0 auto;
-  margin-bottom:10px;
-  `
-  const ParagraphWrapper = styled.p`
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  text-shadow: -1px 4px 5px rgb(255, 255, 255);
-  `
-  const ParagraphAuthor = styled.p`
-  position: relative;
-  top:20px;
-  `
-  const ParagraphReview = styled.p`
-  position: relative;
-  top:30px;
-  `
-  const ParagraphDescription = styled.p`
-  position: relative;
-  top:40px;
-  `
-  const TitleBook = styled.h3`
-  position: relative;
-  top:30px;
-  font-family: 'Manrope', sans-serif;
-  text-align:center;
-  `
-  const ParagraphBook = styled.p`
-  font-family: 'Manrope', sans-serif;
-  position: relative;
-  top:40px;
-  text-align: center;
-  `
-  const BookCoverImg = styled.img`
-  position: relative;
-  top:40px;
-  padding-right:70%;
-  width:25%;
-  height:15%;
-  `
-  const ButtonBook = styled.button`
-  background-color: rgba(255, 255, 255, 0.774); 
-  color: rgb(0, 0, 0); 
-  padding: 10px 24px;
-  cursor: pointer;
-  border:none; 
-  outline:none;
-  `
-  const WrapperButton = styled.div`
-  display: inline-block;
-  position: relative;
-  top:50px;
-  left:6.5%;
-  background-color:rgb(199, 199, 199);
-  border-radius: 10px;
-  &:hover ${ButtonBook} {
-    background-color: rgb(255, 213, 122);
-  }
-  `
-  const Wrapper = styled.div` 
-  `
-  const ImgButton = styled.img`
-  width:30px;
-  height:30px;
-  `
   return loading ? <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>:
   <Wrapper>
     <TitleBook>{Book.book_name} {Book.book_author}</TitleBook>

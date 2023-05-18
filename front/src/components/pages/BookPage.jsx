@@ -4,12 +4,12 @@ import {useParams} from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from "react-router-dom";
-import planned from "../assets/realtime-protection.png";
-import dropped from "../assets/1828939.png";
-import readed from "../assets/open-book.png";
+import planned from "../../assets/realtime-protection.png";
+import dropped from "../../assets/1828939.png";
+import readed from "../../assets/open-book.png";
 import {FlexWrapper, ReviewCard, ParagraphWrapper, ParagraphAuthor, 
   ParagraphReview, ParagraphDescription, TitleBook, ParagraphBook, 
-  BookCoverImg, WrapperButton, Wrapper, ImgButton, ButtonBook} from "./styles/BookPage.styles";
+  BookCoverImg, WrapperButton, Wrapper, ImgButton, ButtonBook} from "../styles/BookPage.styles";
 
 function BookPage () {
   const { slug } = useParams();

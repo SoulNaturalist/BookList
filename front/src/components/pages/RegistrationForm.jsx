@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import {FormWrapper, FlexWrapper, Input, RegistrationButton} from "./styles/RegistrationForm.styles";
+import {FormWrapper, FlexWrapper, Input, RegistrationButton} from "../styles/RegistrationForm.styles";
 
 
 function RegistarationForm () {

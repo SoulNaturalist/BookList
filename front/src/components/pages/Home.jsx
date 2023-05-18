@@ -1,8 +1,8 @@
 import React from 'react';
 import useSWR from 'swr';
-import bookHomeImg from '../assets/undraw_Books_re_8gea.png'
+import bookHomeImg from '../../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
-import {ParagraphWelcome, ParagraphDescription, ImgLibrary, WrapperLink, LinkResource, Span} from './styles/Home.styles';
+import {ParagraphWelcome, ParagraphDescription, ImgLibrary, WrapperLink, LinkResource, Span} from '../styles/Home.styles';
 
 
 

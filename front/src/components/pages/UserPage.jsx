@@ -3,14 +3,14 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import readed  from "../assets/readed.png";
-import drop  from "../assets/abandoned.png";
-import planned from "../assets/planned.png";
-import reviews from "../assets/review.png";
+import readed  from "../../assets/readed.png";
+import drop  from "../../assets/abandoned.png";
+import planned from "../../assets/planned.png";
+import reviews from "../../assets/review.png";
 import {BooksUl, ButtonChange, ButtonMsg, ImgAvatar, 
     BookMenuLi, DescriptionDiv, UsernameParagraph, DescriptionParagraph, IconsWrapper, 
     IconImg, CountWrapper, CountParagraph, TitleError, FlexWrapper
-} from "./styles/UserPage.styles";
+} from "../styles/UserPage.styles";
 
 function UserPage () {
     const { username } = useParams();

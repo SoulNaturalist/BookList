@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import { useLocation } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import {TitleEmail, ImgSuccess} from "./styles/ConfirmEmail.styles";
+import {TitleEmail, ImgSuccess} from "../styles/ConfirmEmail.styles";
 
 function ConfirmEmail () {
   const sampleLocation = useLocation();

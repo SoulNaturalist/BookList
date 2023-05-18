@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import useSWR from 'swr';
 import axios from 'axios';
-import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "./styles/UserReview.styles";
+import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "../styles/UserReview.styles";
 
 export default function UserReview() {
   const navigate = useNavigate();

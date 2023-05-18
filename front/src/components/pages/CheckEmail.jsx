@@ -1,6 +1,6 @@
 import React from 'react';
-import emailCheckImg from '../assets/undraw_Opened_re_i38e.png';
-import {AlertTitle, ImgEmail} from "./styles/CheckEmail.styles.js"
+import emailCheckImg from '../../assets/undraw_Opened_re_i38e.png';
+import {AlertTitle, ImgEmail} from "../styles/CheckEmail.styles";
 
 function CheckEmail () {
     return <div>

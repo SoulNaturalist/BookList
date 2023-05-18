@@ -1,7 +1,7 @@
 import React from 'react';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
-import {TitleCatalog, SearchButton, SearchInput, BookCard, CoverBook, BookParagraph, HoverButton, FlexWrapper, LoaderWrapper} from "./styles/BooksCatalog.styles";
+import {TitleCatalog, SearchButton, SearchInput, BookCard, CoverBook, BookParagraph, HoverButton, FlexWrapper, LoaderWrapper} from "../styles/BooksCatalog.styles";
 
 function BooksCatalog () {
   const [searchText, setSearchText] = React.useState("");

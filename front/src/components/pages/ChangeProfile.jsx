@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import {useNavigate} from "react-router-dom";
 import { useForm } from "react-hook-form";
 import CircularProgress from '@mui/material/CircularProgress';
-import {MainTitle, FormWrapper, InputWrapper, SaveButton} from "./styles/ChangeProfile.styles";
+import {MainTitle, FormWrapper, InputWrapper, SaveButton} from "../styles/ChangeProfile.styles";
 
 function ChangeProfile () {
     const navigate = useNavigate("/");

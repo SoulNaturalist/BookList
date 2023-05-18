@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import {SuccessAlert, ErrorAlert, MainTitle, ResetButton, FormWrapper, Input} from "./styles/PasswordChange.styles";
+import {SuccessAlert, ErrorAlert, MainTitle, ResetButton, FormWrapper, Input} from "../styles/PasswordChange.styles";
 
 
 function PasswordChange () {

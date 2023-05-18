@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import React from 'react';
-import logo from '../assets/logo.png';
-import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link} from "./styles/Header.styles";
+import logo from '../../assets/logo.png';
+import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link} from "../styles/Header.styles";
 
 function Header() {
     const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{

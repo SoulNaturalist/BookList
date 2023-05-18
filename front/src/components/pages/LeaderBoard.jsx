@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
-import {ButtonLeader, LeaderTitle, LeaderMenu, LeaderUsers, TitleLeaders, LeaderAvatar, LeaderUsername} from "./styles/LeaderBoard.styles";
+import {ButtonLeader, LeaderTitle, LeaderMenu, LeaderUsers, TitleLeaders, LeaderAvatar, LeaderUsername} from "../styles/LeaderBoard.styles";
 
 function LeaderBoard () {
     const [textTitle, setTextTitle] = React.useState("");

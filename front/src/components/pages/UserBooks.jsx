@@ -2,7 +2,7 @@ import React from 'react';
 import axios from "axios";
 import {useParams, useNavigate} from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import {ParagraphBook, FlexWrapper, ParagraphBookName, ImgCover} from "./styles/UserBooks.styles";
+import {ParagraphBook, FlexWrapper, ParagraphBookName, ImgCover} from "../styles/UserBooks.styles";
 
 function UserBooks () {
     const { _type, username } = useParams();

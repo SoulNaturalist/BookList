@@ -1,6 +1,6 @@
 import React from 'react'
-import messagesAlert from "../assets/messages-alert.svg";
-import {DialogsFrame, MessagesAlert, MessagesTitle, AvatarWrapper} from "./styles/Dialogs.styles.js";
+import messagesAlert from "../../assets/messages-alert.svg";
+import {DialogsFrame, MessagesAlert, MessagesTitle, AvatarWrapper} from "../styles/Dialogs.styles.js";
 
 
 export default function Dialogs() {

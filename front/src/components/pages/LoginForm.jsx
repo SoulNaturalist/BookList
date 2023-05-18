@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Alert from '@mui/material/Alert';
-import {FormWrapper, Input, LinkCreateAcc, LoginButton} from './styles/LoginForm.styles';
+import {FormWrapper, Input, LinkCreateAcc, LoginButton} from '../styles/LoginForm.styles';
 
 function LoginForm () {
     const [Error,setError] = React.useState("");

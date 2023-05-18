@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlexWrapper, WrapperRules, TitleRules, ParagraphRules, SubTitleRules} from "./styles/Rules.styles.js";
+import {FlexWrapper, WrapperRules, TitleRules, ParagraphRules, SubTitleRules} from "../styles/Rules.styles.js";
 
 function Rules () {
     return (

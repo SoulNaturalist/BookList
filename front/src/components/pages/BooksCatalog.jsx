@@ -10,7 +10,7 @@ function BooksCatalog () {
     setSearchFlag(true);
   };
 
-  const { data: dataBooks } = useSWR('http://127.0.0.1:3030/api/get_library_books', (apiURL) => fetch(apiURL).then(res => res.json()));
+  const { data: dataBooks} = useSWR('http://127.0.0.1:3030/api/get_library_books', (apiURL) => fetch(apiURL).then(res => res.json()));
 
   const filteredBooks = searchFlag ? dataBooks.filter((book) => book.title.toLowerCase().includes(searchText.toLowerCase())):dataBooks;
 
@@ -29,7 +29,6 @@ function BooksCatalog () {
         ))}
     </FlexWrapper>
   }
-
   return (
     <>
       <TitleCatalog>Каталог</TitleCatalog>
@@ -44,7 +43,6 @@ function BooksCatalog () {
         </SearchButton>
       </HoverButton>
       {dataBooks ? bookComponent():<LoaderWrapper><CircularProgress disableShrink /></LoaderWrapper>}
-      
     </>
     );
 }

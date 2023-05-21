@@ -40,9 +40,7 @@ function BookPage () {
         book_name:formatBook.book_name,book_author:formatBook.book_author,year_of_release:formatBook.year_of_release,
         book_status:status,cover:formatBook.cover,slug:formatBook.slug
       }})
-      .then(response => {
-        setAlert(true);
-      })
+      .then(() => setAlert(true))
     } else {
       return navigate("/login")
     }

@@ -1,13 +1,12 @@
 import React from 'react';
 import Rating from '@mui/material/Rating';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import useSWR from 'swr';
 import axios from 'axios';
 import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "../styles/UserReview.styles";
 
 export default function UserReview() {
-  const navigate = useNavigate();
   const { username } = useParams();
   const { data: authData } = useSWR('http://127.0.0.1:3030/api/auth', () =>
     axios.get('http://127.0.0.1:3030/api/auth', { withCredentials: true })

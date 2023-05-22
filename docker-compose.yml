@@ -7,7 +7,7 @@ services:
     ports:
       - "3030:3030"
     environment:
-      - MONGO_URI=mongodb+srv://SPD:GTege2345DF@cluster0.saxtg.mongodb.net/BookList
+      - MONGO_URI=${DATABASE_URL}
     command: node app.js
 
   frontend:
@@ -27,4 +27,14 @@ services:
     volumes:
       - ./data/db:/data/db
     environment:
-      - MONGO_URI=db_url
+      - MONGO_URI=${DATABASE_URL}
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf
+      - ./nginx/front.conf:/etc/nginx/conf.d/front.conf

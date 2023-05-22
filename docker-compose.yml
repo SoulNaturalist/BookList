@@ -27,4 +27,4 @@ services:
     volumes:
       - ./data/db:/data/db
     environment:
-      - MONGO_URI=mongodb+srv://SPD:GTege2345DF@cluster0.saxtg.mongodb.net/BookList
+      - MONGO_URI=db_url

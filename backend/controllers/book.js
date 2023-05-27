@@ -87,7 +87,7 @@ const get_library_books = (async function (req, res) {
     const books = DB.model('books', BookSchema);
     const query = { 
         __v: false,
-         _id: false
+        _id: false
     };
     const bookData = await books.find({},query).exec();
     return res.json(bookData);
@@ -95,7 +95,7 @@ const get_library_books = (async function (req, res) {
 
 const add_book = (async function (req, res) {
     const token = req.cookies.JWT;
-    const Users = DB.model('users', UserSchema);
+    const usersSchema = DB.model('users', UserSchema);
     const booksSchemEntity = DB.model('books', BookSchema);
     if (!token) {
         return res.json({message: "Для этого метода нужна авторизация", codeStatus:403});
@@ -109,7 +109,7 @@ const add_book = (async function (req, res) {
         const authUser = await Users.findOne({_id: idUser['data']},Query).exec();
         const bookValidation = await booksSchemEntity.findOne({book_author:req.body["book_author"],book_name:req.body["book_name"], year_of_release:req.body["year_of_release"], cover:req.body["cover"], slug:req.body["slug"]}).exec();
         if (bookValidation !== null && Object.keys(bookValidation)) {
-            Object.assign(authUser["books"],{
+            const booksUpdated = Object.assign(authUser["books"],{
                 [req.body["book_name"]]: {
                     book_author: req.body["book_author"],
                     year_of_release: req.body["year_of_release"],
@@ -117,7 +117,8 @@ const add_book = (async function (req, res) {
                     book_status:req.body["book_status"], // readed | drop | planned
                     cover:req.body["cover"],
                     slug:req.body["slug"]
-                }});
+            }});
+            await usersSchema.updateOne({_id: idUser['data']}, {books: booksUpdated});
             return res.sendStatus(200);
         } else {
             return res.sendStatus(400);

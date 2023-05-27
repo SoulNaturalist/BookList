@@ -15,7 +15,7 @@
     "@types/styletron-react": "^5.0.3",
     "@types/styletron-standard": "^2.0.2",
     "axios": "^0.27.0",
-    "baseui": "^11.2.1",
+    "baseui": "^12.0.0",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

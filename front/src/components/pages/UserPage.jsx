@@ -1,19 +1,29 @@
-import React from 'react';
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useLocation,useParams,useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
-import readed from "../../assets/readed.png";
-import drop from "../../assets/abandoned.png";
-import planned from "../../assets/planned.png";
-import reviews from "../../assets/review.png";
-import { BooksUl, ButtonChange, ButtonMsg, ImgAvatar,
-  BookMenuLi, DescriptionDiv, UsernameParagraph, DescriptionParagraph, IconsWrapper,
-  IconImg, CountWrapper, CountParagraph, FlexWrapper
-} from "../styles/UserPage.styles";
-import useSWR from 'swr';
+import readed from '../../assets/readed.png';
+import drop from '../../assets/abandoned.png';
+import planned from '../../assets/planned.png';
+import reviews from '../../assets/review.png';
+import {
+  BooksUl,
+  ButtonChange,
+  ButtonMsg,
+  ImgAvatar,
+  BookMenuLi,
+  DescriptionDiv,
+  UsernameParagraph,
+  DescriptionParagraph,
+  IconsWrapper,
+  IconImg,
+  CountParagraph,
+  FlexWrapper
+} from '../styles/UserPage.styles';
+import useSWR, { mutate } from 'swr';
 
 function UserPage() {
   const { username } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const { data: authData, error: authError } = useSWR('http://127.0.0.1:3030/api/auth', async (apiURL) => {
@@ -28,9 +38,19 @@ function UserPage() {
     return data;
   });
 
-  if (authError) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (authError && authError.response && authError.response.status === 401) {
+      navigate('/login');
+    }
+  }, [authError, navigate]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('update') === 'true') {
+      mutate('http://127.0.0.1:3030/api/auth');
+    }
+  }, [location.search, username]);
+
 
   const UserProfile = () => {
     if (userData && authData) {
@@ -65,27 +85,55 @@ function UserPage() {
             <BookMenuLi>отзывы</BookMenuLi>
           </BooksUl>
           <IconsWrapper>
-            <a href={`http://127.0.0.1:3000/user/${username}/books_readed`}><IconImg src={readed} alt="readed" /></a>
-            <a href={`http://127.0.0.1:3000/user/${username}/books_drop`}><IconImg className="drop" src={drop} alt="drop" /></a>
-            <a href={`http://127.0.0.1:3000/user/${username}/books_planned`}><IconImg className="planned" src={planned} alt="planned" /></a>
-            <a href={`http://127.0.0.1:3000/user/${username}/reviews`}><IconImg className="reviews" src={reviews} alt="reviews" /></a>
+            <div>
+              <a href={`http://127.0.0.1:3000/user/${username}/books_readed`}>
+                <IconImg src={readed} alt="readed" />
+                <CountParagraph>{readedCount}</CountParagraph>
+              </a>
+            </div>
+            <div>
+              <a href={`http://127.0.0.1:3000/user/${username}/books_drop`}>
+                <IconImg src={drop} alt="drop" />
+                <CountParagraph>{abandonedCount}</CountParagraph>
+              </a>
+            </div>
+            <div>
+              <a href={`http://127.0.0.1:3000/user/${username}/books_planned`}>
+                <IconImg src={planned} alt="planned" />
+                <CountParagraph>{plannedCount}</CountParagraph>
+              </a>
+            </div>
+            <div>
+              <a href={`http://127.0.0.1:3000/user/${username}/reviews`}>
+                <IconImg src={reviews} alt="reviews" />
+                <CountParagraph>{countReviews}</CountParagraph>
+              </a>
+            </div>
           </IconsWrapper>
-          <CountWrapper>
-            <CountParagraph>{readedCount}</CountParagraph>
-            <CountParagraph>{abandonedCount}</CountParagraph>
-            <CountParagraph>{plannedCount}</CountParagraph>
-            <CountParagraph>{countReviews}</CountParagraph>
-          </CountWrapper>
-          {authData.auth_data.username === username ? <a href="/change_profile"><ButtonChange>Редактировать</ButtonChange></a> : <ButtonMsg>Написать</ButtonMsg>}
+          {authData.auth_data.username === username ? (
+            <a href="/change_profile">
+              <ButtonChange>Редактировать</ButtonChange>
+            </a>
+          ) : (
+            <ButtonMsg>Написать</ButtonMsg>
+          )}
         </div>
       );
     }
     return null;
   };
 
+  if (authError || userError) {
+    return (
+      <FlexWrapper>
+        <div>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</div>
+      </FlexWrapper>
+    );
+  }
+
   return (
     <div>
-      {(authData && userData) ? (
+      {authData && userData ? (
         <UserProfile />
       ) : (
         <FlexWrapper>

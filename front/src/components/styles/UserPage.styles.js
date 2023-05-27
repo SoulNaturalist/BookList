@@ -19,7 +19,7 @@ export const ButtonChange = styled.button`
     cursor: pointer;
     border: none;
     position: relative;
-    top:-490px;
+    top:-350px;
     margin-left:40px;
     &:hover {
         background-color: #474646;
@@ -37,6 +37,7 @@ export const ButtonMsg = styled.button`
     transition: all 150ms ease;
     cursor: pointer;
     border: none;
+    top:-350px;
     &:hover {
         background-color: #474646;
     }
@@ -97,12 +98,16 @@ export const CountWrapper = styled.div`
     justify-content: center;
     flex-direction: row;
     position: relative;
-    top: -330px;
+    top: 30px;
 `;
 
 export const CountParagraph = styled.p`
-    margin: 62px;
-    padding: 5px 1% 5px 5px;
+    margin: 0;
+    text-align: center;
+    line-height: 1;
+    font-size: 14px;
+    top:-30px;
+    position: relative;
 `;
 
 export const TitleError = styled.h1`
@@ -117,4 +122,9 @@ export const FlexWrapper = styled.div`
     justify-content: center;
     position: relative;
     top: 90px;
+`;
+
+export const IconCountWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `;

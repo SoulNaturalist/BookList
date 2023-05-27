@@ -1,68 +1,121 @@
 import React from 'react';
-import axios from "axios";
-import {useParams} from "react-router-dom";
+import useSWR from 'swr';
+import { useParams, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import { useNavigate } from "react-router-dom";
 import planned from "../../assets/realtime-protection.png";
 import dropped from "../../assets/1828939.png";
 import readed from "../../assets/open-book.png";
-import {FlexWrapper, ReviewCard, ParagraphWrapper, ParagraphAuthor, 
-  ParagraphReview, ParagraphDescription, TitleBook, ParagraphBook, 
-  BookCoverImg, WrapperButton, Wrapper, ImgButton, ButtonBook} from "../styles/BookPage.styles";
+import {
+  FlexWrapper,
+  ReviewCard,
+  ParagraphWrapper,
+  ParagraphAuthor,
+  ParagraphReview,
+  ParagraphDescription,
+  TitleBook,
+  ParagraphBook,
+  BookCoverImg,
+  WrapperButton,
+  Wrapper,
+  ImgButton,
+  ButtonBook
+} from "../styles/BookPage.styles";
 
-function BookPage () {
+function BookPage() {
   const { slug } = useParams();
-  const [Book,setBook] = React.useState("");
-  const [loading, setLoading] = React.useState(true);
-  const [AlertSuccess,setAlert] = React.useState(false);
+  const [AlertSuccess, setAlert] = React.useState(false);
   const [currentUser, setUser] = React.useState(false);
   const navigate = useNavigate();
+
+  const fetchBookBySlug = async (url) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ slug: slug }),
+    });
+    const data = await response.json();
+    return data;
+  };
+
+  const { data: bookData, error: bookError } = useSWR(
+    'http://127.0.0.1:3030/api/get_book_by_slug',
+    fetchBookBySlug
+  );
+
+  const fetchAuthData = async (url) => {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    return data;
+  };
+
+  const { data: authData, error: authError } = useSWR(
+    'http://127.0.0.1:3030/api/auth',
+    fetchAuthData
+  );
+
   React.useEffect(() => {
-    axios({method: 'post',url:`http://127.0.0.1:3030/api/get_book_by_slug`,withCredentials: true, headers: {},data: {slug:slug}})
-    .then(response => {
-      setBook(response.data)
-      setLoading(false)
-    })
-  }, [slug])
-  React.useEffect(() => {
-    axios({method: 'post',url:`http://127.0.0.1:3030/api/auth`,withCredentials: true, headers: {}})
-    .then(response => {
-      setUser(response.data)
-      setLoading(false)
-    })
-  }, [])
+    if (authData) {
+      setUser(authData);
+    }
+  }, [authData]);
+
   function addBook(status) {
     if (Boolean(currentUser.auth_data)) {
-      let formatBook = { ...Book };
+      let formatBook = { ...bookData };
       delete formatBook.reviews;
-      axios({method: 'post',url:`http://127.0.0.1:3030/api/add_book`,withCredentials: true, headers: {},data: {
-        book_name:formatBook.book_name,book_author:formatBook.book_author,year_of_release:formatBook.year_of_release,
-        book_status:status,cover:formatBook.cover,slug:formatBook.slug
-      }})
-      .then(() => setAlert(true))
+      fetch('http://127.0.0.1:3030/api/add_book', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          book_name: formatBook.book_name,
+          book_author: formatBook.book_author,
+          year_of_release: formatBook.year_of_release,
+          book_status: status,
+          cover: formatBook.cover,
+          slug: formatBook.slug,
+        }),
+      }).then(() => setAlert(true));
     } else {
-      return navigate("/login")
+      return navigate("/login");
     }
   }
-  return loading ? <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>:
-  <Wrapper>
-    <TitleBook>{Book.book_name} {Book.book_author}</TitleBook>
-    <ParagraphBook>{Book.description}</ParagraphBook>
-    <BookCoverImg src={Book.cover} alt="cover"/>
-    <WrapperButton>
-      <ButtonBook onClick={() => addBook("readed")}>
-        <ImgButton src={readed} alt="readed_icon"/>
-      </ButtonBook>
-      <ButtonBook onClick={() => addBook("drop")}>
-        <ImgButton src={dropped} alt="drop_icon"/>
-      </ButtonBook>
-      <ButtonBook onClick={() => addBook("planned")}>
-        <ImgButton src={planned} alt="planned_icon"/>
-      </ButtonBook>
-    </WrapperButton>
-    {AlertSuccess ?  <Alert severity="success" style={{width:"20%",margin:"0 auto"}} className="alert_success">Книга добавлена!</Alert> : ""}
-      {Book && Book.reviews ? [Book.reviews].map((data, key) => (
+
+  if (bookError || authError) {
+    return <div>Error loading data...</div>;
+  }
+
+  if (!bookData || !authData) {
+    return <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>;
+  }
+
+  return (
+    <Wrapper>
+      <TitleBook>{bookData.book_name} {bookData.book_author}</TitleBook>
+      <ParagraphBook>{bookData.description}</ParagraphBook>
+      <BookCoverImg src={bookData.cover} alt="cover" />
+      <WrapperButton>
+        <ButtonBook onClick={() => addBook("readed")}>
+          <ImgButton src={readed} alt="readed_icon" />
+        </ButtonBook>
+        <ButtonBook onClick={() => addBook("drop")}>
+          <ImgButton src={dropped} alt="drop_icon" />
+        </ButtonBook>
+        <ButtonBook onClick={() => addBook("planned")}>
+          <ImgButton src={planned} alt="planned_icon" />
+        </ButtonBook>
+      </WrapperButton>
+      {AlertSuccess ? <Alert severity="success" style={{ width: "20%", margin: "0 auto" }} className="alert_success">Книга добавлена!</Alert> : ""}
+      {bookData && bookData.reviews ? [bookData.reviews].map((data, key) => (
         Object.keys(data).map((review, index) => (
           <ReviewCard key={key}>
             <ParagraphWrapper>
@@ -72,8 +125,9 @@ function BookPage () {
             </ParagraphWrapper>
           </ReviewCard>
         ))
-      )):""}
-  </Wrapper>
+      )) : ""}
+    </Wrapper>
+  );
 }
 
 export default BookPage;

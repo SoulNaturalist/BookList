@@ -81,3 +81,30 @@ export const ImgButton = styled.img`
   width:30px;
   height:30px;
 `;
+
+
+export const SpanBadgeStyles = styled.span`
+  background-color:#EBECF0;
+  border-radius:2em;
+  color:#172B4D;
+  display:inline-block;
+  font-size:12;
+  font-weight:normal;
+  line-height:1;
+  min-width:1;
+  padding:0.16666666666667em 0.5em;
+  text-align:center;
+`;
+
+export const GroupStylesWrapper = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+`;
+
+export const SelectWrapper = styled.div`
+  width:10%;
+  position:relative;
+  left:150px;
+  top:60px;
+`;

@@ -3,9 +3,6 @@ import useSWR from 'swr';
 import { useParams, useNavigate } from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
-import planned from "../../assets/realtime-protection.png";
-import dropped from "../../assets/1828939.png";
-import readed from "../../assets/open-book.png";
 import {
   FlexWrapper,
   ReviewCard,
@@ -16,13 +13,19 @@ import {
   TitleBook,
   ParagraphBook,
   BookCoverImg,
-  WrapperButton,
   Wrapper,
-  ImgButton,
-  ButtonBook
+  SpanBadgeStyles,
+  GroupStylesWrapper,
+  SelectWrapper
 } from "../styles/BookPage.styles";
+import Select from 'react-select';
 
 function BookPage() {
+  const options = [
+    { value: 'readed', label: 'Прочитана' },
+    { value: 'drop', label: 'Заброшена' },
+    { value: 'planned', label: 'Запланирована' }
+  ]
   const { slug } = useParams();
   const [AlertSuccess, setAlert] = React.useState(false);
   const [currentUser, setUser] = React.useState(false);
@@ -31,6 +34,7 @@ function BookPage() {
   const fetchBookBySlug = async (url) => {
     const response = await fetch(url, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -48,6 +52,7 @@ function BookPage() {
   const fetchAuthData = async (url) => {
     const response = await fetch(url, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -72,6 +77,7 @@ function BookPage() {
       let formatBook = { ...bookData };
       delete formatBook.reviews;
       fetch('http://127.0.0.1:3030/api/add_book', {
+        credentials: 'include',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -97,23 +103,22 @@ function BookPage() {
   if (!bookData || !authData) {
     return <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>;
   }
+  const formatGroupLabel = (data) => (
+    <GroupStylesWrapper>
+      <span>{data.label}</span>
+      <span style={SpanBadgeStyles}>{data.options.length}</span>
+    </GroupStylesWrapper>
+  );
+  
 
   return (
     <Wrapper>
       <TitleBook>{bookData.book_name} {bookData.book_author}</TitleBook>
       <ParagraphBook>{bookData.description}</ParagraphBook>
       <BookCoverImg src={bookData.cover} alt="cover" />
-      <WrapperButton>
-        <ButtonBook onClick={() => addBook("readed")}>
-          <ImgButton src={readed} alt="readed_icon" />
-        </ButtonBook>
-        <ButtonBook onClick={() => addBook("drop")}>
-          <ImgButton src={dropped} alt="drop_icon" />
-        </ButtonBook>
-        <ButtonBook onClick={() => addBook("planned")}>
-          <ImgButton src={planned} alt="planned_icon" />
-        </ButtonBook>
-      </WrapperButton>
+      <SelectWrapper>
+        <Select formatGroupLabel={formatGroupLabel} options={options} placeholder={"Статус прочтения"} onChange={(e) => addBook(e.value)}/>
+      </SelectWrapper>
       {AlertSuccess ? <Alert severity="success" style={{ width: "20%", margin: "0 auto" }} className="alert_success">Книга добавлена!</Alert> : ""}
       {bookData && bookData.reviews ? [bookData.reviews].map((data, key) => (
         Object.keys(data).map((review, index) => (

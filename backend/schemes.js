@@ -43,4 +43,21 @@ const AuthorSchema = new Schema({
     description: {type: String, required: false, default:"This is a temporary description, the author's descriptions will appear soon."},
 })
 
-module.exports = {UserSchema,BookSchema,AuthorSchema};
+
+const messagesSchema = new Schema({
+    dialog_id: {type: String, required: true},
+    messages: {type: Object, required: true},
+    initiator_id: {type: Number, required: true},
+    interlocutor: {type: Number, required: true},
+})
+
+const userActLogging = new Schema({
+    username: { type: String, required: true, index: { unique: true } },
+    act_id: {type: String, required: true},
+    change_data: {type: Boolean, required: true},
+    delete_data: {type: Boolean, required: true},
+    create_data: {type: Boolean, required: true},
+    act_description: {type: Number, required: true},
+})
+
+module.exports = {UserSchema, BookSchema, AuthorSchema, messagesSchema, userActLogging};

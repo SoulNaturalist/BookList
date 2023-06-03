@@ -16,7 +16,9 @@ const register = async function (req, res) {
     const uniqueUsername = await Users.count({ username: usernameField })
     const uniqueEmail = await Users.count({ email: emailField })
     if (!uniqueUsername && !uniqueEmail) {
+      // username and email is unique
       if (allowedEmails.includes(emailField.split('@')[1])) {
+        console.log(passwordField)
         const hashedPassword = await bcrypt.hash(passwordField, 10)
         const createdUser = await Users.create({ username: usernameField, password: hashedPassword, email: emailField, code: codeUserConfirm })
         const transporter = nodemailer.createTransport({
@@ -54,10 +56,11 @@ const login = async function (req, res) {
   }
   const data = await Users.findOne({ username: Username }, Query).exec()
   if (data && Username === data.username) {
-    bcrypt.compare(Password, data.password, async function (result) {
-      if (result) {
+    try {
+      const passwordMatch = await bcrypt.compare(Password, data.password)
+      if (passwordMatch) {
         if (data.emailConfirm) {
-          const token = await jwt.sign({ data: data._id }, JWT_PRIVATE_TOKEN)
+          const token = jwt.sign({ data: data._id }, JWT_PRIVATE_TOKEN)
           return res
             .cookie('JWT', token, { httpOnly: true, path: '/' })
             .json({ message: 'Успешно!', user: data.username })
@@ -67,7 +70,9 @@ const login = async function (req, res) {
       } else {
         return res.status(400).json({ message: 'Неверные данные!', codeStatus: 401 })
       }
-    })
+    } catch (error) {
+      return res.status(400).json({ message: 'Неверные данные!', codeStatus: 401 })
+    }
   } else {
     return res.status(400).json({ message: 'Неверные данные!', codeStatus: 401 })
   }

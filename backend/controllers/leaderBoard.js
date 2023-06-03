@@ -38,8 +38,7 @@ const get_leaders = async function (req, res) {
       books: false,
       _id: false,
       status: false,
-      bg: false,
-      books: false
+      bg: false
     }
     const sortByCountReviews = await usersModel.find({}, queryData).sort({ reviews: 'descending' }).limit(3).exec()
     return res.json(sortByCountReviews)

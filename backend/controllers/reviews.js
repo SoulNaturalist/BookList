@@ -50,9 +50,8 @@ const get_reviews = async function (req, res) {
   }
   if (typeReview) {
     try {
-      const data = jwt.verify(token, JWT_PRIVATE_TOKEN)
+      jwt.verify(token, JWT_PRIVATE_TOKEN)
       const users = DB.model('users', UserSchema)
-      const dataUser = await users.findOne({ _id: data.data }).exec()
       if (typeReview === 'user' && usernameAuthor) {
         const dataCurrentUser = await users.findOne({ username: usernameAuthor }).exec()
         if (Object.keys(dataCurrentUser.reviews).length) {

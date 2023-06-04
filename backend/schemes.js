@@ -8,7 +8,7 @@ const UserSchema = new Schema({
   registration_date: { type: String, default: new Date().toLocaleDateString('pt-PT') },
   books: { type: Object, default: {} },
   status: { type: String, default: '' },
-  avatar: { type: String, default: 'https://imageup.ru/img52/3963583/defolt-avatar.jpg?nc' },
+  avatar: { type: String, default: 'https://cdn1.iconfinder.com/data/icons/neutro-essential/32/user-512.png' },
   role: { type: Number, default: 0 }, // user:0 moder:1 admin:2
   reviews: { type: Object, required: true, default: {} },
   bg: { type: String, default: '' },

@@ -1,6 +1,7 @@
 import React from 'react';
 import useSWR from 'swr';
 import Alert from '@mui/material/Alert';
+import {FlexWrapper} from '../styles/Layout.styles';
 
 function LogoutPage () {
     const [authStatus,setAuthStatus] = React.useState("");
@@ -12,7 +13,7 @@ function LogoutPage () {
     }));
     const logoutAlert = () => {
         if (authStatus) {
-            return <Alert variant="filled" style={{display: 'flex', justifyContent: 'center'}} severity="success">Вы успешно вышли из учетной записи!</Alert>
+            return <FlexWrapper><Alert variant="filled" severity="success">Вы успешно вышли из учетной записи!</Alert></FlexWrapper>
         }
     }
     return (

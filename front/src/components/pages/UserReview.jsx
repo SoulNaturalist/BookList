@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import useSWR from 'swr';
 import axios from 'axios';
 import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "../styles/UserReview.styles";
+import {FlexWrapper} from '../styles/Layout.styles';
 
 export default function UserReview() {
   const { username } = useParams();
@@ -21,17 +22,17 @@ export default function UserReview() {
 
   if (!authData) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <FlexWrapper>
         <CircularProgress disableShrink />
-      </div>
+      </FlexWrapper>
     );
   }
 
   if (!userData) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <FlexWrapper>
         <CircularProgress disableShrink />
-      </div>
+      </FlexWrapper>
     );
   }
   const { reviews } = userData.data[0];

@@ -57,7 +57,7 @@ function RegistarationForm () {
         mode: "onChange"
     });
     const dataForm = getValues()
-    const { registartionData } = useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/register', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
+    useSWR(!toFetch ? null :'http://127.0.0.1:3030/api/register', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
         'Content-Type': 'application/json'},
         credentials: 'include',
         body:JSON.stringify({username: dataForm.login, password: dataForm.password, email:dataForm.email})

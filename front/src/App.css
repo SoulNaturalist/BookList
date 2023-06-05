@@ -14,14 +14,6 @@ ul {
     list-style-type: none;
 }
 
-.center_wrapper {
-    padding: 50px;
-    position: fixed; top: 50%; left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-}
-  
 ::placeholder {
     color: rgb(255, 255, 255);
     opacity: 1;
@@ -44,33 +36,6 @@ label {
     font-weight: 200;
 }
 
-
-.profile, span {
-    font-size:15px;
-    float:right;
-    margin-top:15px;
-    margin-right:5px;
-}
-
-.book_author {
-    font-size:18px;
-}
-
-
-.alert_success {
-    animation: fadein 5s linear 1 normal forwards;
-}
-
-@keyframes fadein{
-    from{
-       opacity: 1;
-    }
-    to{
-        opacity: 0;
-    }
-}
-
-
 .alert_error {
     animation: fadein 5s linear 1 normal forwards;
 }
@@ -82,59 +47,4 @@ label {
     to{
         opacity: 0;
     }
-}
-
-.select_book {
-    background-color:#ffb54d;
-    border:1px solid rgb(0, 0, 0);
-    border-radius:5px;
-    position: relative;
-    left:95px;
-    top:10px;
-    width: 100%;
-    max-width: 15%;
-    border-radius:5px;
-    padding: 14px 15px;
-    font-size: 14px;
-    line-height: 18px;
-    color: rgba(66, 67, 72, 0.8);
-    cursor: pointer;
-    font-family: 'Manrope', sans-serif;
-    font-size:18px;
-}
-
-select option {
-    background-color:#ffffff;
-}
-
-.check_email {
-    text-align: center;
-    position: relative;
-    top:120px;
-    font-family: 'Manrope', sans-serif;
-
-}
-
-.review_wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.review_card_profile span {
-    top:-8px;
-    float:none;
-    display: flex; 
-    justify-content: center
-}
-
-.review_card_profile * {
-    font-size:25px;
-}
-
-.title_reviews_user {
-    text-align: center;
-    position: relative;
-    top:60px;
-    font-family: 'Manrope', sans-serif;
 }

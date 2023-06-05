@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import bookHomeImg from '../../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import {ParagraphWelcome, ParagraphDescription, ImgLibrary, WrapperLink, LinkResource, Span} from '../styles/Home.styles';
-
+import {FlexWrapperTop} from "../styles/Layout.styles";
 
 
 function Home() {
@@ -31,7 +31,7 @@ function Home() {
     </div>
     return (
         <div>
-            {data ? libraryWelcomeElement : <div style={{display: 'flex', justifyContent: 'center'}}><CircularProgress disableShrink /></div>}
+            {data ? libraryWelcomeElement : <FlexWrapperTop><CircularProgress disableShrink /></FlexWrapperTop>}
         </div>
     );
 };

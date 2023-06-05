@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const FlexWrapper = styled.div`
     display: flex;
@@ -108,3 +108,38 @@ export const SelectWrapper = styled.div`
   left:150px;
   top:60px;
 `;
+
+export const hideAlertAnimation = keyframes`
+    from{
+      opacity: 1;
+    }
+    to{
+      opacity: 0;
+    }
+`;
+
+export const AlertSuccessBook = styled.div`
+  animation ${hideAlertAnimation};
+  animation-duration: 5s;
+  animation-fill-mode: forwards;
+  width:20%; 
+  margin:0 auto;
+  background-color: #fff;
+  color: rgba(0, 0, 0, 0.87);
+  -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  border-radius: 4px;
+  box-shadow: none;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: rgb(237, 247, 237);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 6px 16px;
+  color: rgb(30, 70, 32);
+`

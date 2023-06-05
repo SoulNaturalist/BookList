@@ -18,7 +18,6 @@ const register = async function (req, res) {
     if (!uniqueUsername && !uniqueEmail) {
       // username and email is unique
       if (allowedEmails.includes(emailField.split('@')[1])) {
-        console.log(passwordField)
         const hashedPassword = await bcrypt.hash(passwordField, 10)
         const createdUser = await Users.create({ username: usernameField, password: hashedPassword, email: emailField, code: codeUserConfirm })
         const transporter = nodemailer.createTransport({

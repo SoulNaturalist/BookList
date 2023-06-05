@@ -1,7 +1,6 @@
 import React from 'react';
 import useSWR from 'swr';
 import { useParams, useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
 import CircularProgress from '@mui/material/CircularProgress';
 import {
   FlexWrapper,
@@ -16,7 +15,8 @@ import {
   Wrapper,
   SpanBadgeStyles,
   GroupStylesWrapper,
-  SelectWrapper
+  SelectWrapper,
+  AlertSuccessBook
 } from "../styles/BookPage.styles";
 import Select from 'react-select';
 
@@ -109,7 +109,6 @@ function BookPage() {
       <span style={SpanBadgeStyles}>{data.options.length}</span>
     </GroupStylesWrapper>
   );
-  
 
   return (
     <Wrapper>
@@ -119,7 +118,7 @@ function BookPage() {
       <SelectWrapper>
         <Select formatGroupLabel={formatGroupLabel} options={options} placeholder={"Статус прочтения"} onChange={(e) => addBook(e.value)}/>
       </SelectWrapper>
-      {AlertSuccess ? <Alert severity="success" style={{ width: "20%", margin: "0 auto" }} className="alert_success">Книга добавлена!</Alert> : ""}
+      {AlertSuccess ? <AlertSuccessBook>Книга добавлена!</AlertSuccessBook> : ""}
       {bookData && bookData.reviews ? [bookData.reviews].map((data, key) => (
         Object.keys(data).map((review, index) => (
           <ReviewCard key={key}>

@@ -83,7 +83,7 @@ const change_passwd = async function (req, res) {
           }
         })
         const mailOptions = {
-          from: outlookLogin,
+          from: mailLogin,
           to: userData.email,
           subject: 'Смена пароля BookList',
           html: `<h1>Здравствуй ${userData.username},кто-то попытался сменить твой пароль учетной записи.</h1>\n
@@ -174,15 +174,15 @@ const confirm_change_password = async function (req, res) {
 
 const confirm_email = async function (req, res) {
   const codeCheck = req.body.code
-  const Users = DB.model('users', UserSchema)
+  const users = DB.model('users', UserSchema)
   const Query = {
     __v: false,
     _id: false,
     password: false
   }
-  const data = await Users.findOne({ code: codeCheck }, Query).exec()
+  const data = await users.findOne({ code: codeCheck }, Query).exec()
   if (data) {
-    await Users.updateOne({ code: codeCheck }, { $set: { emailConfirm: true } })
+    await users.updateOne({ code: codeCheck }, { $set: { emailConfirm: true } })
     return res.json({ message: 'Почта потверждена!' })
   }
 }

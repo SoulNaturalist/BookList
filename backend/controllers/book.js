@@ -105,7 +105,7 @@ const add_book = async function (req, res) {
       __v: false,
       password: false
     }
-    const authUser = await Users.findOne({ _id: idUser.data }, Query).exec()
+    const authUser = await usersSchema.findOne({ _id: idUser.data }, Query).exec()
     const bookValidation = await booksSchemEntity.findOne({ book_author: req.body.book_author, book_name: req.body.book_name, year_of_release: req.body.year_of_release, cover: req.body.cover, slug: req.body.slug }).exec()
     if (bookValidation !== null && Object.keys(bookValidation)) {
       const booksUpdated = Object.assign(authUser.books, {
@@ -150,6 +150,7 @@ const change_cover_by_slug = async function (req, res) {
   const books = DB.model('books', BookSchema)
   const users = DB.model('users', UserSchema)
   const token = req.cookies.JWT
+  console.log(token)
   if (!token) {
     return res.json({ message: 'Для этого метода нужна авторизация', codeStatus: 403 })
   }

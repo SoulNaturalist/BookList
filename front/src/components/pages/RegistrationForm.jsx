@@ -31,22 +31,11 @@ function RegistarationForm () {
             return <div>
                 <FormWrapper>
                     {errors.login && <p>{errors.login.message}</p>}
-                    <Input className="login"
-                        placeholder="Никнейм"
-                        {...register("login", {required: "Это обязательное поле"})}
-                    />
+                    <Input placeholder="Никнейм" {...register("login", {required: "Это обязательное поле"})}/>
                     {errors.password && <p>{errors.password.message}</p>}
-                    <Input className="password"
-                        placeholder="Пароль"
-                        onChange={() => {resetErrorAlert()}}
-                        {...register("password", {required: "Это обязательное поле"})}
-                    type="password"/>
+                    <Input placeholder="Пароль" onChange={() => {resetErrorAlert()}} {...register("password", {required: "Это обязательное поле"})} type="password"/>
                     {errors.email && <p>{errors.email.message}</p>}
-                    <Input className="email"
-                        placeholder="Почта"
-                        onChange={() => {resetErrorAlert()}}
-                        {...register("email", {required: "Это обязательное поле",min:3,max:15})}
-                    type="email"/>
+                    <Input placeholder="Почта" onChange={() => {resetErrorAlert()}} {...register("email", {required: "Это обязательное поле",min:3,max:15})} type="email"/>
                     <RegistrationButton type="submit" onClick={() => setFetch(true)}>Регистрация</RegistrationButton>
                 </FormWrapper>
             </div>

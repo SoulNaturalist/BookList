@@ -18,6 +18,7 @@ import UserReview from './components/pages/UserReview';
 import Dialogs from './components/pages/Dialogs.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
+import GlobalStyle from './components/styles/global.styles.js';
 
 function App() {
 
@@ -26,6 +27,7 @@ return (
     <Header/>
     <Router>
       <Fragment>
+        <GlobalStyle/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />

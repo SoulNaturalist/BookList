@@ -72,7 +72,7 @@ function UserPage() {
 
       return (
         <div>
-          <ImgAvatar src={user.avatar} className="user_avatar" alt="avatar" />
+          <ImgAvatar src={user.avatar} alt="avatar" />
           <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
             <br />
             <UsernameParagraph>{user.username}</UsernameParagraph>

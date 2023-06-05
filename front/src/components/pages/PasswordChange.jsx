@@ -97,13 +97,11 @@ function PasswordChange() {
             <form onSubmit={handleSubmit(onSubmit)}>
               {errors.code && <p>{errors.code.message}</p>}
               <Input
-                className="login"
                 placeholder="Код"
                 {...register('code', { required: 'Это обязательное поле' })}
               />
               {errors.new_password && <p>{errors.new_password.message}</p>}
               <Input
-                className="password"
                 placeholder="Новый пароль"
                 {...register('new_password', { required: 'Это обязательное поле' })}
                 type="password"

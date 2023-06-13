@@ -12,7 +12,7 @@
 
 <br/>
 <p align="middle">
-    <img src="https://github.com/MindBreakerGM/BookList/blob/main/images/logo.png" width="300px" height="300px"/>
+    <img src="https://github.com/MindBreakerGM/BookList/blob/main/logo.png" width="300px" height="300px"/>
     <br/>
     Online library, adding books, writing reviews, etc.
 </p>

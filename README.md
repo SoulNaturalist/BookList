@@ -18,7 +18,7 @@
 </p>
 
 
-### Start project with docker-compose
+### Start project with docker
 
 
 ```
@@ -27,6 +27,11 @@ docker-compose build
 docker-compose --env-file ./backend/.env/ up
 ```
 
-### Support me
+## Contributing
 
-<a href="https://www.buymeacoffee.com/soulnaturalist" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+Contributions are welcome! If you would like to contribute to this project, please follow these guidelines:
+- Fork the repository
+- Create a new branch for your feature or bug fix
+- Commit your changes
+- Push your branch to your forked repository
+- Submit a pull request

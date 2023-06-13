@@ -1,6 +1,6 @@
 const DB = require('../database')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { UserSchema } = require('../schemes')
 const { JWT_PRIVATE_TOKEN, mailPassword, mailLogin } = require('../config')
 const router = require('express').Router()

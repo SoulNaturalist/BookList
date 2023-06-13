@@ -17,32 +17,15 @@
     Online library, adding books, writing reviews, etc.
 </p>
 
-### Start project local
 
-### Frontend
-```
-npm install
-```
+### Start project with docker-compose
+
 
 ```
-npm start
+complete all .env files and run command:
+docker-compose build
+docker-compose --env-file ./backend/.env/ up
 ```
-
-### Backend
-
-```
-npm install
-```
-Enter the data in example.env and change the file name to .env then
-
-```
-npm start
-```
-### Start basic unit tests for backend
-```
-npm test
-```
-
 
 ### Support me
 

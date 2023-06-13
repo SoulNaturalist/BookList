@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const DB = require('../database')

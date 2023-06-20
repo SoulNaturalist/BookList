@@ -17,7 +17,7 @@ jobs:
         run: cd ./backend
 
       - name: Установка зависимостей
-        run: npm install
+        run: npm install --prefix ./backend
 
       - name: Запуск бэкэнда
         run: npm start
@@ -35,4 +35,4 @@ jobs:
         run: sleep 10
 
       - name: Запуск тестов
-        run: npm test
+        run: npm test --prefix ./backend

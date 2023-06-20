@@ -20,7 +20,7 @@ jobs:
         run: npm install --prefix ./backend
 
       - name: Запуск бэкэнда
-        run: npm start --prefix ./backend
+        run: npm start &
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           secret: ${{ secrets.secret }}
@@ -32,7 +32,7 @@ jobs:
           adminJwt: ${{ secrets.adminJwt }}
 
       - name: Ожидание запуска бэкэнда
-        run: sleep 10
+        run: npx wait-for http://localhost:3030 -t 60
 
       - name: Запуск тестов
         run: npm test --prefix ./backend

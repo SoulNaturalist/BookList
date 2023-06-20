@@ -23,16 +23,16 @@ jobs:
         run: npm run --prefix ./backend start &
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          secret: ${{ secrets.secret }}
-          mailPassword: ${{ secrets.mailPassword }}
-          mailLogin: ${{ secrets.mailLogin }}
-          testJwt: ${{ secrets.testJwt }}
-          loginUser: ${{ secrets.loginUser }}
-          passwordUser: ${{ secrets.passwordUser }}
-          adminJwt: ${{ secrets.adminJwt }}
+          SECRET: ${{ secrets.SECRET_NAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_LOGIN: ${{ secrets.MAIL_LOGIN }}
+          TEST_JWT: ${{ secrets.TEST_JWT }}
+          LOGIN_USER: ${{ secrets.LOGIN_USER }}
+          PASSWORD_USER: ${{ secrets.PASSWORD_USER }}
+          ADMIN_JWT: ${{ secrets.ADMIN_JWT }}
 
       - name: Ожидание запуска бэкэнда
-        run: npx wait-for http://localhost:3030 -t 60
+        run: sleep 10s
 
       - name: Запуск тестов
         run: npm test --prefix ./backend

@@ -13,17 +13,17 @@ jobs:
       - name: Клонирование репозитория
         uses: actions/checkout@v2
 
-      - name: Переход в директорию бэкэнда
-        run: cd ./backend
-
       - name: Установка зависимостей
+        working-directory: ./backend
         run: npm install
 
       - name: Запуск бэкэнда
+        working-directory: ./backend
         run: npm start
 
       - name: Ожидание запуска бэкэнда
         run: sleep 10
 
       - name: Запуск тестов
+        working-directory: ./backend
         run: npm test

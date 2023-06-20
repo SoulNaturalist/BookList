@@ -20,7 +20,7 @@ jobs:
         run: npm install --prefix ./backend
 
       - name: Запуск бэкэнда
-        run: npm start &
+        run: npm run --prefix ./backend start &
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           secret: ${{ secrets.secret }}

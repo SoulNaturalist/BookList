@@ -14,16 +14,22 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Установка зависимостей
-        working-directory: ./backend
         run: npm install
 
       - name: Запуск бэкэнда
-        working-directory: ./backend
         run: npm start
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          secret: ${{ secrets.secret }}
+          mailPassword: ${{ secrets.mailPassword }}
+          mailLogin: ${{ secrets.mailLogin }}
+          testJwt: ${{ secrets.testJwt }}
+          loginUser: ${{ secrets.loginUser }}
+          passwordUser: ${{ secrets.passwordUser }}
+          adminJwt: ${{ secrets.adminJwt }}
 
       - name: Ожидание запуска бэкэнда
         run: sleep 10
 
       - name: Запуск тестов
-        working-directory: ./backend
         run: npm test

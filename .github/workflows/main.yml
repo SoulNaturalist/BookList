@@ -1,0 +1,29 @@
+name: Тестирование после коммита
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Клонирование репозитория
+        uses: actions/checkout@v2
+
+      - name: Переход в директорию бэкэнда
+        run: cd ./backend
+
+      - name: Установка зависимостей
+        run: npm install
+
+      - name: Запуск бэкэнда
+        run: npm start
+
+      - name: Ожидание запуска бэкэнда
+        run: sleep 10
+
+      - name: Запуск тестов
+        run: npm test

@@ -28,3 +28,15 @@ export const Link = styled.a`
     color:black;
     text-decoration: none;
 `;
+
+export const BottomNav = styled.div`
+    position: absolute;
+    bottom: 0;
+    right: 0; 
+`
+
+
+export const ContainerBottom = styled.div`
+    position: relative;
+   
+`

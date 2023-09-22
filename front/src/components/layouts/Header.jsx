@@ -10,7 +10,21 @@ import { BrowserView, MobileView} from 'react-device-detect';
 import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link, BottomNav, ContainerBottom} from "../styles/Header.styles";
 
 function Header() {
+
     const [iconBottom, setIcon] = React.useState();
+    const [menuShow, setMenu] = React.useState(true);
+    const [scrollY, setScrollY] = React.useState(true);
+
+    function scrollHandler() {
+        setScrollY(document.body.scrollY);
+        console.log(window.scrollY)
+    }
+    React.useEffect(() => {
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        };
+    });
     const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{
         method: "post",
         headers: {
@@ -28,28 +42,26 @@ function Header() {
         }
     }
     return (
-        <div>
+        <div> 
             <BrowserView>
                 <HeaderComponent>
                     <Link href="/">
                         <ImgHeader src={logo}/>
-                        <TitleHeader>
-                            BookList
-                        </TitleHeader>
+                        <TitleHeader>BookList</TitleHeader>
                     </Link>
                     {loginComponent()}
                 </HeaderComponent>
             </BrowserView>
             <MobileView>
-                <BottomNav>
+                {Boolean(scrollY) ? <BottomNav>
                     <ContainerBottom>
-                        <BottomNavigation showLabels value={iconBottom} sx={{ width: 400 }} onChange={(event, newValue) => {setIcon(newValue);}}>
+                        <BottomNavigation showLabels value={iconBottom} sx={{ width: 400 }} onChange={(e, icon) => setIcon(icon)}>
                             <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
                             <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
                             <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
                         </BottomNavigation>
                     </ContainerBottom>
-                </BottomNav>
+                </BottomNav>:<div></div>}
             </MobileView>
         </div>
     );

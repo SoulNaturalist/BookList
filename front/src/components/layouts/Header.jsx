@@ -12,7 +12,6 @@ import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link, BottomNav
 function Header() {
 
     const [iconBottom, setIcon] = React.useState();
-    const [menuShow, setMenu] = React.useState(true);
     const [scrollY, setScrollY] = React.useState(true);
 
     function scrollHandler() {

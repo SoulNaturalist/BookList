@@ -6,7 +6,6 @@ export default function useTitle(props) {
     const title = props.title;
     const jsx = (
         <Helmet>
-            <meta charSet="utf-8"/>
             <title>{title}</title>
         </Helmet>
     );

@@ -19,37 +19,39 @@ import Dialogs from './components/pages/Dialogs.jsx';
 import {BrowserRouter as Router,Route,Routes} from "react-router-dom";
 import './App.css';
 import GlobalStyle from './components/styles/global.styles.js';
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
 
 return (
-  <div className="App">
-    <Header/>
-    <Router>
-      <Fragment>
-        <GlobalStyle/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/registration" element={<RegistrationForm/>} />
-          <Route path="/logout" element={<LogoutPage/>}/>
-          <Route path="/change_profile" element={<ChangeProfile />}/>
-          <Route path="/change_password" element={<PasswordChange/>}/>
-          <Route path="/catalog" element={<BooksCatalog/>}/>
-          <Route path="/book/:slug" element={<BookPage />}/>
-          <Route path="/check_email" element={<CheckEmail/>}/>
-          <Route path="/leader_board" element={<LeaderBoard/>}/>
-          <Route path="/rules" element={<Rules/>}/>
-          <Route exec path="/user/:username/books:_type" element={<UserBooks />}/>
-          <Route exec path="/user/:username/reviews" element={<UserReview />}/>
-          <Route exec path="/user/:username" element={<UserPage />}/>
-          <Route exec path="/email_confirm/:code" element={<ConfirmEmail/>}/>
-          <Route exec path="/dialogs/" element={<Dialogs/>}/>
-        </Routes>
-      </Fragment>
-    </Router>
-  </div>
-
+  <HelmetProvider>
+    <div className="App">
+      <Header/>
+      <Router>
+        <Fragment>
+          <GlobalStyle/>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/registration" element={<RegistrationForm/>} />
+            <Route path="/logout" element={<LogoutPage/>}/>
+            <Route path="/change_profile" element={<ChangeProfile />}/>
+            <Route path="/change_password" element={<PasswordChange/>}/>
+            <Route path="/catalog" element={<BooksCatalog/>}/>
+            <Route path="/book/:slug" element={<BookPage />}/>
+            <Route path="/check_email" element={<CheckEmail/>}/>
+            <Route path="/leader_board" element={<LeaderBoard/>}/>
+            <Route path="/rules" element={<Rules/>}/>
+            <Route exec path="/user/:username/books:_type" element={<UserBooks />}/>
+            <Route exec path="/user/:username/reviews" element={<UserReview />}/>
+            <Route exec path="/user/:username" element={<UserPage />}/>
+            <Route exec path="/email_confirm/:code" element={<ConfirmEmail/>}/>
+            <Route exec path="/dialogs/" element={<Dialogs/>}/>
+          </Routes>
+        </Fragment>
+      </Router>
+    </div>
+  </HelmetProvider>
 )}
 
 export default App;

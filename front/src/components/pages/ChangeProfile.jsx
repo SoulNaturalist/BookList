@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import CircularProgress from '@mui/material/CircularProgress';
 import { MainTitle, FormWrapper, InputWrapper, SaveButton } from '../styles/ChangeProfile.styles';
 import { Alert } from '@mui/material';
+import UseTitle from '../../hooks/UseTitle.js';
+
 
 function ChangeProfile() {
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ function ChangeProfile() {
     if (data && data.auth_data) {
       return (
         <div>
+          <UseTitle title="Редактировать профиль"></UseTitle>
           <MainTitle>Основное</MainTitle>
           <FormWrapper>
             <InputWrapper

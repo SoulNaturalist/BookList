@@ -33,6 +33,10 @@ export const SearchInput = styled.input`
   border:2px solid #000;
   padding: 10px 10px; 
   line-height: 10px;
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 5px #ff823d;
+  }
 `;
 export const BookCard = styled.div`
   position: relative;

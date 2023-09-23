@@ -20,6 +20,7 @@ import {
   FlexWrapper
 } from '../styles/UserPage.styles';
 import useSWR, { mutate } from 'swr';
+import UseTitle from '../../hooks/UseTitle.js';
 
 function UserPage() {
   const { username } = useParams();
@@ -72,6 +73,7 @@ function UserPage() {
 
       return (
         <div>
+          <UseTitle title={`Профиль ${user.username}`}></UseTitle>
           <ImgAvatar src={user.avatar} alt="avatar" />
           <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
             <br />
@@ -134,7 +136,7 @@ function UserPage() {
   return (
     <div>
       {authData && userData ? (
-        <UserProfile />
+       <UserProfile />
       ) : (
         <FlexWrapper>
           <CircularProgress disableShrink />

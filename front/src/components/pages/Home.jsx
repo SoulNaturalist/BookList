@@ -4,7 +4,7 @@ import bookHomeImg from '../../assets/undraw_Books_re_8gea.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import {ParagraphWelcome, ParagraphDescription, ImgLibrary, WrapperLink, LinkResource, Span} from '../styles/Home.styles';
 import {FlexWrapperTop} from "../styles/Layout.styles";
-
+import UseTitle from '../../hooks/UseTitle.js';
 
 function Home() {
     const { data } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL,{method: "post",headers: {'Accept': 'application/json',
@@ -31,6 +31,7 @@ function Home() {
     </div>
     return (
         <div>
+            <UseTitle title="Добро пожаловать :)"></UseTitle>
             {data ? libraryWelcomeElement : <FlexWrapperTop><CircularProgress disableShrink /></FlexWrapperTop>}
         </div>
     );

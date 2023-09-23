@@ -2,7 +2,7 @@ import React from 'react';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
 import {TitleCatalog, SearchButton, SearchInput, BookCard, CoverBook, BookParagraph, HoverButton, FlexWrapper, LoaderWrapper} from "../styles/BooksCatalog.styles";
-
+import UseTitle from '../../hooks/UseTitle.js';
 function BooksCatalog () {
   const [searchText, setSearchText] = React.useState("");
   const [searchFlag, setSearchFlag] = React.useState(false);
@@ -31,6 +31,7 @@ function BooksCatalog () {
   }
   return (
     <>
+      <UseTitle title="Каталог"></UseTitle>
       <TitleCatalog>Каталог</TitleCatalog>
       <SearchInput
         type="text"

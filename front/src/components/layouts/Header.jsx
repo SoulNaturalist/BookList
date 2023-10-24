@@ -3,11 +3,11 @@ import React from 'react';
 import logo from '../../assets/logo.png';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import RestoreIcon from '@mui/icons-material/Restore';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { BrowserView, MobileView} from 'react-device-detect';
 import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link, BottomNav, ContainerBottom} from "../styles/Header.styles";
+import { createSvgIcon } from '@mui/material/utils';
+
 
 function Header() {
 
@@ -40,6 +40,13 @@ function Header() {
             return <ParagraphLogin><Link href="/login">Войти</Link></ParagraphLogin>
         }
     }
+    const HomeIcon = createSvgIcon(
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
+        'Home',
+    );
+    const ProfileIcon = createSvgIcon(<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>,
+     'Profile'
+    );
     return (
         <div> 
             <BrowserView>
@@ -55,9 +62,9 @@ function Header() {
                 {Boolean(scrollY) ? <BottomNav>
                     <ContainerBottom>
                         <BottomNavigation showLabels value={iconBottom} sx={{ width: 400 }} onChange={(e, icon) => setIcon(icon)}>
-                            <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-                            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-                            <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+                            <BottomNavigationAction label="Главная" icon={<HomeIcon />} />
+                            <BottomNavigationAction label="Книги" icon={<FavoriteIcon />} />
+                            <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} />
                         </BottomNavigation>
                     </ContainerBottom>
                 </BottomNav>:<div></div>}

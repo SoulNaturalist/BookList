@@ -46,7 +46,7 @@ function Header() {
         <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />,
         'Home',
     );
-    const ProfileIcon = createSvgIcon(<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>,
+    const ProfileIcon = createSvgIcon(<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>,
      'Profile'
     );
     return (
@@ -61,12 +61,12 @@ function Header() {
                 </HeaderComponent>
             </BrowserView>
             <MobileView>
-                {Boolean(scrollY) && data ? <BottomNav>
+                {Boolean(scrollY) && data  ? <BottomNav>
                     <ContainerBottom>
                         <BottomNavigation showLabels value={iconBottom} sx={{ width: 400 }} onChange={(e, icon) => setIcon(icon)}>
                             <BottomNavigationAction label="Главная" icon={<HomeIcon />} onClick={() => navigate("/")}/>
                             <BottomNavigationAction label="Книги" icon={<FavoriteIcon />} onClick={() => navigate("/catalog")}/>
-                            <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} onClick={() => navigate(`/user/${data.auth_data.username}`)}/>
+                            <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} onClick={() => navigate(data.auth_data ? `/user/${data.auth_data.username}`:"/login")}/>
                         </BottomNavigation>
                     </ContainerBottom>
                 </BottomNav>:<div></div>}

@@ -55,6 +55,7 @@ function UserPage() {
 
   const UserProfile = () => {
     if (userData && authData) {
+      console.log(authData)
       const user = userData[0];
       let readedCount = 0;
       let abandonedCount = 0;

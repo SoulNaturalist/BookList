@@ -1,6 +1,6 @@
 import React from 'react'
 import messagesAlert from "../../assets/messages-alert.svg";
-import {DialogsFrame, MessagesAlert, MessagesTitle, AvatarWrapper} from "../styles/Dialogs.styles.js";
+import {DialogsFrame, MessagesAlert, MessagesTitle, AvatarWrapper, DialogUsername,Avatar} from "../styles/Dialogs.styles.js";
 
 
 export default function Dialogs() {
@@ -24,6 +24,7 @@ export default function Dialogs() {
         <MessagesAlert src={messagesAlert}/>
         <MessagesTitle>Выберите пользователя для переписки</MessagesTitle>
         <AvatarWrapper>
+          {/* {UsersDialog} */}
             
         </AvatarWrapper>
     </div>

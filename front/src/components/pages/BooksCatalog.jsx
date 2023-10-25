@@ -1,8 +1,10 @@
 import React from 'react';
 import useSWR from 'swr';
 import CircularProgress from '@mui/material/CircularProgress';
-import {TitleCatalog, SearchButton, SearchInput, BookCard, CoverBook, BookParagraph, HoverButton, FlexWrapper, LoaderWrapper} from "../styles/BooksCatalog.styles";
+import {TitleCatalog, SearchButton,MobileSearchButton, SearchInput, MobileSearchInput, BookCard, CoverBook, BookParagraph, HoverButton, FlexWrapper, LoaderWrapper} from "../styles/BooksCatalog.styles";
 import UseTitle from '../../hooks/UseTitle.js';
+import { BrowserView, MobileView} from 'react-device-detect';
+
 function BooksCatalog () {
   const [searchText, setSearchText] = React.useState("");
   const [searchFlag, setSearchFlag] = React.useState(false);
@@ -33,17 +35,32 @@ function BooksCatalog () {
     <>
       <UseTitle title="Каталог"></UseTitle>
       <TitleCatalog>Каталог</TitleCatalog>
-      <SearchInput
-        type="text"
-        onChange={(e) => setSearchText(e.target.value)}
-        defaultValue={searchText}
-      />
-      <HoverButton>
-        <SearchButton onClick={handleSearch}>
-          Поиск
-        </SearchButton>
-      </HoverButton>
-      {dataBooks ? bookComponent():<LoaderWrapper><CircularProgress disableShrink /></LoaderWrapper>}
+      <BrowserView>
+        <SearchInput
+          type="text"
+          onChange={(e) => setSearchText(e.target.value)}
+          defaultValue={searchText}
+        />
+        <HoverButton>
+          <SearchButton onClick={handleSearch}>
+            Поиск
+          </SearchButton>
+        </HoverButton>
+        {dataBooks ? bookComponent():<LoaderWrapper><CircularProgress disableShrink /></LoaderWrapper>}
+      </BrowserView>
+      <MobileView>
+        <MobileSearchInput
+          type="text"
+          onChange={(e) => setSearchText(e.target.value)}
+          defaultValue={searchText}
+        />
+        <HoverButton>
+            <MobileSearchButton onClick={handleSearch}>
+              Поиск
+            </MobileSearchButton>
+        </HoverButton>
+        {dataBooks ? bookComponent():<LoaderWrapper><CircularProgress disableShrink /></LoaderWrapper>}
+      </MobileView>
     </>
     );
 }

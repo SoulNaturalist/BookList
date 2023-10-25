@@ -7,12 +7,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { BrowserView, MobileView} from 'react-device-detect';
 import {HeaderComponent, TitleHeader, ImgHeader, ParagraphLogin, Link, BottomNav, ContainerBottom} from "../styles/Header.styles";
 import { createSvgIcon } from '@mui/material/utils';
+import { useNavigate } from "react-router-dom";
 
 
 function Header() {
 
     const [iconBottom, setIcon] = React.useState();
     const [scrollY, setScrollY] = React.useState(true);
+    const navigate = useNavigate();
 
     function scrollHandler() {
         setScrollY(document.body.scrollY);
@@ -59,12 +61,12 @@ function Header() {
                 </HeaderComponent>
             </BrowserView>
             <MobileView>
-                {Boolean(scrollY) ? <BottomNav>
+                {Boolean(scrollY) && data ? <BottomNav>
                     <ContainerBottom>
                         <BottomNavigation showLabels value={iconBottom} sx={{ width: 400 }} onChange={(e, icon) => setIcon(icon)}>
-                            <BottomNavigationAction label="Главная" icon={<HomeIcon />} />
-                            <BottomNavigationAction label="Книги" icon={<FavoriteIcon />} />
-                            <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} />
+                            <BottomNavigationAction label="Главная" icon={<HomeIcon />} onClick={() => navigate("/")}/>
+                            <BottomNavigationAction label="Книги" icon={<FavoriteIcon />} onClick={() => navigate("/catalog")}/>
+                            <BottomNavigationAction label="Профиль" icon={<ProfileIcon />} onClick={() => navigate(`/user/${data.auth_data.username}`)}/>
                         </BottomNavigation>
                     </ContainerBottom>
                 </BottomNav>:<div></div>}

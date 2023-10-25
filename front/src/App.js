@@ -26,8 +26,8 @@ function App() {
 return (
   <HelmetProvider>
     <div className="App">
-      <Header/>
       <Router>
+        <Header/>
         <Fragment>
           <GlobalStyle/>
           <Routes>

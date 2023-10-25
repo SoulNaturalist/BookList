@@ -11,6 +11,11 @@ jobs:
     container: ubuntu
 
     steps:
+      - name: Установка Node.js и NPM
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          
       - name: Клонирование репозитория
         uses: actions/checkout@v2
 

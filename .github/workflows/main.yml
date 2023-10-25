@@ -37,8 +37,5 @@ jobs:
           PASSWORD_USER: ${{ secrets.PASSWORD_USER }}
           ADMIN_JWT: ${{ secrets.ADMIN_JWT }}
 
-      - name: Ожидание запуска бэкэнда
-        run: sleep 10s
-
       - name: Запуск тестов
         run: npm test --prefix ./backend

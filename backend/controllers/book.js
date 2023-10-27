@@ -6,67 +6,43 @@ const { JWT_PRIVATE_TOKEN } = require('../config')
 const delete_book = async function (req, res) {
   const token = req.cookies.JWT
   const Users = DB.model('users', UserSchema)
-  if (!token) {
-    return res.sendStatus(403)
-  }
-  try {
-    const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
-    const Query = {
-      __v: false,
-      password: false
-    }
-    if (req.body.book_name) {
-      const userData = await Users.findOne({ _id: idUser.data }, Query).exec()
-      const Books = userData.books
-      const bookName = req.body.book_name
-      Reflect.deleteProperty(Books, bookName)
-      const deleteBookRequest = await Users.updateOne({ _id: idUser.data }, { $set: { books: Books } }).exec()
-      return deleteBookRequest.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
-    }
-  } catch (err) {
-    console.log(err)
+  const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
+  const Query = {__v: false,password: false}
+  if (req.body.book_name) {
+    const userData = await Users.findOne({ _id: idUser.data }, Query).exec()
+    const Books = userData.books
+    const bookName = req.body.book_name
+    Reflect.deleteProperty(Books, bookName)
+    const deleteBookRequest = await Users.updateOne({ _id: idUser.data }, { $set: { books: Books } }).exec()
+    return deleteBookRequest.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
   }
 }
 
 const change_book_rating = async function (req, res) {
   const token = req.cookies.JWT
   const Users = DB.model('users', UserSchema)
-  if (!token) {
-    return res.sendStatus(403)
-  }
-  try {
-    const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
-    const Query = {
+  const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
+  const Query = {
       __v: false,
       password: false
-    }
-    if (req.body.book_name && req.body.rating) {
-      const userData = await Users.findOne({ _id: idUser.data }, Query).exec()
-      const Books = userData.books
-      const BookName = req.body.book_name
-      Books[BookName].rating = req.body.rating
-      const updatedRating = await Users.updateOne({ _id: idUser.data }, { $set: { books: Books } }).exec()
-      return updatedRating.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
-    }
-  } catch (err) {
-    console.log(err)
+  }
+  if (req.body.book_name && req.body.rating) {
+    const userData = await Users.findOne({ _id: idUser.data }, Query).exec()
+    const Books = userData.books
+    const BookName = req.body.book_name
+    Books[BookName].rating = req.body.rating
+    const updatedRating = await Users.updateOne({ _id: idUser.data }, { $set: { books: Books } }).exec()
+    return updatedRating.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
   }
 }
 
 const library_add_book = async function (req, res) {
   const token = req.cookies.JWT
   const Users = DB.model('users', UserSchema)
-  if (!token) {
-    return res.json({ message: 'Для этого метода нужна авторизация', codeStatus: 403 })
-  }
-  try {
-    const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
-    const Query = {
-      __v: false,
-      password: false
-    }
-    const userData = await Users.findOne({ _id: idUser.data }, Query)
-    if (userData.role === 2 || userData.role === 3) {
+  const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
+  const Query = {__v: false,password: false}
+  const userData = await Users.findOne({ _id: idUser.data }, Query)
+  if (userData.role === 2 || userData.role === 3) {
       const Books = DB.model('books', BookSchema)
       const BookName = req.body.book_name
       const BookAuthor = req.body.book_author
@@ -74,12 +50,8 @@ const library_add_book = async function (req, res) {
       const BookCover = req.body.cover
       const createBook = await Books.create({ book_name: BookName, book_author: BookAuthor, year_of_release: YearOfRelease, cover: BookCover }).exec()
       return createBook.modifiedCount ? res.sendStatus(200) : res.sendStatus(400)
-    } else {
-      return res.json({ message: 'У вас нет нужных прав!', codeStatus: 403 })
-    }
-  } catch (err) {
-    console.log(err)
-  }
+  } 
+  return res.json({ message: 'У вас нет нужных прав!', codeStatus: 403 })
 }
 
 const get_library_books = async function (req, res) {
@@ -96,20 +68,16 @@ const add_book = async function (req, res) {
   const token = req.cookies.JWT
   const usersSchema = DB.model('users', UserSchema)
   const booksSchemEntity = DB.model('books', BookSchema)
-  if (!token) {
-    return res.json({ message: 'Для этого метода нужна авторизация', codeStatus: 403 })
-  }
-  try {
-    const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
-    const Query = {
+  const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
+  const Query = {
       __v: false,
       password: false
-    }
-    const authUser = await usersSchema.findOne({ _id: idUser.data }, Query).exec()
-    const bookValidation = await booksSchemEntity.findOne({ book_author: req.body.book_author, book_name: req.body.book_name, year_of_release: req.body.year_of_release, cover: req.body.cover, slug: req.body.slug }).exec()
-    if (bookValidation !== null && Object.keys(bookValidation)) {
-      const booksUpdated = Object.assign(authUser.books, {
-        [req.body.book_name]: {
+  }
+  const authUser = await usersSchema.findOne({ _id: idUser.data }, Query).exec()
+  const bookValidation = await booksSchemEntity.findOne({ book_author: req.body.book_author, book_name: req.body.book_name, year_of_release: req.body.year_of_release, cover: req.body.cover, slug: req.body.slug }).exec()
+  if (bookValidation !== null && Object.keys(bookValidation)) {
+    const booksUpdated = Object.assign(authUser.books, {
+      [req.body.book_name]: {
           book_author: req.body.book_author,
           year_of_release: req.body.year_of_release,
           rating: 0,
@@ -120,12 +88,8 @@ const add_book = async function (req, res) {
       })
       await usersSchema.updateOne({ _id: idUser.data }, { books: booksUpdated })
       return res.sendStatus(200)
-    } else {
+  } else {
       return res.sendStatus(400)
-    }
-  } catch (e) {
-    console.log(e)
-    return res.json({ message: 'Для этого метода нужна авторизация', codeStatus: 403 })
   }
 }
 
@@ -150,25 +114,16 @@ const change_cover_by_slug = async function (req, res) {
   const books = DB.model('books', BookSchema)
   const users = DB.model('users', UserSchema)
   const token = req.cookies.JWT
-  console.log(token)
-  if (!token) {
-    return res.json({ message: 'Для этого метода нужна авторизация', codeStatus: 403 })
-  }
-  try {
-    const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
-    const authUser = await users.findOne({ _id: idUser.data }).exec()
-    if (authUser && authUser.role === 3) {
-      if (slug && newCover) {
-        const bookUpdated = await books.updateOne({ slug }, { $set: { cover: newCover } }).exec()
-        return bookUpdated.modifiedCount ? res.sendStatus(201) : res.sendStatus(400)
-      } else {
-        return res.json({ message: 'Для этого метода нужно быть администратором', codeStatus: 403 })
-      }
-    } else {
-      return res.json({ message: 'Для этого метода нужно быть администратором', codeStatus: 403 })
-    }
-  } catch (e) {
-    console.log(e)
+  const idUser = jwt.verify(token, JWT_PRIVATE_TOKEN)
+  const authUser = await users.findOne({ _id: idUser.data }).exec()
+  if (authUser && authUser.role === 3) {
+    if (slug && newCover) {
+      const bookUpdated = await books.updateOne({ slug }, { $set: { cover: newCover } }).exec()
+      return bookUpdated.modifiedCount ? res.sendStatus(201) : res.sendStatus(400)
+    } 
+    return res.sendStatus(400)
+  } else {
+    return res.json({ message: 'Для этого метода нужно быть администратором', codeStatus: 403 })
   }
 }
 
@@ -207,6 +162,5 @@ module.exports = {
   get_book_by_slug,
   change_cover_by_slug,
   get_cover_by_name,
-  search_books,
-  add_book
+  search_books
 }

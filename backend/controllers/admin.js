@@ -4,6 +4,7 @@ const { UserSchema } = require('../schemes')
 const { JWT_PRIVATE_TOKEN } = require('../config')
 
 const get_users = async function (req, res) {
+  const token = req.cookies.JWT
   const usersModel = DB.model('users', UserSchema)
   const userId = jwt.verify(token, JWT_PRIVATE_TOKEN)
   const Query = {__v: false,password: false,_id: false}

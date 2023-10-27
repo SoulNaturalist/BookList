@@ -2,9 +2,9 @@ const router = require('express').Router()
 const cookieParser = require('cookie-parser')
 router.use(cookieParser())
 const userController = require('../controllers/admin')
-const authMiddleware = require('../middleware/auth')
+const adminMiddleware = require('../middleware/admin')
 
-router.use(authMiddleware)
+router.use(adminMiddleware)
 
 router.get('/api/get_users', userController.get_users)
 

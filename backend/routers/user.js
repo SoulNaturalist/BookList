@@ -1,9 +1,8 @@
 const router = require('express').Router()
 const cookieParser = require('cookie-parser')
 router.use(cookieParser())
-const userController = require('../controllers/user')
 const authMiddleware = require('../middleware/auth')
-
+const userController = require('../controllers/user')
 router.post('/api/confirm_email', userController.confirm_email)
 
 router.use(authMiddleware)

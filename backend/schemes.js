@@ -45,7 +45,7 @@ const messagesSchema = new Schema({
   dialog_id: { type: String, required: true },
   messages: { type: Object, required: true },
   initiator_id: { type: Number, required: true },
-  interlocutor: { type: Number, required: true }
+  interlocutor_id: { type: Number, required: true }
 })
 
 const userActLogging = new Schema({

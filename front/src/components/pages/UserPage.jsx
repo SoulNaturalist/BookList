@@ -54,9 +54,9 @@ function UserPage() {
 
 
   const UserProfile = () => {
-    if (userData && authData) {
-      console.log(authData)
+    if (userData && authData && !authData.message) {
       const user = userData[0];
+      if (!user) return <div>User not defined</div>
       let readedCount = 0;
       let abandonedCount = 0;
       let plannedCount = 0;
@@ -113,7 +113,7 @@ function UserPage() {
               </a>
             </div>
           </IconsWrapper>
-          {authData.auth_data.username === username ? (
+          {authData.auth_data && authData.auth_data.username === username ? (
             <a href="/change_profile">
               <ButtonChange>Редактировать</ButtonChange>
             </a>
@@ -123,7 +123,7 @@ function UserPage() {
         </div>
       );
     }
-    return null;
+    if (authData.message) return <h2 styles={{textAlign:"center"}}>Вы не можете просматривать профиль пользователя, зайдите на сайт!</h2>
   };
 
   if (authError || userError) {

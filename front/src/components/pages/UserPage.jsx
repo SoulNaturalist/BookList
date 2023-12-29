@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation,useParams,useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import readed from '../../assets/readed.png';
@@ -17,15 +17,19 @@ import {
   IconsWrapper,
   IconImg,
   CountParagraph,
-  FlexWrapper
+  FlexWrapper,
+  H2ErrorAlert
 } from '../styles/UserPage.styles';
 import useSWR, { mutate } from 'swr';
 import UseTitle from '../../hooks/UseTitle.js';
+import CannotViewUser from '../layouts/CannotViewUser.jsx';
+
 
 function UserPage() {
   const { username } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [redirect, setRedirect] = useState(false);
 
   const { data: authData, error: authError } = useSWR('http://127.0.0.1:3030/api/auth', async (apiURL) => {
     const res = await fetch(apiURL, { credentials: 'include' });
@@ -40,23 +44,28 @@ function UserPage() {
   });
 
   useEffect(() => {
-    if (authError && authError.response && authError.response.status === 401) {
-      navigate('/login');
-    }
-  }, [authError, navigate]);
-
-  useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get('update') === 'true') {
       mutate('http://127.0.0.1:3030/api/auth');
     }
   }, [location.search, username]);
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(function() {
+        navigate("/login")
+      }, 5000);
+    }
+  })
 
 
   const UserProfile = () => {
-    if (userData && authData && !authData.message) {
+    if (userData && authData && authData.message !== "Для этого метода нужно быть администратором") {
       const user = userData[0];
-      if (!user) return <div>User not defined</div>
+      if (!user && authData.message !== "Для этого метода нужна авторизация") return <div>User not defined</div>
+      if (!user) {
+        setRedirect(true);
+        return CannotViewUser()
+      }
       let readedCount = 0;
       let abandonedCount = 0;
       let plannedCount = 0;
@@ -123,17 +132,18 @@ function UserPage() {
         </div>
       );
     }
-    if (authData.message) return <h2 styles={{textAlign:"center"}}>Вы не можете просматривать профиль пользователя, зайдите на сайт!</h2>
-  };
-
-  if (authError || userError) {
+    if (authData.message && authData.message !== "Для этого метода нужно быть администратором"){
+      if (!userData) {
+        setRedirect(true);
+        return CannotViewUser()
+      }
+    }
     return (
       <FlexWrapper>
-        <div>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</div>
+        <H2ErrorAlert>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</H2ErrorAlert>
       </FlexWrapper>
     );
-  }
-
+  };
   return (
     <div>
       {authData && userData ? (

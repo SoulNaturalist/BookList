@@ -128,3 +128,24 @@ export const IconCountWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const H2Alert = styled.h2`
+    text-align:center;
+    font-family: 'Space Mono', monospace;
+    position:relative;
+    top:450px;
+`;
+
+export const ImgAlert = styled.img`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:120px;
+`;
+
+export const H2ErrorAlert = styled.h2`
+    text-align:center;
+    font-family: 'Space Mono', monospace;
+    position:relative;
+    top:80px;
+`;

@@ -149,3 +149,14 @@ export const H2ErrorAlert = styled.h2`
     position:relative;
     top:80px;
 `;
+
+export const IconSupport = styled.img`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:65px;
+    width:20px;
+    background-color:#feb95e;
+    border-radius:5px;
+    opacity:80%;
+`;

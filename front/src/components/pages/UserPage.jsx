@@ -18,7 +18,8 @@ import {
   IconImg,
   CountParagraph,
   FlexWrapper,
-  H2ErrorAlert
+  H2ErrorAlert,
+  IconSupport
 } from '../styles/UserPage.styles';
 import useSWR, { mutate } from 'swr';
 import UseTitle from '../../hooks/UseTitle.js';
@@ -80,14 +81,14 @@ function UserPage() {
         }
       });
       const countReviews = Object.keys(user.reviews).length;
-
+      const haveSupport = user.support.active ? "block":"none";
       return (
         <div>
           <UseTitle title={`Профиль ${user.username}`}></UseTitle>
           <ImgAvatar src={user.avatar} alt="avatar" />
           <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
             <br />
-            <UsernameParagraph>{user.username}</UsernameParagraph>
+            <UsernameParagraph>{user.username}</UsernameParagraph><IconSupport style={{display:haveSupport}} src="https://cdn-icons-png.flaticon.com/512/2551/2551053.png"/>
             <DescriptionParagraph>{user.status}</DescriptionParagraph>
           </DescriptionDiv>
           <BooksUl>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation,useParams,useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
+import Tooltip from '@mui/material/Tooltip';
 import readed from '../../assets/readed.png';
 import drop from '../../assets/abandoned.png';
 import planned from '../../assets/planned.png';
@@ -88,7 +89,10 @@ function UserPage() {
           <ImgAvatar src={user.avatar} alt="avatar" />
           <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
             <br />
-            <UsernameParagraph>{user.username}</UsernameParagraph><IconSupport style={{display:haveSupport}} src="https://cdn-icons-png.flaticon.com/512/2551/2551053.png"/>
+            <UsernameParagraph>{user.username}</UsernameParagraph>
+            <Tooltip title="Пользователь материально поддерживает сайт">
+              <IconSupport style={{display:haveSupport}} src="https://cdn-icons-png.flaticon.com/512/2551/2551053.png"/>
+            </Tooltip>
             <DescriptionParagraph>{user.status}</DescriptionParagraph>
           </DescriptionDiv>
           <BooksUl>

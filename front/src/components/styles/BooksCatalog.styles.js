@@ -81,18 +81,23 @@ export const MobileSearchInput = styled.input`
 
 export const BookCard = styled.div`
   position: relative;
-  top:60px;
+  top: 60px;
   display: flex;
-  justify-content: center;
-  align-items: center; 
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 `;
 export const CoverBook = styled.img`
-  width:20%; 
+  width:10%; 
   height:auto;
   margin:5px;
 `;
 export const BookParagraph = styled.p`
-  color:#000;
+  display: block;
+  color: black !important;
+  font-size: 20px;
+  margin: 5px 0;
+  width: 100px;
 `;
 export const HoverButton = styled.div`
     &:hover ${SearchButton} {

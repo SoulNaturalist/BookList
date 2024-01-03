@@ -30,12 +30,15 @@ export const buttonClickAnimation = keyframes`
         transform: scale(1);
     }
 `;
+
+
 export const ResetButton = styled.input`
-    color:black;
+    color:white;
     display: block;
+    margin:auto;
     box-sizing: border-box;
     padding:15px;
-    width:300px;
+    width:200px;
     font-size:18px;
     outline:none;
     border-radius:10px;
@@ -45,6 +48,14 @@ export const ResetButton = styled.input`
         animation: ${buttonClickAnimation} 0.2s ease-in-out;
     }
 `;
+
+export const HoverButtonWrapper = styled.div`
+  &:hover ${ResetButton} {
+    background-color:#affc88;
+    color:#000;
+  }
+`;
+
 export const MainTitle = styled.h2`
     font-family: 'Manrope', sans-serif;
     text-align: center;
@@ -91,3 +102,22 @@ export const SuccessAlert = styled.div`
     color: #000;
     top: -33px;
 `;
+
+export const InputButtonWrapper = styled.div`
+    position: relative;
+    height:100px;
+    width:200px;
+    &::after {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+`
+
+export const ButtonCodeWrapper = styled.div`
+  position:relative;
+  top:-68px;
+  left:145px;
+`

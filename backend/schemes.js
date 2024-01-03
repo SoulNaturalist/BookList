@@ -15,7 +15,8 @@ const UserSchema = new Schema({
   code: { type: String, required: true },
   emailConfirm: { type: Boolean, default: false },
   twoAuth: { type: Boolean, default: false },
-  support: { type: Object, default: {"active":false, "date_end":""} }
+  support: { type: Object, default: {"active":false, "date_end":""} },
+  online: { type: Boolean, default: false }
 }, { minimize: false })
 
 const BookSchema = new Schema({

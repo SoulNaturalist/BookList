@@ -86,14 +86,15 @@ function UserPage() {
       return (
         <div>
           <UseTitle title={`Профиль ${user.username}`}></UseTitle>
-          <ImgAvatar src={user.avatar} alt="avatar" />
-          <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
+          <ImgAvatar src={user.avatar} alt="avatar"/>
+          <DescriptionDiv style={user.online ? { backgroundImage: `url(${user.bg})`, backgroundPosition: 'center', border:"2px solid #19d442"}:
+          { backgroundImage: `url(${user.bg})`, backgroundPosition: 'center'}}>
             <br />
             <UsernameParagraph>{user.username}</UsernameParagraph>
             <Tooltip title="Пользователь материально поддерживает сайт">
               <IconSupport style={{display:haveSupport}} src="https://cdn-icons-png.flaticon.com/512/2551/2551053.png"/>
             </Tooltip>
-            <DescriptionParagraph>{user.status}</DescriptionParagraph>
+            <DescriptionParagraph>{user.online ? user.status + "\nonline":user.status}</DescriptionParagraph>
           </DescriptionDiv>
           <BooksUl>
             <a href="my_books_readed"><BookMenuLi>прочитано</BookMenuLi></a>

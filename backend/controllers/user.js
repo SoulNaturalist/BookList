@@ -2,12 +2,36 @@ const DB = require('../database')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { UserSchema } = require('../schemes')
-const { JWT_PRIVATE_TOKEN, mailPassword, mailLogin } = require('../config')
+const { JWT_PRIVATE_TOKEN, mailPassword, mailLogin} = require('../config')
 const router = require('express').Router()
 const cookieParser = require('cookie-parser')
 const uuid = require('uuid')
 const nodemailer = require('nodemailer')
 router.use(cookieParser())
+
+
+const sendCode = async (Users, userData) => {
+  const codeConfirmPassword = uuid.v4()
+  const changedCode = await Users.updateOne({ _id: userData._id }, { $set: { code: codeConfirmPassword } }).exec()
+  const transporter = nodemailer.createTransport({
+          host: 'smtp.mail.ru',
+          port: 465,
+          secure: true,
+          auth: {
+            user: mailLogin,
+            pass: mailPassword
+          }
+        })
+  const mailOptions = {
+          from: mailLogin,
+          to: userData.email,
+          subject: 'Смена пароля BookList',
+          html: `<h1>Здравствуй ${userData.username},кто-то попытался сменить твой пароль учетной записи.</h1>\n<p>Если это был не ты, проигнорируй это письмо.</p>
+          <p>Код подтверждения - ${codeConfirmPassword}.</p>`
+    }
+  const messageSendData = await transporter.sendMail(mailOptions)
+  return messageSendData && changedCode.modifiedCount
+}
 
 const change_avatar = async function (req, res) {
   const token = req.cookies.JWT
@@ -30,14 +54,17 @@ const change_status = async function (req, res) {
 }
 
 const change_passwd = async function (req, res) {
-  const token = req.cookies.JWT
-  const password = req.body.password
-  const newPassword = req.body.new_password
+  const token = req.cookies.JWT;
+  const password = req.body.password;
+  const newPassword = req.body.new_password;
+  const OnlySendCode = req.body.only_code;
   const data = jwt.verify(token, JWT_PRIVATE_TOKEN)
   const Users = DB.model('users', UserSchema)
   const userData = await Users.findOne({ _id: data.data }).exec()
-  if (Boolean(password) && Boolean(newPassword) && password !== newPassword && !userData.twoAuth) {
-    // checking that passwords are not undefined and the password is not equal to the new password
+  if (OnlySendCode) {
+    return await sendCode(Users, userData) ? res.sendStatus(200) : res.sendStatus(500)
+  }
+  if (Boolean(password) && Boolean(newPassword) && !userData.twoAuth) {
     const passwordSuccessMatch = await bcrypt.compare(password, userData.password)
     if (passwordSuccessMatch) {
 
@@ -46,32 +73,9 @@ const change_passwd = async function (req, res) {
       return changePassword.modifiedCount ? res.sendStatus(201) : res.sendStatus(401)
     }
     return res.sendStatus(400)
-  } else if (password === newPassword && !userData.twoAuth) {
-      return res.status(403).send('Пароль совпадает с текущим')
   } else {
-    if (password !== newPassword) {
-        // user enabled 2 factor auth
-        const codeConfirmPassword = uuid.v4()
-        const changedCode = await Users.updateOne({ _id: userData._id }, { $set: { code: codeConfirmPassword } }).exec()
-        const transporter = nodemailer.createTransport({
-          host: 'smtp.mail.ru',
-          port: 465,
-          secure: true,
-          auth: {
-            user: mailLogin,
-            pass: mailPassword
-          }
-        })
-        const mailOptions = {
-          from: mailLogin,
-          to: userData.email,
-          subject: 'Смена пароля BookList',
-          html: `<h1>Здравствуй ${userData.username},кто-то попытался сменить твой пароль учетной записи.</h1>\n<p>Если это был не ты, проигнорируй это письмо.</p>
-          <p>Код подтверждения - ${codeConfirmPassword}.</p>`
-        }
-        const messageSendData = await transporter.sendMail(mailOptions)
-        return messageSendData && changedCode.modifiedCount ? res.sendStatus(200) : res.sendStatus(500)
-      }
+      // user enabled 2 factor auth
+      return await sendCode(Users, userData) ? res.sendStatus(200) : res.sendStatus(500)
     }
 }
 
@@ -96,7 +100,6 @@ const get_user_data = async function (req, res) {
   const username = req.params.username
   const queryData = {password: false,__v: false,_id: false,role: false,twoAuth: false,code: false,emailConfirm: false,email: false}
   const usersModel = DB.model('users', UserSchema)
-  jwt.verify(token, JWT_PRIVATE_TOKEN)
   const dataUser = await usersModel.find({ username }, queryData).exec()
   return res.json(dataUser)
 }

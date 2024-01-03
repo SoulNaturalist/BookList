@@ -99,7 +99,7 @@ const auth = async function (req, res) {
   }
 }
 
-const logout = async function (res) {
+const logout = async function (req, res) {
   res.clearCookie('JWT')
   return res.json({ message: 'Вы вышли из аккаунта', codeStatus: 200 })
 }

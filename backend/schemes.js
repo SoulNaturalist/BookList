@@ -15,7 +15,7 @@ const UserSchema = new Schema({
   code: { type: String, required: true },
   emailConfirm: { type: Boolean, default: false },
   twoAuth: { type: Boolean, default: false },
-  bookListPlus: { type: Object, default: {} }
+  support: { type: Object, default: {"active":false, "date_end":""} }
 }, { minimize: false })
 
 const BookSchema = new Schema({
@@ -45,7 +45,7 @@ const messagesSchema = new Schema({
   dialog_id: { type: String, required: true },
   messages: { type: Object, required: true },
   initiator_id: { type: Number, required: true },
-  interlocutor: { type: Number, required: true }
+  interlocutor_id: { type: Number, required: true }
 })
 
 const userActLogging = new Schema({

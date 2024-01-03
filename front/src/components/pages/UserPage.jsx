@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation,useParams,useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
+import Tooltip from '@mui/material/Tooltip';
 import readed from '../../assets/readed.png';
 import drop from '../../assets/abandoned.png';
 import planned from '../../assets/planned.png';
@@ -17,15 +18,20 @@ import {
   IconsWrapper,
   IconImg,
   CountParagraph,
-  FlexWrapper
+  FlexWrapper,
+  H2ErrorAlert,
+  IconSupport
 } from '../styles/UserPage.styles';
 import useSWR, { mutate } from 'swr';
 import UseTitle from '../../hooks/UseTitle.js';
+import CannotViewUser from '../layouts/CannotViewUser.jsx';
+
 
 function UserPage() {
   const { username } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [redirect, setRedirect] = useState(false);
 
   const { data: authData, error: authError } = useSWR('http://127.0.0.1:3030/api/auth', async (apiURL) => {
     const res = await fetch(apiURL, { credentials: 'include' });
@@ -40,23 +46,28 @@ function UserPage() {
   });
 
   useEffect(() => {
-    if (authError && authError.response && authError.response.status === 401) {
-      navigate('/login');
-    }
-  }, [authError, navigate]);
-
-  useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get('update') === 'true') {
       mutate('http://127.0.0.1:3030/api/auth');
     }
   }, [location.search, username]);
+  useEffect(() => {
+    if (redirect) {
+      setTimeout(function() {
+        navigate("/login")
+      }, 5000);
+    }
+  })
 
 
   const UserProfile = () => {
-    if (userData && authData) {
-      console.log(authData)
+    if (userData && authData && authData.message !== "Для этого метода нужно быть администратором") {
       const user = userData[0];
+      if (!user && authData.message !== "Для этого метода нужна авторизация") return <div>User not defined</div>
+      if (!user) {
+        setRedirect(true);
+        return CannotViewUser()
+      }
       let readedCount = 0;
       let abandonedCount = 0;
       let plannedCount = 0;
@@ -71,7 +82,7 @@ function UserPage() {
         }
       });
       const countReviews = Object.keys(user.reviews).length;
-
+      const haveSupport = user.support.active ? "block":"none";
       return (
         <div>
           <UseTitle title={`Профиль ${user.username}`}></UseTitle>
@@ -79,6 +90,9 @@ function UserPage() {
           <DescriptionDiv style={{ backgroundImage: `url(${user.bg})`, backgroundPosition: 'center' }}>
             <br />
             <UsernameParagraph>{user.username}</UsernameParagraph>
+            <Tooltip title="Пользователь материально поддерживает сайт">
+              <IconSupport style={{display:haveSupport}} src="https://cdn-icons-png.flaticon.com/512/2551/2551053.png"/>
+            </Tooltip>
             <DescriptionParagraph>{user.status}</DescriptionParagraph>
           </DescriptionDiv>
           <BooksUl>
@@ -113,7 +127,7 @@ function UserPage() {
               </a>
             </div>
           </IconsWrapper>
-          {authData.auth_data.username === username ? (
+          {authData.auth_data && authData.auth_data.username === username ? (
             <a href="/change_profile">
               <ButtonChange>Редактировать</ButtonChange>
             </a>
@@ -123,17 +137,18 @@ function UserPage() {
         </div>
       );
     }
-    return null;
-  };
-
-  if (authError || userError) {
+    if (authData.message && authData.message !== "Для этого метода нужно быть администратором"){
+      if (!userData) {
+        setRedirect(true);
+        return CannotViewUser()
+      }
+    }
     return (
       <FlexWrapper>
-        <div>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</div>
+        <H2ErrorAlert>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</H2ErrorAlert>
       </FlexWrapper>
     );
-  }
-
+  };
   return (
     <div>
       {authData && userData ? (

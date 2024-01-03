@@ -128,3 +128,35 @@ export const IconCountWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const H2Alert = styled.h2`
+    text-align:center;
+    font-family: 'Space Mono', monospace;
+    position:relative;
+    top:450px;
+`;
+
+export const ImgAlert = styled.img`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:120px;
+`;
+
+export const H2ErrorAlert = styled.h2`
+    text-align:center;
+    font-family: 'Space Mono', monospace;
+    position:relative;
+    top:80px;
+`;
+
+export const IconSupport = styled.img`
+    display:block;
+    margin:auto;
+    position:relative;
+    top:65px;
+    width:20px;
+    background-color:#feb95e;
+    border-radius:5px;
+    opacity:80%;
+`;

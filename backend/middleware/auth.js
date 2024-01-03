@@ -7,7 +7,7 @@ const DB = require('../database')
 const authMiddleware = async (req, res, next) => {
     const token = req.cookies.JWT
     const userModel = DB.model('users', UserSchema)
-    if (req.path === '/api/confirm_email') {
+    if (req.path === '/api/confirm_email' || req.path === "/api/get_leaders" || req.path === "/api/get_reviews") {
         return next();
     }
     if (!token) {

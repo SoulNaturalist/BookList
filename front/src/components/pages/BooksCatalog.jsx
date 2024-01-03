@@ -19,7 +19,7 @@ function BooksCatalog () {
   const bookComponent = () => {
     return <FlexWrapper>
         {filteredBooks.map((book) => (
-            <a key={book.id} href={`/book/${book.slug}`}>
+            <a key={book.slug} href={`/book/${book.slug}`}>
                 <BookCard>
                     <CoverBook src={book.cover} alt={book.title} />
                     <BookParagraph>{book.title}</BookParagraph>

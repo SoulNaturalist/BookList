@@ -13,3 +13,9 @@ export const FlexWrapperTop = styled.div`
     position:relative;
     top:140px;
 `
+export const CenteredFlexWrapper = styled.div`
+    display:flex;
+    justify-content:center;
+    position:relative;
+    top:350px;
+`

@@ -2,34 +2,15 @@ import React from 'react';
 import useSWR from 'swr';
 import { useParams, useNavigate } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
-import {
-  FlexWrapper,
-  ReviewCard,
-  ParagraphWrapper,
-  ParagraphAuthor,
-  ParagraphReview,
-  ParagraphDescription,
-  TitleBook,
-  ParagraphBook,
-  BookCoverImg,
-  Wrapper,
-  SpanBadgeStyles,
-  GroupStylesWrapper,
-  SelectWrapper,
-  AlertSuccessBook
-} from "../styles/BookPage.styles";
-import Select from 'react-select';
+import {FlexWrapper,TitleBook,ParagraphBook,BookCoverImg,Wrapper,Overlay,BookReviewCard, ReviewText} from "../styles/BookPage.styles";
+import BookReview from '../layouts/BookReview.jsx';
+import UseTitle from '../../hooks/UseTitle.js';
 
 function BookPage() {
-  const options = [
-    { value: 'readed', label: 'Прочитана' },
-    { value: 'drop', label: 'Заброшена' },
-    { value: 'planned', label: 'Запланирована' }
-  ]
   const { slug } = useParams();
-  const [AlertSuccess, setAlert] = React.useState(false);
   const [currentUser, setUser] = React.useState(false);
   const navigate = useNavigate();
+  const [focusReviewId, setFocusReviewId] = React.useState(null);
 
   const fetchBookBySlug = async (url) => {
     const response = await fetch(url, {
@@ -72,6 +53,26 @@ function BookPage() {
     }
   }, [authData]);
 
+  React.useEffect(() => {
+    const anchor = window.location.hash.substring(1);
+    if (anchor && bookData) {
+      setFocusReviewId(anchor);
+    }
+  }, [bookData]);
+
+  React.useEffect(() => {
+    const scrollToReview = () => {
+      const element = document.getElementById(focusReviewId);
+      if (focusReviewId && element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    };
+    const timer = setTimeout(scrollToReview, 100); 
+
+    return () => clearTimeout(timer);
+
+  }, [focusReviewId]);
+
   function addBook(status) {
     if (Boolean(currentUser.auth_data)) {
       let formatBook = { ...bookData };
@@ -90,7 +91,7 @@ function BookPage() {
           cover: formatBook.cover,
           slug: formatBook.slug,
         }),
-      }).then(() => setAlert(true));
+      }).then();
     } else {
       return navigate("/login");
     }
@@ -103,34 +104,29 @@ function BookPage() {
   if (!bookData || !authData) {
     return <FlexWrapper><CircularProgress disableShrink /></FlexWrapper>;
   }
-  const formatGroupLabel = (data) => (
-    <GroupStylesWrapper>
-      <span>{data.label}</span>
-      <span style={SpanBadgeStyles}>{data.options.length}</span>
-    </GroupStylesWrapper>
-  );
 
   return (
-    <Wrapper>
-      <TitleBook>{bookData.book_name} {bookData.book_author}</TitleBook>
-      <ParagraphBook>{bookData.description}</ParagraphBook>
-      <BookCoverImg src={bookData.cover} alt="cover" />
-      <SelectWrapper>
-        <Select formatGroupLabel={formatGroupLabel} options={options} placeholder={"Статус прочтения"} onChange={(e) => addBook(e.value)}/>
-      </SelectWrapper>
-      {AlertSuccess ? <AlertSuccessBook>Книга добавлена!</AlertSuccessBook> : ""}
-      {bookData && bookData.reviews ? [bookData.reviews].map((data, key) => (
-        Object.keys(data).map((review, index) => (
-          <ReviewCard key={key}>
-            <ParagraphWrapper>
-              <ParagraphAuthor>{Object.keys(data)[index]}</ParagraphAuthor>
-              <ParagraphReview>{data[review].title}</ParagraphReview>
-              <ParagraphDescription>{data[review].description}</ParagraphDescription>
-            </ParagraphWrapper>
-          </ReviewCard>
-        ))
-      )) : ""}
-    </Wrapper>
+    <div>
+      <Wrapper>
+        <UseTitle title={bookData.book_name}></UseTitle>
+        <TitleBook>{bookData.book_name} {bookData.book_author}</TitleBook>
+        <ParagraphBook>{bookData.description}</ParagraphBook>
+        <BookCoverImg src={bookData.cover} alt="cover" />
+      </Wrapper>
+      <ReviewText>Рецензии на книгу.</ReviewText>
+      { focusReviewId && <Overlay />}
+      {bookData && bookData.reviews && Object.entries(bookData.reviews).map(([key, value]) => (
+        <React.Fragment key={key}>
+          {focusReviewId === key ? (
+            <BookReviewCard onClick={() => window.location.replace(`http://127.0.0.1:3000/user/${key}`)}>
+              <BookReview id={key} username={key} title={value.title} review={value.description}/>
+            </BookReviewCard>
+          ) : (
+            <BookReview onClick={() => window.location.replace(`http://127.0.0.1:3000/user/${key}`)} id={key} username={key} title={value.title} review={value.description}/>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
   );
 }
 

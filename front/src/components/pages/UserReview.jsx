@@ -41,7 +41,9 @@ export default function UserReview() {
     <div>
       <UseTitle title={"Рецензии " + username}></UseTitle>
       {Object.keys(reviews).map((review, index) => (
-        usernameCurrentUser && usernameCurrentUser === username ? <BookReview key={index} owner={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/> : <BookReview key={index} user_review={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/>
+        usernameCurrentUser && usernameCurrentUser === username ? 
+        <BookReview key={index} id={index} owner={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/> : 
+        <BookReview key={index} user_review={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/>
       ))}
     </div>
   );

@@ -33,7 +33,7 @@ function UserPage() {
   const navigate = useNavigate();
   const [redirect, setRedirect] = useState(false);
 
-  const { data: authData, error: authError } = useSWR('http://127.0.0.1:3030/api/auth', async (apiURL) => {
+  const { data: authData, error: authError, isLoading } = useSWR('http://127.0.0.1:3030/api/auth', async (apiURL) => {
     const res = await fetch(apiURL, { credentials: 'include' });
     const data = await res.json();
     return data;
@@ -57,13 +57,14 @@ function UserPage() {
         navigate("/login")
       }, 5000);
     }
-  })
+  }, [redirect, navigate])
 
 
   const UserProfile = () => {
-    if (userData && authData && authData.message !== "Для этого метода нужно быть администратором") {
+    if (userData && authData && !isLoading) {
       const user = userData[0];
-      if (!user && authData.message !== "Для этого метода нужна авторизация") return <div>User not defined</div>
+      const authUserData = authData.auth_data;
+      if (!user && authUserData) return window.location.replace(`http://127.0.0.1:3000/user/${authUserData.username}`)
       if (!user) {
         setRedirect(true);
         return CannotViewUser()
@@ -138,21 +139,16 @@ function UserPage() {
         </div>
       );
     }
-    if (authData.message && authData.message !== "Для этого метода нужно быть администратором"){
+    if (!isLoading){
       if (!userData) {
         setRedirect(true);
         return CannotViewUser()
       }
     }
-    return (
-      <FlexWrapper>
-        <H2ErrorAlert>При загрузке профиля произошла ошибка. Пожалуйста, обновите страницу!</H2ErrorAlert>
-      </FlexWrapper>
-    );
   };
   return (
     <div>
-      {authData && userData ? (
+      {!isLoading && authData && userData ? (
        <UserProfile />
       ) : (
         <FlexWrapper>

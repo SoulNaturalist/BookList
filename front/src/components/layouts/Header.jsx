@@ -18,7 +18,6 @@ function Header() {
 
     function scrollHandler() {
         setScrollY(document.body.scrollY);
-        console.log(window.scrollY)
     }
     React.useEffect(() => {
         window.addEventListener("scroll", scrollHandler);

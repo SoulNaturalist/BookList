@@ -1,11 +1,11 @@
 import React from 'react';
-import Rating from '@mui/material/Rating';
 import { useParams } from 'react-router-dom';
 import CircularProgress from '@mui/material/CircularProgress';
 import useSWR from 'swr';
 import axios from 'axios';
-import {Title, ReviewCardProfile, BookNameTitle, BookTitleReview, BookDescription} from "../styles/UserReview.styles";
-import {FlexWrapper} from '../styles/Layout.styles';
+import { CenteredFlexWrapper  }  from '../styles/Layout.styles';
+import BookReview from '../layouts/BookReview.jsx';
+import UseTitle from '../../hooks/UseTitle.js';
 
 export default function UserReview() {
   const { username } = useParams();
@@ -22,31 +22,28 @@ export default function UserReview() {
 
   if (!authData) {
     return (
-      <FlexWrapper>
+      <CenteredFlexWrapper>
         <CircularProgress disableShrink />
-      </FlexWrapper>
+      </CenteredFlexWrapper>
     );
   }
 
   if (!userData) {
     return (
-      <FlexWrapper>
+      <CenteredFlexWrapper>
         <CircularProgress disableShrink />
-      </FlexWrapper>
+      </CenteredFlexWrapper>
     );
   }
   const { reviews } = userData.data[0];
-
+  const usernameCurrentUser = userData.data[0].username
   return (
     <div>
-      <Title>Рецензии {username}</Title>
+      <UseTitle title={"Рецензии " + username}></UseTitle>
       {Object.keys(reviews).map((review, index) => (
-        <ReviewCardProfile key={index}>
-          <BookNameTitle>{review}</BookNameTitle>
-          <BookTitleReview>{reviews[review].title}</BookTitleReview>
-          <BookDescription>{reviews[review].description}</BookDescription>
-          <Rating name="read-only" value={reviews[review].rating} readOnly />
-        </ReviewCardProfile>
+        usernameCurrentUser && usernameCurrentUser === username ? 
+        <BookReview key={index} id={index} owner={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/> : 
+        <BookReview key={index} user_review={true} username={username} title={reviews[review].title} review={reviews[review].description} rating={reviews[review].rating}/>
       ))}
     </div>
   );

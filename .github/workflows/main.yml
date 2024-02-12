@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'front/**'
+      - 'e2e/**'
 
 jobs:
   format-frontend:

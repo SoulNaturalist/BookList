@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&family=Roboto:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200&family=Roboto:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono&display=swap");
 .alert_error {
-    animation: fadein 5s linear 1 normal forwards;
+  animation: fadein 5s linear 1 normal forwards;
 }
 
-@keyframes fadein{
-    from{
-       opacity: 1;
-    } to{
-        opacity: 0;
-    }
+@keyframes fadein {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }

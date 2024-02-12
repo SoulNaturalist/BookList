@@ -64,5 +64,10 @@
   "description": "Online Library",
   "main": "index.js",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "3.2.5"
+  }
 }

@@ -28,21 +28,19 @@ jobs:
   e2e-tests:
     needs: format
     runs-on: ubuntu-latest
-
+  
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '14'
-
-    - name: Install dependencies
-      run: npm install
-      working-directory: BookList/front
-
-
-    - name: Run E2E tests
-      run: npx playwright test
-      working-directory: e2e
+      - name: Checkout repository
+        uses: actions/checkout@v2
+  
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'
+  
+      - name: Install dependencies
+        run: npm install
+  
+      - name: Run E2E tests
+        run: npx playwright test
+        working-directory: ${{ env.GITHUB_WORKSPACE }}/e2e

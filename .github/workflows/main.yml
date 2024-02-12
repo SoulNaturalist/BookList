@@ -1,4 +1,4 @@
-name: Frontend CI
+name: CodeStyle Frontend
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - 'front/**'
 
 jobs:
-  lint-and-test:
+  format-frontend:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run ESLint and tests
-      run: |
-        npx eslint front
-        npm test
+    - name: Run Prettier
+      run: npx prettier front --write

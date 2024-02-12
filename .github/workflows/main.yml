@@ -30,17 +30,11 @@ jobs:
     runs-on: ubuntu-latest
   
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-  
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-  
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
       - name: Install dependencies
-        run: npm install
-  
-      - name: Run E2E tests
+        run: npm ci
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - name: Run tests
         run: npx playwright test
-        working-directory: ${{ env.GITHUB_WORKSPACE }}/e2e

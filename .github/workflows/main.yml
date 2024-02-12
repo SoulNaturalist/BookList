@@ -1,4 +1,4 @@
-name: CodeStyle Frontend
+name: Format and E2E Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
       - 'e2e/**'
 
 jobs:
-  format-frontend:
+  format:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,25 +24,23 @@ jobs:
 
     - name: Run Prettier
       run: npx prettier front --write
-      
+
   e2e-tests:
-      needs: format-frontend
-      runs-on: ubuntu-latest
-  
-      steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-  
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '14'
-  
-      - name: Install dependencies
-        run: npm install
-  
-      - name: Change to e2e directory
-        run: cd e2e
-  
-      - name: Run E2E tests
-        run: npx playwright test
+    needs: format
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run E2E tests
+      run: npx playwright test
+      working-directory: e2e

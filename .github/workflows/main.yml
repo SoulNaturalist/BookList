@@ -25,7 +25,6 @@ jobs:
 
     - name: Run Prettier
       run: npx prettier --write .
-      working-directory: BookList/front
 
   e2e-tests:
     needs: format

@@ -21,7 +21,6 @@ jobs:
 
     - name: Install dependencies for front
       run: npm install
-      working-directory: BookList/front
 
     - name: Run Prettier
       run: npx prettier --write .

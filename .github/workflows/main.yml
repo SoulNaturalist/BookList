@@ -40,6 +40,8 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: BookList/front
+
 
     - name: Run E2E tests
       run: npx playwright test

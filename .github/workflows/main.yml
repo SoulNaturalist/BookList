@@ -1,35 +1,27 @@
-name: Тестирование после коммита
+name: Frontend CI
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'front/**'
 
 jobs:
-  test:
+  lint-and-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Клонирование репозитория
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Переход в директорию backend
-        run: cd ./backend
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '14'
 
-      - name: Установка зависимостей
-        run: npm install --prefix ./backend
+    - name: Install dependencies
+      run: npm install
 
-      - name: Запуск бэкэнда
-        run: npm run --prefix ./backend start &
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SECRET: ${{ secrets.SECRET_NAME }}
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          MAIL_LOGIN: ${{ secrets.MAIL_LOGIN }}
-          TEST_JWT: ${{ secrets.TEST_JWT }}
-          LOGIN_USER: ${{ secrets.LOGIN_USER }}
-          PASSWORD_USER: ${{ secrets.PASSWORD_USER }}
-          ADMIN_JWT: ${{ secrets.ADMIN_JWT }}
-
-      - name: Запуск тестов
-        run: npm test --prefix ./backend
+    - name: Run ESLint and tests
+      run: |
+        npx eslint front
+        npm test

@@ -32,10 +32,11 @@ function BooksCatalog() {
   );
 
   const filteredBooks = searchFlag
-    ? dataBooks.filter((book) =>
-        book.book_name.toLowerCase().includes(searchText.toLowerCase()),
-      )
-    : dataBooks;
+  ? dataBooks.filter((book) =>
+      book.book_name.toLowerCase().includes(searchText.toLowerCase()) ||
+      book.book_author.toLowerCase().includes(searchText.toLowerCase())
+    )
+  : dataBooks;
 
   const bookComponent = () => {
     return (

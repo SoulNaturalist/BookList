@@ -9,7 +9,7 @@ export const MainTitle = styled.h2`
 export const FormWrapper = styled.div`
   padding: 50px;
   position: fixed;
-  top: 50%;
+  top: 60%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);

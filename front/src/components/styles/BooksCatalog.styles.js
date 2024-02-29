@@ -101,14 +101,24 @@ export const HoverButton = styled.div`
   }
 `;
 export const FlexWrapper = styled.div`
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  padding: 0;
-  margin: 0;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position:relative;
+  top:120px;
 `;
 export const LoaderWrapper = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
   top: 150px;
+`;
+
+export const FlexEndWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `;

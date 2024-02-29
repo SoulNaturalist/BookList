@@ -13,9 +13,11 @@ import {
   HoverButton,
   FlexWrapper,
   LoaderWrapper,
+  FlexEndWrapper
 } from "../styles/BooksCatalog.styles";
 import UseTitle from "../../hooks/UseTitle.js";
 import { BrowserView, MobileView } from "react-device-detect";
+import Card from 'react-bootstrap/Card';
 
 function BooksCatalog() {
   const [searchText, setSearchText] = React.useState("");
@@ -31,24 +33,28 @@ function BooksCatalog() {
 
   const filteredBooks = searchFlag
     ? dataBooks.filter((book) =>
-        book.title.toLowerCase().includes(searchText.toLowerCase()),
+        book.book_name.toLowerCase().includes(searchText.toLowerCase()),
       )
     : dataBooks;
 
   const bookComponent = () => {
     return (
       <FlexWrapper>
-        {filteredBooks.map((book) => (
-          <a key={book.slug} href={`/book/${book.slug}`}>
-            <BookCard>
-              <CoverBook src={book.cover} alt={book.title} />
-              <BookParagraph>{book.title}</BookParagraph>
-              <BookParagraph>{book.author}</BookParagraph>
-              <BookParagraph>{book.year}</BookParagraph>
-              <BookParagraph>{book.genre}</BookParagraph>
-            </BookCard>
-          </a>
-        ))}
+        <FlexEndWrapper>
+          {filteredBooks.map((book) => (
+            <a key={book.slug} href={`/book/${book.slug}`}>
+              <Card border="dark" style={{ width: '18rem', margin:"30px", alignSelf: "flex-end"}}>
+                <Card.Img variant="top" src={book.cover}/>
+                <Card.Body>
+                  <Card.Title style={{fontSize:"12px"}}>{book.book_name} — {book.book_author}</Card.Title>
+                  <Card.Text style={{fontSize:"10px"}}>
+                    {book.description}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </a>
+          ))}
+        </FlexEndWrapper>
       </FlexWrapper>
     );
   };

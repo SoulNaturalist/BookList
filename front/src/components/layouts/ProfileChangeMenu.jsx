@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
 import {
-  MainTitle,
   FormWrapper,
   InputWrapper,
   SaveButton,
@@ -12,7 +10,6 @@ import axios from "axios";
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 
 export default function ProfileChangeMenu() {
     const navigate = useNavigate();
@@ -37,7 +34,6 @@ export default function ProfileChangeMenu() {
         return (
           <div>
             <UseTitle title="Редактировать профиль"></UseTitle>
-            <MainTitle>Основное</MainTitle>
             <FormWrapper>
               <InputWrapper
                 type="text"
@@ -116,23 +112,14 @@ export default function ProfileChangeMenu() {
         {data ? (
           profileSettingsComponent()
         ) : (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              position: "relative",
-              top: "350px",
-            }}
-          >
-            <CircularProgress disableShrink />
-          </div>
+          ""
         )}
         {error && (
           <Alert
             variant="outlined"
             severity="error"
             onClose={() => setError(null)}
-            style={{ position: "relative", top: "-35px" }}
+            style={{ position: "relative", top: "0px", display:"block", magin:"0 auto" }}
           >
             {error}
           </Alert>

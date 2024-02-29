@@ -10,6 +10,9 @@
     <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"/>
     <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"/>
 </p>
+<p align="middle">
+    <img src="https://github.com/SoulNaturalist/BookList/actions/workflows/main.yml/badge.svg?branch=main"/>
+</p>
 
 <br/>
 <p align="middle">

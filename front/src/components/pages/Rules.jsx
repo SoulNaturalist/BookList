@@ -11,7 +11,7 @@ import UseTitle from "../../hooks/UseTitle.js";
 function Rules() {
   return (
     <FlexWrapper>
-      <UseTitle title="Правила"></UseTitle>
+      <UseTitle title="Правила"/>
       <WrapperRules>
         <TitleRules>Правила BookList:</TitleRules>
         <ParagraphRules>Пример правила 1</ParagraphRules>

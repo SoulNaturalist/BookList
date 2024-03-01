@@ -37,7 +37,6 @@ function App() {
               <Route path="/registration" element={<RegistrationForm />} />
               <Route path="/logout" element={<LogoutPage />} />
               <Route path="/change_profile" element={<ChangeProfile />} />
-              <Route path="/change_password" element={<PasswordChange />} />
               <Route path="/catalog" element={<BooksCatalog />} />
               <Route path="/book/:slug" element={<BookPage />} />
               <Route path="/check_email" element={<CheckEmail />} />

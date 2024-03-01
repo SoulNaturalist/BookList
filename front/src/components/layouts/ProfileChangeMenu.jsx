@@ -33,7 +33,7 @@ export default function ProfileChangeMenu() {
       if (data && data.auth_data) {
         return (
           <div>
-            <UseTitle title="Редактировать профиль"></UseTitle>
+            <UseTitle title="Редактировать профиль"/>
             <FormWrapper>
               <InputWrapper
                 type="text"

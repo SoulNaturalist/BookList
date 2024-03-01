@@ -146,8 +146,7 @@ function PasswordChange() {
     } else if (userData && userData.auth_data && !userData.auth_data.twoAuth) {
       return (
         <div>
-          <UseTitle title="Смена пароля"></UseTitle>
-          <MainTitle>Безопасность аккаунта</MainTitle>
+          <UseTitle title="Смена пароля"/>
           <FormWrapper>
             <form onSubmit={handleSubmit(onSubmitDefault)}>
               {errors.password && <p>{errors.password.message}</p>}

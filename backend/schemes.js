@@ -38,7 +38,7 @@ const AuthorSchema = new Schema({
   author_name: { type: String, required: true },
   author_surname: { type: String, required: true },
   author_patronymic: { type: String, required: true },
-  year_of_birth: { type: Number, required: true },
+  year_of_birth: { type: String, required: true },
   description: { type: String, required: false, default: "This is a temporary description, the author's descriptions will appear soon." }
 })
 

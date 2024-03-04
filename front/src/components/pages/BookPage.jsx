@@ -1,6 +1,6 @@
 import React from "react";
 import useSWR from "swr";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import {
   FlexWrapper,
@@ -122,7 +122,7 @@ function BookPage() {
       <Wrapper>
         <UseTitle title={bookData.book_name}></UseTitle>
         <TitleBook>
-          {bookData.book_name} {bookData.book_author}
+          {bookData.book_name} <a href="#" onClick={() => window.location.replace(`http://127.0.0.1:3000/authors/${bookData.book_author}`)}>{bookData.book_author}</a>
         </TitleBook>
         <ParagraphBook>{bookData.description}</ParagraphBook>
         <BookCoverImg src={bookData.cover} alt="cover" />

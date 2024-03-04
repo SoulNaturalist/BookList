@@ -122,3 +122,13 @@ export const FlexEndWrapper = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 `;
+export const TopFlexWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  position:relative;
+  top:0px;
+`;

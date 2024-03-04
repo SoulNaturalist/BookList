@@ -6,6 +6,8 @@ const authMiddleware = require('../middleware/auth')
 
 router.post('/api/get_author_by_name', authorController.getAuthorByName)
 
+router.post('/api/get_author_books', authorController.getBooksByAuthorName)
+
 router.use(authMiddleware)
 
 router.post('/api/add_new_author', authorController.addNewAuthor)

@@ -1,5 +1,8 @@
-const DB = require('./database')
-const Schema = DB.Schema
+const DB = require('./database');
+var mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
+mongoose.plugin(slug);
+const Schema = DB.Schema;
 
 const UserSchema = new Schema({
   username: { type: String, required: true, index: { unique: true } },
@@ -26,20 +29,17 @@ const BookSchema = new Schema({
   description: { type: String, required: true, default: 'description default' },
   reviews: { type: Object, default: {} },
   cover: { type: String, default: '' },
-  slug: { type: String, slug: 'title', index: { unique: true } }
+  slug: { type: String, slug: ["book_name", "book_author"], index: { unique: true } }
 }, { minimize: false })
-
-BookSchema.pre('save', function (next) {
-  this.slug = `${Math.round(Math.random() * (10000 - 1) + 1)}`
-  next()
-})
 
 const AuthorSchema = new Schema({
   author_name: { type: String, required: true },
   author_surname: { type: String, required: true },
   author_patronymic: { type: String, required: true },
+  author_img:{ type: String, required: true },
   year_of_birth: { type: String, required: true },
-  description: { type: String, required: false, default: "This is a temporary description, the author's descriptions will appear soon." }
+  description: { type: String, required: false, default: "This is a temporary description, the author's descriptions will appear soon." },
+  slug: { type: String, slug: ["author_name", "author_surname", "author_patronymic"], index: { unique: true } }
 })
 
 const messagesSchema = new Schema({

@@ -84,6 +84,12 @@ export const DescriptionParagraph = styled.p`
   margin-top: 10px;
 `;
 
+export const DescriptionParagraphUpper = styled.p`
+  color: white;
+  text-align: center;
+  font-size:15px;
+`;
+
 export const IconsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -126,6 +132,13 @@ export const FlexWrapper = styled.div`
   justify-content: center;
   position: relative;
   top: 90px;
+`;
+
+export const BottomFlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 230px;
 `;
 
 export const IconCountWrapper = styled.div`

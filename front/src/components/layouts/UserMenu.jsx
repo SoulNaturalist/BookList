@@ -6,7 +6,7 @@ import Tab from 'react-bootstrap/Tab';
 
 export default function UserMenu(props) {
   return (
-    <Tab.Container defaultActiveKey="first">
+    <Tab.Container defaultActiveKey="first" fill={true} transition={true}>
       <Row style={{"position":"relative", "top":"100px", width:"40%"}}>
         <Col sm={1} xs={6} md={4}>
           <Nav variant="pills" className="flex-column" >

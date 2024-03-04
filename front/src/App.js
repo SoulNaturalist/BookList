@@ -21,7 +21,7 @@ import "./App.css";
 import GlobalStyle from "./components/styles/global.styles.js";
 import { HelmetProvider } from "react-helmet-async";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import AuthorPage from "./components/pages/AuthorPage.jsx";
 
 function App() {
   return (
@@ -59,6 +59,11 @@ function App() {
                 element={<ConfirmEmail />}
               />
               <Route exec path="/dialogs/" element={<Dialogs />} />
+              <Route
+                exec
+                path="/authors/:authorName"
+                element={<AuthorPage />}
+              />
             </Routes>
           </Fragment>
         </Router>

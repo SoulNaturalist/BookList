@@ -38,3 +38,4 @@ services:
     volumes:
       - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./nginx/front.conf:/etc/nginx/conf.d/front.conf
+      - ./front/build:/var/www/domain.ru

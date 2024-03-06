@@ -9,6 +9,8 @@ services:
     environment:
       - MONGO_URI=${DATABASE_URL}
     command: node app.js
+    networks:
+      - mynetwork
 
   frontend:
     build:
@@ -18,6 +20,8 @@ services:
     container_name: front
     ports:
       - "3000:3000"
+    networks:
+      - mynetwork
 
   mongo:
     image: mongo:latest
@@ -28,6 +32,8 @@ services:
       - ./data/db:/data/db
     environment:
       - MONGO_URI=${DATABASE_URL}
+    networks:
+      - mynetwork
 
   nginx:
     image: nginx:latest
@@ -38,4 +44,9 @@ services:
     volumes:
       - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf
       - ./nginx/front.conf:/etc/nginx/conf.d/front.conf
-      - ./front/build:/var/www/domain.ru
+      - ./front/build:/var/www/courseio.ru
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

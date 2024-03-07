@@ -10,8 +10,11 @@ import {TitleAuthor} from "../styles/AuthorPage.styles";
 
 export default function AuthorPage() {
   let { authorName } = useParams();
+  const isProduction = process.env.REACT_APP_SERVER === 'PRODUCTION';
+  const apiUrlAuthor = isProduction ? "http://api.courseio.ru/api/get_author_data": 'http://127.0.0.1:3030/api/get_author_data';
+  const apiUrlBooks = isProduction ? "http://api.courseio.ru/api/get_author_books": 'http://127.0.0.1:3030/api/get_author_books';
   const fetchAuthorData = async () => {
-    const response = await fetch("http://127.0.0.1:3030/api/get_author_by_name", {
+    const response = await fetch(apiUrlAuthor, {
       method: "post",
       headers: {
         Accept: "application/json",
@@ -31,7 +34,7 @@ export default function AuthorPage() {
     fetchAuthorData,
   );
   const fetchBooksData = async () => {
-    const response = await fetch("http://127.0.0.1:3030/api/get_author_books", {
+    const response = await fetch(apiUrlBooks, {
       method: "post",
       headers: {
         Accept: "application/json",

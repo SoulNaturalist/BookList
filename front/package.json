@@ -19,6 +19,7 @@
     "axios": "^0.27.0",
     "baseui": "^11.2.1",
     "bootstrap": "^5.3.2",
+    "dotenv": "^16.4.5",
     "express": "^4.17.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.10.1",
@@ -38,6 +39,8 @@
     "styletron-react": "^6.1.0-beta.2",
     "swr": "^2.0.0",
     "universal-cookie": "^4.0.4",
+    "url-join": "^5.0.0",
+    "urljoin": "^0.1.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

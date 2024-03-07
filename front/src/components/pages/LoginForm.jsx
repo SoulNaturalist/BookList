@@ -14,6 +14,9 @@ function LoginForm() {
   const [error, setError] = React.useState('');
   const [toFetch, setFetch] = React.useState(false);
   const navigate = useNavigate();
+  const isProduction = process.env.REACT_APP_SERVER === 'PRODUCTION';
+  const apiUrlAuth = isProduction ? "http://api.courseio.ru/api/auth": 'http://127.0.0.1:3030/api/auth';
+  const apiUrlLogin = isProduction ? "http://api.courseio.ru/api/login": 'http://127.0.0.1:3030/api/login';
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     mode: 'onChange'
@@ -21,7 +24,7 @@ function LoginForm() {
 
   const onSubmit = async (dataForm) => {
     try {
-      const response = await fetch('http://127.0.0.1:3030/api/login/', {
+      const response = await fetch(apiUrlLogin, {
         method: 'post',
         headers: {
           Accept: 'application/json',
@@ -55,15 +58,13 @@ function LoginForm() {
       return 'Активируйте почту!';
     }
   };
+  const fetcher = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  };
 
-  const { data: dataUser } = useSWR('http://127.0.0.1:3030/api/auth', (apiURL) => fetch(apiURL, {
-    method: 'post',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    credentials: 'include'
-  }).then((res) => res.json()));
+  const { data: dataUser } = useSWR(apiUrlAuth, fetcher);
 
   return (
     <div>

@@ -13,18 +13,17 @@ import {
 import { FlexWrapperTop } from "../styles/Layout.styles";
 import UseTitle from "../../hooks/UseTitle.js";
 
+
 function Home() {
-  const { data } = useSWR("http://127.0.0.1:3030/api/auth", (apiURL) =>
-    fetch(apiURL, {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-    }).then((res) => res.json()),
-  );
-  const Username = () => {
+  const isProduction = process.env.REACT_APP_SERVER === 'PRODUCTION';
+  const apiUrl = isProduction ? "http://api.courseio.ru/api/auth": 'http://127.0.0.1:3030/api/auth';
+  const fetcher = async (url) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  };
+  const { data } = useSWR(apiUrl, fetcher);
+  const userUsername = () => {
     if (data && data.auth_data) {
       return data.auth_data.username;
     } else {
@@ -33,7 +32,7 @@ function Home() {
   };
   const libraryWelcomeElement = (
     <div>
-      <ParagraphWelcome>Добро пожаловать {Username()}</ParagraphWelcome>
+      <ParagraphWelcome>Добро пожаловать {userUsername()}</ParagraphWelcome>
       <ParagraphDescription>
         BookList - это онлайн библиотека добавляй книги,пиши рецензии и оцени
         прочитанные книги по достоинству.

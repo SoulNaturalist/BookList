@@ -30,9 +30,12 @@ function UserPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [redirect, setRedirect] = useState(false);
+  const isProduction = process.env.REACT_APP_SERVER === 'PRODUCTION';
+  const apiUrlAuth = isProduction ? "http://api.courseio.ru/api/auth": 'http://127.0.0.1:3030/api/auth';
+  const apiUrlUser = isProduction ? "http://api.courseio.ru/api/user/": 'http://127.0.0.1:3030/api/user/';
 
   const { data: authData, isLoading } = useSWR(
-    "http://127.0.0.1:3030/api/auth",
+    apiUrlAuth,
     async (apiURL) => {
       const res = await fetch(apiURL, { credentials: "include" });
       const data = await res.json();
@@ -41,7 +44,7 @@ function UserPage() {
   );
 
   const { data: userData } = useSWR(
-    `http://127.0.0.1:3030/api/user/${username}`,
+    `${apiUrlUser}${username}`,
     async (apiURL) => {
       const res = await fetch(apiURL, { credentials: "include" });
       const data = await res.json();
@@ -52,7 +55,7 @@ function UserPage() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     if (params.get("update") === "true") {
-      mutate("http://127.0.0.1:3030/api/auth");
+      mutate(apiUrlAuth);
     }
   }, [location.search, username]);
   useEffect(() => {

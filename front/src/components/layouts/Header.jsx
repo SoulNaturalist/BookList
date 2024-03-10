@@ -13,9 +13,11 @@ import {
   Link,
   BottomNav,
   ContainerBottom,
+  LoaderHeader
 } from "../styles/Header.styles";
 import { createSvgIcon } from "@mui/material/utils";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function Header() {
   const [iconBottom, setIcon] = React.useState();
@@ -31,7 +33,7 @@ function Header() {
       window.removeEventListener("scroll", scrollHandler);
     };
   });
-  const { data } = useSWR("http://127.0.0.1:3030/api/auth", (apiURL) =>
+  const { data, isLoading } = useSWR("http://127.0.0.1:3030/api/auth", (apiURL) =>
     fetch(apiURL, {
       method: "post",
       headers: {
@@ -81,13 +83,15 @@ function Header() {
   return (
     <div>
       <BrowserView>
-        <HeaderComponent>
-          <Link href="/">
-            <ImgHeader src={logo} />
-            <TitleHeader>BookList</TitleHeader>
-          </Link>
-          {loginComponent()}
-        </HeaderComponent>
+          {isLoading ? <p style={{textAlign:"center", position:"relative", top:"0px"}}>loading...</p>:
+          <HeaderComponent>
+            <Link href="/">
+              <ImgHeader src={logo} />
+              <TitleHeader>BookList</TitleHeader>
+            </Link>
+            {loginComponent()}
+          </HeaderComponent>
+          }
       </BrowserView>
       <MobileView>
         {Boolean(scrollY) && data ? (

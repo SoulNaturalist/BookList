@@ -18,13 +18,16 @@ import {
 import UseTitle from "../../hooks/UseTitle.js";
 import { BrowserView, MobileView } from "react-device-detect";
 import Card from 'react-bootstrap/Card';
+import Pagination from '@mui/material/Pagination';
 
 function BooksCatalog() {
   const [searchText, setSearchText] = React.useState("");
   const [searchFlag, setSearchFlag] = React.useState(false);
+  const [pageData, setPage] = React.useState(1);
   const handleSearch = () => {
     setSearchFlag(true);
   };
+  const isNumber = (n) => !isNaN(parseFloat(n)) && !isNaN(n - 0);
 
   const { data: dataBooks, isLoading } = useSWR(
     "http://127.0.0.1:3030/api/get_library_books",
@@ -37,26 +40,39 @@ function BooksCatalog() {
       book.book_author.toLowerCase().includes(searchText.toLowerCase())
     )
   : dataBooks;
+  const PaginationComponent = () => <Pagination count={10} onClick={(e) => {
+    if (e.target.getAttribute("aria-label") !== null && isNumber(e.target.getAttribute("aria-label").split(" ")[1])) {
+      setPage(e.target.getAttribute("aria-label").split(" ")[1])
+    } else if (e.target.getAttribute("aria-label") !== null && isNumber(e.target.getAttribute("aria-label").split(" ")[3])) {
+      setPage(e.target.getAttribute("aria-label").split(" ")[3])
+    }
+  }}/>;
 
   const bookComponent = () => {
     return (
-      <FlexWrapper>
-        <FlexEndWrapper>
-          {filteredBooks.map((book) => (
-            <a key={book.slug} href={`/book/${book.slug}`}>
-              <Card border="dark" style={{ width: '18rem', margin:"30px", alignSelf: "flex-end"}}>
-                <Card.Img variant="top" src={book.cover}/>
-                <Card.Body>
-                  <Card.Title style={{fontSize:"12px"}}>{book.book_name} — {book.book_author}</Card.Title>
-                  <Card.Text style={{fontSize:"10px"}}>
-                    {book.description}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </a>
-          ))}
-        </FlexEndWrapper>
-      </FlexWrapper>
+      <div>
+        <FlexWrapper>
+          <FlexEndWrapper>
+            {filteredBooks.map((book) => (
+              <a key={book.slug} href={`/book/${book.slug}`}>
+                <Card border="dark" style={{ width: '18rem', margin:"30px", alignSelf: "flex-end"}}>
+                  <Card.Img variant="top" src={book.cover}/>
+                  <Card.Body>
+                    <Card.Title style={{fontSize:"12px"}}>{book.book_name} — {book.book_author}</Card.Title>
+                    <Card.Text style={{fontSize:"10px"}}>
+                      {book.description}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </a>
+            ))}
+          </FlexEndWrapper>
+       </FlexWrapper>
+      <div style={{position:"relative", top:"220px", display: "flex", alignItems:"center", justifyContent:"center"}}>
+          {PaginationComponent()}
+          <br/>
+      </div>
+    </div>
     );
   };
   return (

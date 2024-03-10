@@ -39,3 +39,9 @@ export const BottomNav = styled.div`
 export const ContainerBottom = styled.div`
   position: relative;
 `;
+
+
+export const LoaderHeader = styled.div`
+  position:relative;
+  top:200px;
+`;

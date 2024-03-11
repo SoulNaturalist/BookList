@@ -45,7 +45,11 @@ function BooksCatalog() {
     )
   : dataBooks;
   const PaginationComponent = () => <Pagination count={10} onClick={(e) => {
-    if (e.target.getAttribute("aria-label") !== null && isNumber(e.target.getAttribute("aria-label").split(" ")[1])) {
+    if (e.target.getAttribute("aria-label") === "Go to next page") {
+      setPage(pageData + 1)
+    } else if (e.target.getAttribute("data-testid") === "NavigateBeforeIcon") {
+      setPage(pageData - 1)
+    } else if (e.target.getAttribute("aria-label") !== null && isNumber(e.target.getAttribute("aria-label").split(" ")[1])) {
       setPage(e.target.getAttribute("aria-label").split(" ")[1])
     } else if (e.target.getAttribute("aria-label") !== null && isNumber(e.target.getAttribute("aria-label").split(" ")[3])) {
       setPage(e.target.getAttribute("aria-label").split(" ")[3])

@@ -30,9 +30,13 @@ function BooksCatalog() {
   const isNumber = (n) => !isNaN(parseFloat(n)) && !isNaN(n - 0);
 
   const { data: dataBooks, isLoading } = useSWR(
-    "http://127.0.0.1:3030/api/get_library_books",
-    (apiURL) => fetch(apiURL).then((res) => res.json()),
-  );
+    "http://127.0.0.1:3030/api/book_pagination",
+    async (apiURL) => {
+      const res = await fetch(apiURL, { method: 'POST', credentials: "include", body:JSON.stringify({page:pageData})});
+      const data = await res.json();
+      return data;
+    },
+    { refreshInterval: 200 });
 
   const filteredBooks = searchFlag
   ? dataBooks.filter((book) =>

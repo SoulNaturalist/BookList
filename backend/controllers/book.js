@@ -153,6 +153,20 @@ const search_books = async function (req, res) {
   return searchByName ? res.json(searchByName) : res.json(searchByAuthor)
 }
 
+
+const book_pagination = async function (req, res) {
+  const page = req.body.page
+  const currentOffset = (page - 1) * 10;
+  const books = DB.model('books', BookSchema)
+  const query = {
+    __v: false,
+    _id: false
+  }
+  const bookData = await books.find({}, query).limit(10).skip(currentOffset).exec()
+  return res.json(bookData)
+}
+
+
 module.exports = {
   delete_book,
   change_book_rating,
@@ -162,5 +176,6 @@ module.exports = {
   get_book_by_slug,
   change_cover_by_slug,
   get_cover_by_name,
-  search_books
+  search_books,
+  book_pagination
 }

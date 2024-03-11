@@ -13,6 +13,8 @@ router.post('/api/get_cover_by_name', bookController.get_cover_by_name)
 
 router.post('/api/search_books', bookController.search_books)
 
+router.post('/api/book_pagination', bookController.book_pagination)
+
 router.use(authMiddleware)
 
 router.delete('/api/delete_book', bookController.delete_book)

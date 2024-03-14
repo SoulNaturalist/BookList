@@ -22,6 +22,9 @@ const UserSchema = new Schema({
   online: { type: Object, default: {"last_online_time":""} }
 }, { minimize: false })
 
+
+
+
 const BookSchema = new Schema({
   book_name: { type: String, required: true },
   book_author: { type: String, required: true },
@@ -29,8 +32,15 @@ const BookSchema = new Schema({
   description: { type: String, required: true, default: 'description default' },
   reviews: { type: Object, default: {} },
   cover: { type: String, default: '' },
+  quotes:{type: mongoose.Schema.Types.ObjectId, ref: 'quotes'},
   slug: { type: String, slug: ["book_name", "book_author"], index: { unique: true } }
 }, { minimize: false })
+
+const BookQuote = new Schema({
+  book_id:{type: mongoose.Schema.Types.ObjectId, ref: 'books'},
+  description_quote: {type: String, default: 'BookQuote example 1'}
+}, { minimize: false })
+
 
 const AuthorSchema = new Schema({
   author_name: { type: String, required: true },
@@ -58,4 +68,4 @@ const userActLogging = new Schema({
   act_description: { type: Number, required: true }
 })
 
-module.exports = { UserSchema, BookSchema, AuthorSchema, messagesSchema, userActLogging }
+module.exports = { UserSchema, BookSchema, AuthorSchema, messagesSchema, userActLogging, BookQuote }

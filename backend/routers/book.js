@@ -27,4 +27,6 @@ router.post('/api/add_book', bookController.add_book)
 
 router.post('/api/change_cover_by_slug', bookController.change_cover_by_slug)
 
+router.post('/api/add_quote', bookController.create_quote)
+
 module.exports = router

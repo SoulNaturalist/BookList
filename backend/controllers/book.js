@@ -1,6 +1,6 @@
 const DB = require('../database')
 const jwt = require('jsonwebtoken')
-const { UserSchema, BookSchema } = require('../schemes')
+const { UserSchema, BookSchema, BookQuote } = require('../schemes')
 const { JWT_PRIVATE_TOKEN } = require('../config')
 
 const delete_book = async function (req, res) {
@@ -165,7 +165,13 @@ const book_pagination = async function (req, res) {
   const bookData = await books.find({}, query).limit(10).skip(currentOffset).exec()
   return res.json(bookData)
 }
-
+const create_quote = async function (req, res) {
+  const booksQuote = DB.model('quotes', BookQuote)
+  if (req.body.book_id && req.body.description_quote) {
+    await booksQuote.create({book_id:req.body.book_id, description_quote:req.body.description_quote})
+    return res.sendStatus(200)
+  }
+}
 
 module.exports = {
   delete_book,
@@ -177,5 +183,6 @@ module.exports = {
   change_cover_by_slug,
   get_cover_by_name,
   search_books,
-  book_pagination
+  book_pagination,
+  create_quote
 }

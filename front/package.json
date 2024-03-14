@@ -11,7 +11,7 @@
     "@playwright/test": "^1.41.2",
     "@svgdotjs/svg.js": "^3.1.2",
     "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^11.2.7",
+    "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^12.8.3",
     "@types/styletron-engine-atomic": "^1.1.1",
     "@types/styletron-react": "^5.0.3",

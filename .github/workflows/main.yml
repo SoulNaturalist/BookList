@@ -38,7 +38,10 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: front
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
+      working-directory: front
     - name: Run Playwright tests
       run: npx playwright test front/e2e
+      working-directory: front

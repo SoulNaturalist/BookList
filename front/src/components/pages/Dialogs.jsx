@@ -40,11 +40,14 @@ export default function Dialogs() {
 
   return (
     <div>
-      <DialogsFrame style={{height:`${calc}px`}}/>
-      <MessagesAlert src={messagesAlert} />
-      <MessagesTitle>Выберите пользователя для переписки</MessagesTitle>
-      <AvatarWrapper>{UsersDialog}</AvatarWrapper>
-
+      
     </div>
+    // <div>
+    //   <DialogsFrame style={{height:`${calc}px`}}/>
+    //   <MessagesAlert src={messagesAlert} />
+    //   <MessagesTitle>Выберите пользователя для переписки</MessagesTitle>
+    //   <AvatarWrapper>{UsersDialog}</AvatarWrapper>
+
+    // </div>
   );
 }

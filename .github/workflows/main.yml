@@ -36,11 +36,9 @@ jobs:
       run: cd front
 
 
-    - name: List directory contents
-      run: ls -la front
     - name: Install dependencies
       run: npm install
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test front/e2e

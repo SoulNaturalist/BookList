@@ -5,8 +5,9 @@ export const DialogsFrame = styled.div`
   width: 390px;
   height: 959px;
   left: 0px;
-  top: 50px;
+  top: 60px;
   background: #ffc671;
+  border-radius:20px;
 `;
 export const MessagesAlert = styled.img`
   position: relative;
@@ -42,11 +43,12 @@ export const Avatar = styled.img`
 `;
 export const DialogUsername = styled.p`
   position: relative;
-  margin-left: 135px;
-  top: -365px;
+  margin-left:135px;
+  top:-365px;
   font-family: "Roboto";
   font-style: normal;
   font-weight: 300;
   font-size: 25px;
   color: #000000;
 `;
+

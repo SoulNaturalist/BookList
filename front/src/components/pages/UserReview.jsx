@@ -28,7 +28,7 @@ export default function UserReview() {
     );
   }
 
-  if (!userData) {
+  if (!userData || userData.data[0] === undefined)  {
     return (
       <CenteredFlexWrapper>
         <CircularProgress disableShrink />

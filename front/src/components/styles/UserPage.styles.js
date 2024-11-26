@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const BooksUl = styled.ul`
   justify-content: center;
@@ -44,6 +44,9 @@ export const ButtonMsg = styled.button`
   top: -350px;
   &:hover {
     background-color: #474646;
+  }
+  @media only screen and (max-width: 768px) {
+    background-color: blue;
   }
 `;
 

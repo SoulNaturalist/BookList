@@ -10,7 +10,6 @@ import axios from "axios";
 import useSWR from "swr";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 export default function ProfileChangeMenu() {
     const navigate = useNavigate();
     const { data, isLoading } = useSWR(
